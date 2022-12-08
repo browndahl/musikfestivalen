@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.ResponseCompression;
+using festival.Server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -30,5 +30,9 @@
     <None Remove="Microsoft.Extensions.Http" />
     <None Remove="MongoDB.Bson" />
     <None Remove="MongoDB.Driver" />
+    <None Remove="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>
