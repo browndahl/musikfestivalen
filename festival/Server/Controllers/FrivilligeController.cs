@@ -7,23 +7,23 @@ using System.Net;
 namespace festival.Server.Controllers
 {
     [ApiController]
-    [Route("api/koordinatorapi")]
-    public class KoordinatorController : ControllerBase
+    [Route("api/frivilligeapi")]
+    public class FrivilligeController : ControllerBase
     {
-        private readonly IKoordinatorRepository Repository = new KoordinatorRepository();
+        private readonly IFrivilligeRepository Repository = new FrivilligeRepository();
 
-        public KoordinatorController(IKoordinatorRepository koordinatorRepository)
+        public FrivilligeController(IFrivilligeRepository vagtRepository)
         {
-            if (Repository == null && koordinatorRepository != null)
+            if (Repository == null && vagtRepository != null)
             {
-                Repository = koordinatorRepository;
+                Repository = vagtRepository;
                 Console.WriteLine("Repository initialized");
             }
         }
 
 
         [HttpGet]
-        public IEnumerable<Koordinator> GetAllItems()
+        public IEnumerable<Frivillige> GetAllItems()
         {
             return Repository.GetAllItems();
         }
@@ -49,7 +49,7 @@ namespace festival.Server.Controllers
         }
 
         [HttpPost]
-        public void AddItem(Koordinator item)
+        public void AddItem(Frivillige item)
         {
             Console.WriteLine("Add item called: " + item.ToString());
             Repository.AddItem(item);
@@ -57,7 +57,7 @@ namespace festival.Server.Controllers
 
 
         [HttpGet("{id:int}")]
-        public Koordinator FindItem(int id)
+        public Frivillige FindItem(int id)
         {
             var result = Repository.FindItem(id);
             return result;
