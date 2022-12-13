@@ -10,15 +10,15 @@ namespace festival.Client.Services
     //'Task' vil vi gerne få koden til at være pakket ind i asynkron-programmering. (F.eks hvis app går i stå, så skal vi kunne få en fejlmeddelse)
     public interface IKoordinatorService
     {
-        Task<VagtData[]?> GetAllItems();
+        Task<Koordinator[]?> GetAllItems();
 
-        Task<VagtData?> GetItem(int id);
+        Task<Koordinator?> GetItem(int id);
 
-        Task<int> AddItem(VagtData data);
+        Task<int> AddItem(Koordinator data);
 
-        Task<int> DeleteItem(VagtData data);
+        Task<int> DeleteItem(Koordinator data);
 
-        Task<int> updateItem(VagtData data);
+        Task<int> updateItem(Koordinator data);
     }
 
 }

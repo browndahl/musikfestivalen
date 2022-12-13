@@ -10,11 +10,11 @@ namespace festival.Server.Models
 {
     public interface IKoordinatorRepository
     {
-        List<VagtData> GetAllItems();
-        VagtData FindItem(int id);
-        void AddItem(VagtData item);
+        List<Koordinator> GetAllItems();
+        Koordinator FindItem(int id);
+        void AddItem(Koordinator item);
         bool DeleteItem(int id);
-        bool UpdateItem(VagtData item);
+        bool UpdateItem(Koordinator item);
 
     }
 }

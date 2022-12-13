@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using festival.Shared.Models;
 using festival.Client;
 using MongoDB.Driver;
+using Npgsql;
+using Dapper;
 
 //[BEMÆRK] Repository for booking 
 namespace festival.Server.Models
@@ -15,34 +17,64 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
-        public void AddItem(VagtData item)
+        public void AddItem(Koordinator item)
         {
-            db.Items.InsertOne(item);
+            //db.Items.InsertOne(item);
+            throw new NotImplementedException();
+
         }
 
         public bool DeleteItem(int id)
         {
-            FilterDefinition<VagtData> item = Builders<VagtData>.Filter.Eq("id", id);
+            throw new NotImplementedException();
+            /**
+            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
             var deletedItem = db.Items.FindOneAndDelete(item);
             if (deletedItem != null)
                 return true;
             else
                 return false;
+            *///
         }
 
-        public bool UpdateItem(VagtData item)
+        public bool UpdateItem(Koordinator item)
         {
             throw new NotImplementedException();
         }
 
-        public VagtData FindItem(int id)
+        public Koordinator FindItem(int id)
         {
             throw new NotImplementedException();
+
+            /*
+            using (var connection = db.connection )
+            {
+                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
+                var Items = connection.Query<Koordinator>(sql);
+                
+                foreach (var item in Items)
+                {
+                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
+                }
+            }
+           */
         }
 
-        public List<VagtData> GetAllItems()
+        public List<Koordinator> GetAllItems()
         {
-            return db.Items.Find(_ => true).ToList();
+            using (var connection = db.connection)
+            {
+                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
+                var Items = connection.Query<Koordinator>(sql);
+
+                foreach (var item in Items)
+                {
+                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
+
+                }
+            }
+
+            //return db.Items.Find(_ => true).ToList();
         }
 
 
