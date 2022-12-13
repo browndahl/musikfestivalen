@@ -1,0 +1,150 @@
+﻿using System;
+@using festival.Client.Services
+@using festival.Shared.Models
+@using festival.Shared
+@using System.Net.Http.Json;
+@inject HttpClient Http
+
+<PageTitle>Frivillige</PageTitle>
+
+<label>Indtast venligt dine personlige oplysninger - Vælg derefter en ledig vagt</label>
+
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit"
+          class="row p-3">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+
+    <div class="col-md-12 mb-3">
+        <label for="Fornavn">Fornavn og efternavn</label>
+        <InputText id="Fornavn" @bind-Value="Fornavn" class="form-control" />
+        <ValidationMessage For="@(() => Fornavn)" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Alder">Alder</label>
+        <InputNumber id="Price" @bind-Value="Alder" class="form-control"
+                     ParsingErrorMessage=" The {0} field has an invalid value."
+                     DisplayName="Alder" />
+        <ValidationMessage For="@(() => Alder)" />
+    </div>
+
+
+    <div class="col-md-12 mb-3">
+        <label for="Email">Email</label>
+        <InputText id="Email" @bind-Value="Email" class="form-control" />
+        <ValidationMessage For="@(() => Email)" />
+    </div>
+
+    <div class="col-md-12 mb-3">
+        <label for="Adresse">Adresse</label>
+        <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
+        <ValidationMessage For="@(() => Adresse)" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="Start Dato">Start Dato</label>
+        <InputDate id="DateStart" @bind-Value="DateStart" class="form-control" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="Slut Dato">Slut Dato</label>
+        <InputDate id="DateSlut" @bind-Value="DateSlut" class="form-control" />
+    </div>
+    <!----
+    <div class="col-12 mb-3">
+        <div class="form-check">
+            <label for="Vælg shelter">Vælg en vagt</label>
+
+            <InputSelect id="Navn" @bind-Value="Navn" class="form-control">
+
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Navn">@get.Navn</option>
+
+                }
+            </InputSelect>
+
+
+        </div>
+    </div>
+        -->
+    <button class="btn btn-primary" @onclick="AddShoppingItemHandler">Godkendt vagten</button>
+
+    <div class="col-12 mb-3">
+        <button type="Clear" class="btn btn-primary">Clear</button>
+    </div>
+
+
+
+
+    <h2>Booking: return code: @ErrorCode</h2>
+
+</EditForm>
+
+
+
+
+@code {
+    
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+    private int ErrorCode { get; set; } = 0;
+
+    //Vores default værdi til vores forms
+
+    public int Frivilligeid = 0;
+    public string Fornavn = "Indtast dit fornavn";
+    public string Efternavn = "Indtast dit efternavn";
+    public int Alder = 0;
+    public string Email = "Intast din email her";
+    public int Tlf = 0;
+    public string Adresse = "Indtast din adresse";
+    public int Samletantalpoint = 0;
+    public bool Aktivstatus = true;
+    public int Arbejdspladsid = 0;
+    public DateTime DateStart = DateTime.Now;
+    public DateTime DateSlut = DateTime.Now;
+
+
+
+    //Frivillige bliver tilføjet til vores database
+
+        private async Task AddShoppingItemHandler()
+
+        {
+            //Frivillige item = new Frivillige(Frivilligeid,Fornavn, Efternavn, Alder, Email, Tlf , Adresse, Samletantalpoint,true ,Arbejdspladsid, DateStart, DateSlut);
+            //ErrorCode = await FrivilligeService.AddItem(item);
+           // id++;
+            Console.WriteLine("Shopping item added: return code: " + ErrorCode);
+        }
+        
+
+        /*
+        //Henter vores vagt-data fra koordinator(kollektion - Koordinator opretter en vagt)
+        [Inject]
+        public IKoordinatorService KoordinatorService { get; set; }
+
+        public List<Koordinator> gets = new List<Koordinator>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            gets = (await KoordinatorService.GetAllItems()).ToList();
+
+        }
+        */
+
+
+
+
+
+
+
+
+
+
+
+    }

@@ -15,34 +15,40 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
-        public void AddItem(VagtData item)
+        public void AddItem(Vagt item)
         {
-            db.Items.InsertOne(item);
+            //db.Items.InsertOne(item);
+            throw new NotImplementedException();
         }
 
         public bool DeleteItem(int id)
         {
-            FilterDefinition<VagtData> item = Builders<VagtData>.Filter.Eq("id", id);
+            throw new NotImplementedException();
+
+            /*
+            FilterDefinition<Vagt> item = Builders<Vagt>.Filter.Eq("id", id);
             var deletedItem = db.Items.FindOneAndDelete(item);
             if (deletedItem != null)
                 return true;
             else
                 return false;
+            */
         }
 
-        public bool UpdateItem(VagtData item)
+        public bool UpdateItem(Vagt item)
         {
             throw new NotImplementedException();
         }
 
-        public VagtData FindItem(int id)
+        public Vagt FindItem(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<VagtData> GetAllItems()
+        public List<Vagt> GetAllItems()
         {
-            return db.Items.Find(_ => true).ToList();
+            // return db.Items.Find(_ => true).ToList();
+            throw new NotImplementedException();
         }
 
 

@@ -23,9 +23,9 @@ namespace festival.Server.Controllers
 
 
         [HttpGet]
-        public IEnumerable<Frivillige> GetAllItems()
+        public IEnumerable<Frivillige> GetAllFrivillige()
         {
-            return Repository.GetAllItems();
+            return Repository.GetAllFrivillige();
         }
 
         [HttpDelete("{id:int}")]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using festival.Shared.Models;
+using festival.Server.Controllers;
 using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
@@ -64,7 +65,7 @@ namespace festival.Server.Models
         {
             using (var connection = db.connection)
             {
-                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
+                string sql = "SELECT * FROM koordinator";
                 var Items = connection.Query<Koordinator>(sql);
 
                 foreach (var item in Items)
@@ -72,6 +73,7 @@ namespace festival.Server.Models
                     Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
 
                 }
+                return Items.ToList();
             }
 
             //return db.Items.Find(_ => true).ToList();

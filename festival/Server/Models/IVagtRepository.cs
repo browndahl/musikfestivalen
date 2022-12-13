@@ -10,11 +10,11 @@ namespace festival.Server.Models
 {
     public interface IVagtRepository
     {
-        List<VagtData> GetAllItems();
-        VagtData FindItem(int id);
-        void AddItem(VagtData item);
+        List<Vagt> GetAllItems();
+        Vagt FindItem(int id);
+        void AddItem(Vagt item);
         bool DeleteItem(int id);
-        bool UpdateItem(VagtData item);
+        bool UpdateItem(Vagt item);
 
     }
 }

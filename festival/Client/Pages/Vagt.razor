@@ -5,102 +5,72 @@
 @inject HttpClient Http
 @page "/vagt"
 
-<PageTitle>Vagt-oversigt</PageTitle>
 
-<h1>Her kan du se tilgængelige vagter</h1>
+<PageTitle>Vagter</PageTitle>
 
-Velkommen til vagt-oversigten
+<h1>Her ses de vagter som er blevet taget</h1>
 
-<label>Indtast venligt dine personlige oplysninger</label>
+<p>Som koordinator, kan du se hvilke vagter, som er blevet taget</p>
 
-
-<EditForm EditContext="@EditContext"
-          OnValidSubmit="@HandleValidSubmit"
-          OnInvalidSubmit="@HandleInvalidSubmit"
-          class="row p-3">
-
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-
-    <div class="col-md-12 mb-3">
-        <label for="Name">Fornavn og efternavn</label>
-        <InputText id="Name" @bind-Value="Name" class="form-control" />
-        <ValidationMessage For="@(() => Name)" />
-    </div>
-
-    <div class="col-md-6 mb-3">
-        <label for="Antal">Antal personer</label>
-        <InputNumber id="Price" @bind-Value="Antal" class="form-control"
-                     ParsingErrorMessage=" The {0} field has an invalid value."
-                     DisplayName="Antal" />
-        <ValidationMessage For="@(() => Antal)" />
-    </div>
-
-    <div class="col-md-12 mb-3">
-        <label for="Email">Email</label>
-        <InputText id="Email" @bind-Value="Email" class="form-control" />
-        <ValidationMessage For="@(() => Email)" />
-    </div>
-
-    <div class="col-md-12 mb-3">
-        <label for="Adresse">Adresse</label>
-        <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
-        <ValidationMessage For="@(() => Adresse)" />
-    </div>
-
-    <div class="col-md-6 mb-3">
-        <label for="Start Dato">Start Dato</label>
-        <InputDate id="DateStart" @bind-Value="DateStart" class="form-control" />
-    </div>
-
-    <div class="col-md-6 mb-3">
-        <label for="Slut Dato">Slut Dato</label>
-        <InputDate id="DateSlut" @bind-Value="DateSlut" class="form-control" />
-    </div>
-
-    <div class="col-12 mb-3">
-        <div class="form-check">
-            <label for="Vælg shelter">Vælg vagter</label>
-
-            <InputSelect id="Navn" @bind-Value="Navn" class="form-control">
-
-            </InputSelect>
-
-        </div>
-    </div>
-
-    <button class="btn btn-primary" @onclick="AddShoppingItemHandler">Book me</button>
-    <h2>Booking: return code: @ErrorCode</h2>
+@if (gets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>arbejdspladsid</th>
+                <th>arbejdspladsnavn</th>
+                <th>antalpersoner</th>
+                <th>arbejdsbeskrivelse</th>
 
 
-</EditForm>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var get in gets)
+            {
+
+                <tr>
+                    <td>@get.arbejdspladsid</td>
+                    <td>@get.arbejdspladsnavn</td>
+                    <td>@get.antalpersoner</td>
+                    <td>@get.arbejdsbeskrivelse</td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 
 
 @code {
+
+    //Henter data fra vores database.
     [Inject]
     public IVagtService VagtService { get; set; }
 
-    private int ErrorCode { get; set; } = 0;
+    public List<Arbejdsplads> gets = new List<Arbejdsplads>();
 
-    //Vores default værdi til vores forms
-    public int id = 0;
-    public string Name = "Skriv dit navn her";
-    public int Antal = 0;
-    public string Email = "Skriv din mail her";
-    public string Adresse = "Skriv din adresse her";
-    public string Navn = "Intet shelter valgt";
-    public DateTime DateStart = DateTime.Now;
-    public DateTime DateSlut = DateTime.Now;
-    //Booking bliver tilføjet til vores database
-    private async Task AddShoppingItemHandler()
-
+    protected override async Task OnInitializedAsync()
     {
-        VagtData item = new VagtData(id, Name, Antal, Email, Adresse, true, Navn, DateStart, DateSlut);
-        ErrorCode = await VagtService.AddItem(item);
-        id++;
-        Console.WriteLine("Shopping item added: return code: " + ErrorCode);
+        //gets = (await VagtService.GetAllItems()).ToList();
+
     }
+
+    <!----
+    //Her forkorter vi vores date, sådan at vi kun ser dato ikke klokkesæt.
+    public string DateStart(DateTime DateStart)
+    {
+        string result = DateStart.Date.ToShortDateString();
+        return result;
+
+    }
+    -->
 
 }
 

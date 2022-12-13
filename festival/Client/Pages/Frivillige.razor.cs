@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace festival.Client.Pages
 {
-    public partial class Vagt
+    public partial class Frivillige
     {
         private Product ProductModel = new Product();
         private EditContext EditContext;
@@ -24,6 +24,7 @@ namespace festival.Client.Pages
             EditContext = new EditContext(ProductModel);
 
         }
+
 
         private void HandleInvalidSubmit()
         {

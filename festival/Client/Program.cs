@@ -10,17 +10,25 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 
-//Data1
+//Data1 - Koordinator service
 builder.Services.AddHttpClient<IKoordinatorService, KoordinatorService>(client =>
 {
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
 
-//Data2
+//Data2 - Vagt service
 builder.Services.AddHttpClient<IVagtService, VagtService>(client =>
 {
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
+//Data3 - Frivillige service 
+builder.Services.AddHttpClient<IFrivilligeService, FrivilligeService>(client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+});
+
 
 await builder.Build().RunAsync();
+
+
 

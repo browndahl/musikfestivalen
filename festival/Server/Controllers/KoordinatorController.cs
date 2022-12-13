@@ -12,11 +12,11 @@ namespace festival.Server.Controllers
     {
         private readonly IKoordinatorRepository Repository = new KoordinatorRepository();
 
-        public KoordinatorController(IKoordinatorRepository koordinatorRepository)
+        public KoordinatorController(IKoordinatorRepository vagtRepository)
         {
-            if (Repository == null && koordinatorRepository != null)
+            if (Repository == null && vagtRepository != null)
             {
-                Repository = koordinatorRepository;
+                Repository = vagtRepository;
                 Console.WriteLine("Repository initialized");
             }
         }

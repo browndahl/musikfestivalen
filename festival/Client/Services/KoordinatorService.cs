@@ -12,37 +12,40 @@ namespace festival.Client.Services
 
         public KoordinatorService(HttpClient httpClient)
         {
-            throw new NotImplementedException();
+            this.httpClient = httpClient;
         }
 
-        public Task<VagtData[]?> GetAllItems()
+        public Task<Koordinator[]?> GetAllItems()
+        {
+            var result = httpClient.GetFromJsonAsync<Koordinator[]>("api/koordinatorapi");
+            return result;
+        }
+
+        public async Task<Koordinator> GetItem(int id)
+        {
+            var result = await httpClient.GetFromJsonAsync<Koordinator>("api/koordinatorapi" + id);
+            return result;
+        }
+
+        public async Task<int> AddItem(Koordinator data)
+        {
+            var response = await httpClient.PostAsJsonAsync("api/koordinatorapi", data);
+            var responseStatusCode = response.StatusCode;
+            return (int)responseStatusCode;
+        }
+
+        public async Task<int> DeleteItem(Koordinator id)
+        {
+            var response = await httpClient.DeleteAsync("api/koordinatorapi" + id);
+            var responseStatusCode = response.StatusCode;
+            return (int)responseStatusCode;
+        }
+
+        public async Task<int> updateItem(Koordinator data)
         {
             throw new NotImplementedException();
-
         }
 
-        public async Task<VagtData> GetItem(int id)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> AddItem(VagtData item)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> DeleteItem(VagtData id)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> updateItem(VagtData item)
-        {
-            throw new NotImplementedException();
-        }
     }
-}
 
+}

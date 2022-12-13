@@ -12,38 +12,64 @@ namespace festival.Client.Services
 
         public VagtService(HttpClient httpClient)
         {
-            throw new NotImplementedException();
+            this.httpClient = httpClient;
         }
 
-        public Task<VagtData[]?> GetAllItems()
+        public Task<Arbejdsplads[]?> GetAllItems()
+        {
+            var result = httpClient.GetFromJsonAsync<Arbejdsplads[]>("api/koordinatorapi");
+            return result;
+        }
+
+        public async Task<Arbejdsplads> GetItem(int id)
+        {
+            var result = await httpClient.GetFromJsonAsync<Arbejdsplads>("api/koordinatorapi" + id);
+            return result;
+        }
+
+        public async Task<int> AddItem(Arbejdsplads data)
+        {
+            var response = await httpClient.PostAsJsonAsync("api/koordinatorapi", data);
+            var responseStatusCode = response.StatusCode;
+            return (int)responseStatusCode;
+        }
+
+        public async Task<int> DeleteItem(Arbejdsplads id)
+        {
+            var response = await httpClient.DeleteAsync("api/koordinatorapi" + id);
+            var responseStatusCode = response.StatusCode;
+            return (int)responseStatusCode;
+        }
+
+        public async Task<int> updateItem(Arbejdsplads data)
         {
             throw new NotImplementedException();
-
         }
 
-        public async Task<VagtData> GetItem(int id)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> AddItem(VagtData item)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> DeleteItem(VagtData id)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public async Task<int> updateItem(VagtData item)
+        Task<Vagt[]?> IVagtService.GetAllItems()
         {
             throw new NotImplementedException();
         }
 
+        Task<Vagt?> IVagtService.GetItem(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IVagtService.AddItem(Vagt data)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IVagtService.DeleteItem(Vagt data)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<int> IVagtService.updateItem(Vagt data)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
