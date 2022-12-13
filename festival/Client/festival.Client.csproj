@@ -16,6 +16,8 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.18.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Npgsql" Version="6.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +33,8 @@
     <None Remove="MongoDB.Bson" />
     <None Remove="MongoDB.Driver" />
     <None Remove="Services\" />
+    <None Remove="Dapper" />
+    <None Remove="Npgsql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
