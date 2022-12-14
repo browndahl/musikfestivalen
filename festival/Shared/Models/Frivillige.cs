@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using MongoDB.Bson.Serialization.Attributes;
+using festival.Client;
+using festival.Shared.Models;
+using festival.Shared;
+using System.Net.Http.Json;
+
+
 
 namespace festival.Shared.Models
 {

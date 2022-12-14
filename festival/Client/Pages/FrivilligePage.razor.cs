@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace festival.Client.Pages
 {
-    public partial class Frivillige
+    public partial class FrivilligePage
     {
         private Product ProductModel = new Product();
         private EditContext EditContext;

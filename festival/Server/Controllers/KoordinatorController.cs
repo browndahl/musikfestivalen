@@ -12,20 +12,19 @@ namespace festival.Server.Controllers
     {
         private readonly IKoordinatorRepository Repository = new KoordinatorRepository();
 
-        public KoordinatorController(IKoordinatorRepository vagtRepository)
+        public KoordinatorController(IKoordinatorRepository koordinatorRepository)
         {
-            if (Repository == null && vagtRepository != null)
+            if (Repository == null && koordinatorRepository != null)
             {
-                Repository = vagtRepository;
+                Repository = koordinatorRepository;
                 Console.WriteLine("Repository initialized");
             }
         }
 
-
         [HttpGet]
-        public IEnumerable<Koordinator> GetAllItems()
+        public IEnumerable<Koordinator> GetAllKoordinator()
         {
-            return Repository.GetAllItems();
+            return Repository.GetAllKoordinator();
         }
 
         [HttpDelete("{id:int}")]

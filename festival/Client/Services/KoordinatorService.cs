@@ -12,40 +12,37 @@ namespace festival.Client.Services
 
         public KoordinatorService(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            throw new NotImplementedException();
         }
 
-        public Task<Koordinator[]?> GetAllItems()
+        public Task<Koordinator[]?> GetAllKoordinator()
         {
-            var result = httpClient.GetFromJsonAsync<Koordinator[]>("api/koordinatorapi");
-            return result;
+            throw new NotImplementedException();
+
         }
 
         public async Task<Koordinator> GetItem(int id)
         {
-            var result = await httpClient.GetFromJsonAsync<Koordinator>("api/koordinatorapi" + id);
-            return result;
+            throw new NotImplementedException();
+
         }
 
-        public async Task<int> AddItem(Koordinator data)
+        public async Task<int> AddItem(Koordinator item)
         {
-            var response = await httpClient.PostAsJsonAsync("api/koordinatorapi", data);
-            var responseStatusCode = response.StatusCode;
-            return (int)responseStatusCode;
+            throw new NotImplementedException();
+
         }
 
         public async Task<int> DeleteItem(Koordinator id)
         {
-            var response = await httpClient.DeleteAsync("api/koordinatorapi" + id);
-            var responseStatusCode = response.StatusCode;
-            return (int)responseStatusCode;
+            throw new NotImplementedException();
+
         }
 
-        public async Task<int> updateItem(Koordinator data)
+        public async Task<int> updateItem(Koordinator item)
         {
             throw new NotImplementedException();
         }
-
     }
-
 }
+

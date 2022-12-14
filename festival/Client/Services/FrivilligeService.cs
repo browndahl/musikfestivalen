@@ -12,17 +12,21 @@ namespace festival.Client.Services
 
         public FrivilligeService(HttpClient httpClient)
         {
-            throw new NotImplementedException();
+            this.httpClient = httpClient;
+            //throw new NotImplementedException();
         }
 
-        public Task<Frivillige[]?> GetAllItems()
+        public Task<Frivillige[]?> GetAllFrivillige()
         {
-            throw new NotImplementedException();
+            var result = httpClient.GetFromJsonAsync<Frivillige[]>("api/frivilligeapi");
+            return result;
+            //throw new NotImplementedException();
 
         }
 
         public async Task<Frivillige> GetItem(int id)
         {
+            
             throw new NotImplementedException();
 
         }

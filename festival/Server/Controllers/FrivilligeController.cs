@@ -21,7 +21,6 @@ namespace festival.Server.Controllers
             }
         }
 
-
         [HttpGet]
         public IEnumerable<Frivillige> GetAllFrivillige()
         {

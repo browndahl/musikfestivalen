@@ -10,7 +10,7 @@ namespace festival.Server.Models
 {
     public interface IKoordinatorRepository
     {
-        List<Koordinator> GetAllItems();
+        List<Koordinator> GetAllKoordinator();
         Koordinator FindItem(int id);
         void AddItem(Koordinator item);
         bool DeleteItem(int id);

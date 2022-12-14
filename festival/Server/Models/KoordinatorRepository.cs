@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using festival.Shared.Models;
-using festival.Server.Controllers;
 using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
 using Dapper;
 
-//[BEMÆRK] Repository for booking 
+//[BEMÆRK] Repository for koordinator 
 namespace festival.Server.Models
 {
     internal class KoordinatorRepository : IKoordinatorRepository
@@ -61,7 +60,7 @@ namespace festival.Server.Models
            */
         }
 
-        public List<Koordinator> GetAllItems()
+        public List<Koordinator> GetAllKoordinator()
         {
             using (var connection = db.connection)
             {
@@ -70,13 +69,13 @@ namespace festival.Server.Models
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
+                    Console.WriteLine($"{item.Koordinatorid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
 
                 }
                 return Items.ToList();
             }
 
-            //return db.Items.Find(_ => true).ToList();
+            
         }
 
 

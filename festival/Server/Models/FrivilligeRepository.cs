@@ -9,7 +9,7 @@ using MongoDB.Driver;
 using Npgsql;
 using Dapper;
 
-//[BEMÆRK] Repository for booking 
+//[BEMÆRK] Repository for frivillige 
 namespace festival.Server.Models
 {
     internal class FrivilligeRepository : IFrivilligeRepository
@@ -75,7 +75,6 @@ namespace festival.Server.Models
                 return Items.ToList();
             }
 
-            //return db.Items.Find(_ => true).ToList();
         }
 
 
