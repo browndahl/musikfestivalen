@@ -8,14 +8,14 @@
 @using Dapper;
 
 
-@page "/vagt"
+@page "/frivilligeliste"
 
 
-<PageTitle>Vagter</PageTitle>
+<PageTitle>Frivillige liste</PageTitle>
 
-<h1>Her ses de vagter som er blevet taget</h1>
+<h1>Listen over frivillige</h1>
 
-<p>Som koordinator, kan du se hvilke vagter, som er blevet taget</p>
+<p>Her man koordinatorerne se listen over frivillige</p>
 
 @if (gets == null)
 {
@@ -49,7 +49,6 @@ else //Oprettelse af table
         </tbody>
     </table>
 }
-
 
 
 @code {
