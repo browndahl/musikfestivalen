@@ -13,63 +13,40 @@ namespace festival.Client.Services
         public VagtService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
+            //throw new NotImplementedException();
         }
 
-        public Task<Vagt[]?> GetAllItems()
+        public Task<Vagt[]?> GetAllVagt()
         {
             var result = httpClient.GetFromJsonAsync<Vagt[]>("api/vagtapi");
             return result;
+            //throw new NotImplementedException();
+
         }
 
         public async Task<Vagt> GetItem(int id)
         {
-            var result = await httpClient.GetFromJsonAsync<Vagt>("api/vagtapi" + id);
-            return result;
+
+            throw new NotImplementedException();
+
         }
 
-        public async Task<int> AddItem(Vagt data)
+        public async Task<int> AddItem(Vagt item)
         {
-            var response = await httpClient.PostAsJsonAsync("api/vagtapi", data);
-            var responseStatusCode = response.StatusCode;
-            return (int)responseStatusCode;
+            throw new NotImplementedException();
+
         }
 
         public async Task<int> DeleteItem(Vagt id)
         {
-            var response = await httpClient.DeleteAsync("api/vagtapi" + id);
-            var responseStatusCode = response.StatusCode;
-            return (int)responseStatusCode;
-        }
-
-        public async Task<int> updateItem(Vagt data)
-        {
             throw new NotImplementedException();
+
         }
 
-        Task<Vagt[]?> IVagtService.GetAllItems()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Vagt?> IVagtService.GetItem(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<int> IVagtService.AddItem(Vagt data)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<int> IVagtService.DeleteItem(Vagt data)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<int> IVagtService.updateItem(Vagt data)
+        public async Task<int> updateItem(Vagt item)
         {
             throw new NotImplementedException();
         }
     }
-
 }
+

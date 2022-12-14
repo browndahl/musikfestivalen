@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using festival.Shared.Models;
 using festival.Client;
 using MongoDB.Driver;
+using Npgsql;
+using Dapper;
 
+//[BEMÆRK] Repository for vagt 
 namespace festival.Server.Models
 {
     internal class VagtRepository : IVagtRepository
     {
-        
         DBContext db = new DBContext();
 
 
@@ -19,20 +21,20 @@ namespace festival.Server.Models
         {
             //db.Items.InsertOne(item);
             throw new NotImplementedException();
+
         }
 
         public bool DeleteItem(int id)
         {
             throw new NotImplementedException();
-
-            /*
-            FilterDefinition<Vagt> item = Builders<Vagt>.Filter.Eq("id", id);
+            /**
+            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
             var deletedItem = db.Items.FindOneAndDelete(item);
             if (deletedItem != null)
                 return true;
             else
                 return false;
-            */
+            *///
         }
 
         public bool UpdateItem(Vagt item)
@@ -43,15 +45,40 @@ namespace festival.Server.Models
         public Vagt FindItem(int id)
         {
             throw new NotImplementedException();
+
+            /*
+            using (var connection = db.connection )
+            {
+                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
+                var Items = connection.Query<Koordinator>(sql);
+                
+                foreach (var item in Items)
+                {
+                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
+                }
+            }
+           */
         }
 
-        public List<Vagt> GetAllItems()
+        public List<Vagt> GetAllVagt()
         {
-            // return db.Items.Find(_ => true).ToList();
-            throw new NotImplementedException();
+            using (var connection = db.connection)
+            {
+                string sql = "SELECT * FROM vagt";
+                var Items = connection.Query<Vagt>(sql);
+
+                foreach (var item in Items)
+                {
+                    Console.WriteLine($"{item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid}");
+
+                }
+                return Items.ToList();
+            }
+
+
+
         }
 
 
     }
 }
-

@@ -32,6 +32,7 @@ namespace festival.Shared.Models
            
         }
 
+        //Tom constructor - for at undgå fejl? Tip fra Martin
         public Koordinator()
         {
 

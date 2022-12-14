@@ -9,7 +9,7 @@ namespace festival.Client.Services
     //'Task' vil vi gerne få koden til at være pakket ind i asynkron-programmering. (F.eks hvis app går i stå, så skal vi kunne få en fejlmeddelse)
     public interface IVagtService
     {
-        Task<Vagt[]?> GetAllItems();
+        Task<Vagt[]?> GetAllVagt();
 
         Task<Vagt?> GetItem(int id);
 

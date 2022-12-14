@@ -7,24 +7,24 @@ using System.Net;
 namespace festival.Server.Controllers
 {
     [ApiController]
-    [Route("api/frivilligeapi")]
-    public class FrivilligeController : ControllerBase
+    [Route("api/vagtapi")]
+    public class VagtController : ControllerBase
     {
-        private readonly IFrivilligeRepository Repository = new FrivilligeRepository();
+        private readonly IVagtRepository Repository = new VagtRepository();
 
-        public FrivilligeController(IFrivilligeRepository frivilligeRepository)
+        public VagtController(IVagtRepository vagtRepository)
         {
-            if (Repository == null && frivilligeRepository != null)
+            if (Repository == null && vagtRepository != null)
             {
-                Repository = frivilligeRepository;
+                Repository = vagtRepository;
                 Console.WriteLine("Repository initialized");
             }
         }
 
         [HttpGet]
-        public IEnumerable<Frivillige> GetAllFrivillige()
+        public IEnumerable<Vagt> GetAllVagt()
         {
-            return Repository.GetAllFrivillige();
+            return Repository.GetAllVagt();
         }
 
         [HttpDelete("{id:int}")]
@@ -48,7 +48,7 @@ namespace festival.Server.Controllers
         }
 
         [HttpPost]
-        public void AddItem(Frivillige item)
+        public void AddItem(Vagt item)
         {
             Console.WriteLine("Add item called: " + item.ToString());
             Repository.AddItem(item);
@@ -56,7 +56,7 @@ namespace festival.Server.Controllers
 
 
         [HttpGet("{id:int}")]
-        public Frivillige FindItem(int id)
+        public Vagt FindItem(int id)
         {
             var result = Repository.FindItem(id);
             return result;

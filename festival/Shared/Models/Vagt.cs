@@ -1,29 +1,52 @@
 ﻿using System;
+using System.Net.NetworkInformation;
+using MongoDB.Bson.Serialization.Attributes;
+using festival.Client;
+using festival.Shared.Models;
+using festival.Shared;
+using System.Net.Http.Json;
+
+
+
 namespace festival.Shared.Models
 {
     public class Vagt
     {
         //Skal kun kalde på Frivillige (info)
-        public string? fornavn { get; set; }
-        public string? efternavn { get; set; }
-        public int tlf { get; set; }
-        public string? adresse { get; set; }
-        public int frivilligeid { get; set; }
-        public int arbejdspladsid { get; set; }
-        public int samletantalpoint { get; set; }
+        public int? Vagtid { get; set; }
+        public int? Arbejdspladsid { get; set; }
+        public int Frivilligid { get; set; }
+        public int? Koordinatorid { get; set; }
+        public DateTime DateStart { get; set; } = DateTime.Now;
+        public int Tidstart { get; set; }
+        public int Tidslut { get; set; }
+        public bool Optagetledig { get; set; }
+        public int Antalpoint { get; set; }
+
+
 
         //Constructor
-        public Vagt(string fornavn = "", string efternavn = "", int tlf = 0, string adresse = "", int frivilligeid = 0, int arbejdspladsid = 0, int samletantalpoint = 0)
+        public Vagt(int vagttid = 0, int arbejdspladsid = 0, int frivilligid = 0, int koordinatorid = 0, DateTime dateStart = new DateTime(), int tidstart = 0, int tidslut = 0, bool optagetledig = false, int antalpoint = 0)
+        {
+            this.Vagtid = vagttid;
+            this.Arbejdspladsid = arbejdspladsid;
+            this.Frivilligid = frivilligid;
+            this.Koordinatorid = koordinatorid;
+            this.DateStart = dateStart;
+            this.Tidstart = tidstart;
+            this.Tidslut = tidslut;
+            this.Optagetledig = optagetledig;
+            this.Antalpoint = antalpoint;
+
+        }
+
+        //Tom constructor - for at undgå fejl? Tip fra Martin
+        public Vagt()
         {
 
-            this.fornavn = fornavn;
-            this.efternavn = efternavn;
-            this.tlf = tlf;
-            this.adresse = adresse;
-            this.frivilligeid = frivilligeid;
-            this.arbejdspladsid = arbejdspladsid;
-            this.samletantalpoint = samletantalpoint;
         }
+
+
     }
 }
 
