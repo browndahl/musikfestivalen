@@ -27,6 +27,12 @@ builder.Services.AddHttpClient<IFrivilligeService, FrivilligeService>(client =>
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
 
+//Data4 - Arbejdsplads service 
+builder.Services.AddHttpClient<IArbejdspladsService, ArbejdspladsService>(client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+});
+
 
 await builder.Build().RunAsync();
 

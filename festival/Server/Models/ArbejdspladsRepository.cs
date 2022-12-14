@@ -9,15 +9,15 @@ using MongoDB.Driver;
 using Npgsql;
 using Dapper;
 
-//[BEMÆRK] Repository for koordinator 
+//[BEMÆRK] Repository for Arbejdspladser 
 namespace festival.Server.Models
 {
-    internal class KoordinatorRepository : IKoordinatorRepository
+    internal class ArbejdspladsRepository : IArbejdspladsRepository
     {
         DBContext db = new DBContext();
 
 
-        public void AddItem(Koordinator item)
+        public void AddItem(Arbejdsplads item)
         {
             //db.Items.InsertOne(item);
             throw new NotImplementedException();
@@ -37,12 +37,12 @@ namespace festival.Server.Models
             *///
         }
 
-        public bool UpdateItem(Koordinator item)
+        public bool UpdateItem(Arbejdsplads item)
         {
             throw new NotImplementedException();
         }
 
-        public Koordinator FindItem(int id)
+        public Arbejdsplads FindItem(int id)
         {
             throw new NotImplementedException();
 
@@ -60,22 +60,20 @@ namespace festival.Server.Models
            */
         }
 
-        public List<Koordinator> GetAllKoordinator()
+        public List<Arbejdsplads> GetAllArbejdsplads()
         {
             using (var connection = db.connection)
             {
-                string sql = "SELECT * FROM koordinator";
-                var Items = connection.Query<Koordinator>(sql);
+                string sql = "SELECT * FROM arbejdsplads";
+                var Items = connection.Query<Arbejdsplads>(sql);
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.Koordinatorid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
+                    Console.WriteLine($"{item.Arbejdspladsid}, {item.Arbejdsbeskrivelse}, {item.Antalpersoner}, {item.Arbejdsbeskrivelse}");
 
                 }
                 return Items.ToList();
             }
-
-
 
         }
 

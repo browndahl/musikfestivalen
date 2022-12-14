@@ -10,6 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IKoordinatorRepository, KoordinatorRepository>();
 builder.Services.AddScoped<IVagtRepository, VagtRepository>();
 builder.Services.AddScoped<IFrivilligeRepository, FrivilligeRepository>();
+builder.Services.AddScoped<IArbejdspladsRepository, ArbejdspladsRepository>();
 
 
 var app = builder.Build();
