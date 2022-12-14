@@ -28,7 +28,7 @@ namespace festival.Server.Models
         {
             throw new NotImplementedException();
             /**
-            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
+            FilterDefinition<Fri> item = Builders<Koordinator>.Filter.Eq("id", id);
             var deletedItem = db.Items.FindOneAndDelete(item);
             if (deletedItem != null)
                 return true;
