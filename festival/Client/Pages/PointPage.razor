@@ -1,0 +1,66 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+
+@page "/point"
+
+<PageTitle>Scoreboard</PageTitle>
+
+<h1>Her kan du se scoreboard</h1>
+
+Velkommen til scoreboard
+
+@if (gets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+{
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Fornavn</th>
+                <th>Efternavn</th>
+                <th>Telefon</th>
+                <th>Samlet antal point</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var get in gets) //var get in gets -- tidligeree
+            {
+
+                <tr>
+                    <td>@get.</td>
+                    <td>@get.</td>
+                    <td>@get.</td>
+                    <td>@get.</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code { 
+    [Inject]
+    public IKoordinatorService KoordinatorService { get; set; }
+
+    public List<Koordinator> gets = new List<Koordinator>();
+
+    protected override async Task OnInitializedAsync()
+
+    {
+        gets = (await KoordinatorService.GetAllKoordinator()).ToList();
+
+    }
+}

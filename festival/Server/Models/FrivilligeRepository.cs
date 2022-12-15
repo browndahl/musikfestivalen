@@ -69,7 +69,7 @@ namespace festival.Server.Models
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.Frivilligeid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
+                    Console.WriteLine($"{item.Frivilligid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
 
                 }
                 return Items.ToList();

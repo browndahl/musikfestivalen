@@ -12,7 +12,7 @@ namespace festival.Shared.Models
 {
     public class Frivillige
     {
-        public int Frivilligeid { get; set; }
+        public int Frivilligid { get; set; }
         public string? Fornavn { get; set; }
         public string? Efternavn { get; set; }
         public int Alder { get; set; }
@@ -28,9 +28,9 @@ namespace festival.Shared.Models
 
 
         //Constructor
-        public Frivillige(int frivilligeid = 0, string fornavn = "", string efternavn = "", int alder = 0, string email = "", int tlf = 0, string adresse = "", int samletantalpoint = 0, bool aktivstatus = true ,int arbejdspladsid = 0) //Constructor 
+        public Frivillige(int frivilligid = 0, string fornavn = "", string efternavn = "", int alder = 0, string email = "", int tlf = 0, string adresse = "", int samletantalpoint = 0, bool aktivstatus = true ,int arbejdspladsid = 0) //Constructor 
         {
-            this.Frivilligeid = frivilligeid;
+            this.Frivilligid = frivilligid;
             this.Fornavn = fornavn;
             this.Efternavn = efternavn;
             this.Alder = alder;
