@@ -54,14 +54,21 @@
             tlf = frivillig.Tlf;
             fornavn = frivillig.Fornavn;
             efternavn = frivillig.Efternavn;
+            email = frivillig.Email;
+            alder = frivillig.Alder;
+            antalPoint = frivillig.Samletantalpoint;
             break;
             }
         }
      }
-       Navn:@fornavn @efternavn <br/>
-       Valgt frivillig: @frivilligid <br/>
-      adresse: @adresse <br/>
-      tlf: @tlf <br/>
+      Navn:@fornavn @efternavn <br/>
+      Valgt frivillig: @frivilligid <br/>
+      Adresse: @adresse <br/>
+      Tlf: @tlf <br/>
+      Email: @email <br/>
+      Alder: @alder <br/>
+      Antal Point: @antalPoint
+
 
 
   
@@ -85,6 +92,9 @@
     public string adresse = "";
     public string tlf = "";
     public string arbejdsplads = "";
+    public int alder = 0;
+    public string email = "";
+    public int antalPoint = 0;
 
     public Frivillige ValgtFrivillig = new Frivillige();
 
