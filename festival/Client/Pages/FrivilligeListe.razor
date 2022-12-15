@@ -22,6 +22,7 @@
     <p><em>Loading...</em></p>
 }
 else //Oprettelse af table
+//Husk altid at "REBUILD", efter du har oprettet tabel, ellers kommer det ikke frem på WEB.
 {
     <table class="table">
         <thead>
@@ -33,13 +34,10 @@ else //Oprettelse af table
                 <th>email</th>
                 <th>tlf</th>
 
-
-
-
             </tr>
         </thead>
         <tbody>
-            @foreach (var get in gets) //var get in gets -- tidligere123testest
+            @foreach (var get in gets) //var get in gets -- tidligere123
             {
 
                 <tr>
