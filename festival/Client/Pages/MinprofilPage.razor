@@ -21,7 +21,6 @@
           class="row p-3">
 
 
-
     <div class="col-12 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Person</label>
@@ -31,47 +30,47 @@
 
                 @foreach (var get in gets)
                 {
-                    <option value=@get.Frivilligid>  @get.Fornavn @get.Efternavn </option>
-                    <option value=@get.Frivilligid> </option>
-
+                    <option value="@get.Frivilligid" >  @get.Fornavn @get.Efternavn </option>
+                    
                 }
             </InputSelect>
 
 
         </div>
     </div>
-
-
-      Valgt frivillig: @frivilligid
-      adresse: @adresse
-    @{
-        // ValgtFrivillig.Fornavn
-        foreach(var frivillig in gets)
-        {
-            if (frivillig.Frivilligid == frivilligid)
-            {
-                ValgtFrivillig = frivillig;
-            }
-           
-
-       }
-     
-    }
-
-
-    
-
-
-
-
-
-
 </EditForm>
+
+
+      
+@{
+    foreach (var frivillig in gets)
+    {
+        if (frivillig.Frivilligid == frivilligid)
+        {
+
+            ValgtFrivillig = frivillig;
+            //if (frivillig.Adresse != null)
+            adresse = frivillig.Adresse;
+            tlf = frivillig.Tlf;
+            fornavn = frivillig.Fornavn;
+            efternavn = frivillig.Efternavn;
+            break;
+            }
+        }
+     }
+       Navn:@fornavn @efternavn <br/>
+       Valgt frivillig: @frivilligid <br/>
+      adresse: @adresse <br/>
+      tlf: @tlf <br/>
+
+
+  
 
 
 
 
 @code {
+
 
 
     [Inject]
@@ -83,8 +82,8 @@
     public string fornavn = "Navn";
     public string efternavn = "Navn";
     public int frivilligid = 0;
-    public string adresse = "Adresse";
-
+    public string adresse = "";
+    public string tlf = "";
     public string arbejdsplads = "";
 
     public Frivillige ValgtFrivillig = new Frivillige();
@@ -111,7 +110,7 @@
         gets = (await frivilligeService.GetAllFrivillige()).ToList();
         foreach (Frivillige f in gets)
         {
-            Console.WriteLine($"{f.Frivilligid} {f.Fornavn} ");
+            Console.WriteLine($"{f.Frivilligid} {f.Fornavn} {f.Adresse} ");
         }
         ValgtFrivillig = gets[0];
 

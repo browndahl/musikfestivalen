@@ -17,7 +17,7 @@ namespace festival.Shared.Models
         public string? Efternavn { get; set; }
         public int Alder { get; set; }
         public string? Email { get; set; }
-        public int? Tlf { get; set; }
+        public string? Tlf { get; set; }
         public string? Adresse { get; set; }
         public int Samletantalpoint { get; set; }
         public bool Aktivstatus { get; set; }
@@ -28,7 +28,7 @@ namespace festival.Shared.Models
 
 
         //Constructor
-        public Frivillige(int frivilligid = 0, string fornavn = "", string efternavn = "", int alder = 0, string email = "", int tlf = 0, string adresse = "", int samletantalpoint = 0, bool aktivstatus = true ,int arbejdspladsid = 0) //Constructor 
+        public Frivillige(int frivilligid = 0, string fornavn = "", string efternavn = "", int alder = 0, string email = "", string tlf = "", string adresse = "", int samletantalpoint = 0, bool aktivstatus = true ,int arbejdspladsid = 0) //Constructor 
         {
             this.Frivilligid = frivilligid;
             this.Fornavn = fornavn;
@@ -49,7 +49,7 @@ namespace festival.Shared.Models
 
         }
 
-
+        
     }
 
 
