@@ -19,8 +19,8 @@ namespace festival.Server.Models
 
         public void AddItem(Arbejdsplads item)
         {
-            //db.Items.InsertOne(item);
             throw new NotImplementedException();
+           
 
         }
 

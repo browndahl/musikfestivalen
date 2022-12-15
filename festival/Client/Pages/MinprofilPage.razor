@@ -43,8 +43,8 @@
 
       
 @{
-    foreach (var frivillig in gets)
-    {
+        foreach (var frivillig in gets)
+        {
         if (frivillig.Frivilligid == frivilligid)
         {
 
@@ -60,8 +60,10 @@
             break;
             }
         }
-     }
-      Navn:@fornavn @efternavn <br/>
+    }
+
+
+Navn:@fornavn @efternavn <br/>
       Valgt frivillig: @frivilligid <br/>
       Adresse: @adresse <br/>
       Tlf: @tlf <br/>
@@ -99,7 +101,7 @@
     public Frivillige ValgtFrivillig = new Frivillige();
 
 
-    //Booking bliver tilføjet til vores database
+    //Vores indtastet data bliver tilføjet til vores database
     private async Task selectid()
     {
         Frivillige item = new Frivillige(frivilligid, fornavn);
@@ -109,7 +111,7 @@
     }
 
 
-    //Henter vores shelter-data fra mongo(database)
+    //Henter vores data fra database
     [Inject]
     public IFrivilligeService FrivilligeService { get; set; }
 
@@ -117,15 +119,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        gets = (await frivilligeService.GetAllFrivillige()).ToList();
+        gets = (await FrivilligeService.GetAllFrivillige()).ToList();
         foreach (Frivillige f in gets)
         {
             Console.WriteLine($"{f.Frivilligid} {f.Fornavn} {f.Adresse} ");
         }
         ValgtFrivillig = gets[0];
-
-
-
 
 
     }

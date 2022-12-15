@@ -21,4 +21,6 @@ namespace festival.Client.Services
         Task<int> updateItem(Arbejdsplads data);
     }
 
+
+
 }

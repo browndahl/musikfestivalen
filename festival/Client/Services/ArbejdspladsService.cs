@@ -33,6 +33,7 @@ namespace festival.Client.Services
 
         public async Task<int> AddItem(Arbejdsplads item)
         {
+       
             throw new NotImplementedException();
 
         }
