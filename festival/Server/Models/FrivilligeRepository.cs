@@ -17,10 +17,17 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
-        public void AddItem(Frivillige item)
+        public void AddFrivillige(Frivillige item)
         {
+
+            using (var connection = db.connection)
+            {
+                string sql = $"INSERT INTO frivillige (Frivilligid, Fornavn, Efternavn, Alder, Email,Tlf,Adresse) VALUES ({item.Frivilligid}, {item.Fornavn}), {item.Efternavn}, {item.Alder},{item.Email},{item.Tlf},{item.Adresse}";
+                var Items = connection.Execute(sql);
+            }
+
             //db.Items.InsertOne(item);
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
         }
 

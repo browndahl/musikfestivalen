@@ -1,12 +1,110 @@
-﻿using System;
-@using festival.Client.Services
+﻿@using festival.Client.Services
 @using festival.Shared.Models
-@using festival.Shared
 @using System.Net.Http.Json;
 @inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
 @page "/frivilligepage"
 
 
 <PageTitle>Frivillige</PageTitle>
 
 <label>Indtast venligt dine personlige oplysninger - Vælg derefter en ledig vagt</label>
+
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit"
+          class="row p-3">
+
+
+
+   
+    <div class="col-md-6 mb-3">
+        <label for="Frivilligid">Frivilligid</label>
+        <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
+                     ParsingErrorMessage=" The {0} field has an invalid value."
+                     DisplayName="Frivilligid" />
+        <ValidationMessage For="@(() => Frivilligid)" />
+    </div>
+
+   <div class="col-md-12 mb-3">
+            <label for="Fornavn">Fornavn</label>
+            <InputText id="Fornavn" @bind-Value="Fornavn" class="form-control" />
+            <ValidationMessage For="@(() => Fornavn)" />
+        </div>
+  
+         <div class="col-md-12 mb-3">
+        <label for="Efternavn">Efternavn</label>
+        <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
+        <ValidationMessage For="@(() => Efternavn)" />
+    </div>
+
+    <div class="col-md-6 mb-3">
+            <label for="Alder">Alder</label>
+            <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
+                         ParsingErrorMessage=" The {0} field has an invalid value."
+                         DisplayName="Antal" />
+            <ValidationMessage For="@(() => Alder)" />
+        </div>
+
+    <div class="col-md-12 mb-3">
+            <label for="Email">Email</label>
+            <InputText id="Email" @bind-Value="Email" class="form-control" />
+            <ValidationMessage For="@(() => Email)" />
+        </div>
+    <div class="col-md-12 mb-3">
+        <label for="Tlf">Tlf</label>
+        <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
+        <ValidationMessage For="@(() => Tlf)" />
+    </div>
+
+    <div class="col-md-12 mb-3">
+        <label for="Adresse">Adresse</label>
+        <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
+        <ValidationMessage For="@(() => Adresse)" />
+    </div>
+
+
+
+
+    <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+
+
+
+
+    <h2>Booking: return code: @ErrorCode</h2>
+
+
+
+</EditForm>
+
+
+
+@code{
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+    private int ErrorCode { get; set; } = 0;
+
+
+    public int Frivilligid = 0;
+    public string Fornavn = "Indtast fornavn";
+    public string Efternavn = "Indtast efternavn";
+    public int Alder = 0;
+    public string Email = "Indtast email";
+    public string Tlf = "Indtast telefonnummer";
+    public string Adresse = "Indtast adresse";
+    
+
+    //Tilføjer vores nye indtastet data til frivilligapi
+    private async void AddFrivilligItemHandler()
+    {
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        ErrorCode = await FrivilligeService.AddFrivillige(item);
+        Console.WriteLine(ErrorCode);
+        Frivilligid++;
+    }
+
+}

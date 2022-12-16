@@ -2,6 +2,7 @@
 using System.Net.NetworkInformation;
 using festival.Client.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using festival.Client.Services;
 
 namespace festival.Client.Pages
 {

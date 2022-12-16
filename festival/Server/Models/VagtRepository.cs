@@ -19,11 +19,18 @@ namespace festival.Server.Models
 
         public void AddItem(Vagt item)
         {
-            //db.Items.InsertOne(item);
-            throw new NotImplementedException();
+            
+            using (var connection = db.connection)
+            {
+                string sql = $"INSERT INTO vagt (Vagtid) VALUES ({item.Vagtid})";
+                var Items = connection.Execute(sql);
+            }
+            //  string sql = $"INSERT INTO vagt (vagttid, arbejdspladsid, frivilligid, koordinatorid, dateStart,tidstart,tidslut, optagetledig, antalpoint) values ({item.Vagtid}, {item.Arbejdspladsid}), {item.Frivilligid}, {item.Koordinatorid},{item.DateStart},{item.Tidstart},{item.Tidslut},{item.Optagetledig},{item.Antalpoint}";
+            //throw new NotImplementedException();
 
         }
-
+        //Query = Select
+        //Execute = Insert, delete og de andre 
         public bool DeleteItem(int id)
         {
             throw new NotImplementedException();
@@ -69,7 +76,8 @@ namespace festival.Server.Models
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid}");
+                    Console.WriteLine($"{item.Vagtid}");
+                    //Console.WriteLine($"{item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid}");
 
                 }
                 return Items.ToList();

@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Net.NetworkInformation;
-using MongoDB.Bson.Serialization.Attributes;
-using festival.Client;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using festival.Shared.Models;
-using festival.Shared;
-using System.Net.Http.Json;
+using festival.Client;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
 
 
 
@@ -14,6 +16,7 @@ namespace festival.Shared.Models
     {
         //Skal kun kalde på Frivillige (info)
         public int? Vagtid { get; set; }
+        
         public int? Arbejdspladsid { get; set; }
         public int Frivilligid { get; set; }
         public int? Koordinatorid { get; set; }
@@ -22,13 +25,19 @@ namespace festival.Shared.Models
         public int Tidslut { get; set; }
         public bool Optagetledig { get; set; }
         public int Antalpoint { get; set; }
+        public string Arbejdspladsnavn { get; set; }
+        public string DatoDag { get; set; }
+        public string Dato { get; set; }
+
+
 
 
 
         //Constructor
-        public Vagt(int vagttid = 0, int arbejdspladsid = 0, int frivilligid = 0, int koordinatorid = 0, DateTime dateStart = new DateTime(), int tidstart = 0, int tidslut = 0, bool optagetledig = false, int antalpoint = 0)
+        public Vagt(int vagtid = 0, int arbejdspladsid = 0, int frivilligid = 0, int koordinatorid = 0, DateTime dateStart = new DateTime(), int tidstart = 0, int tidslut = 0, bool optagetledig = false, int antalpoint = 0, string arbejdspladsnavn = "", string datoDag = "", string dato = "")
+
         {
-            this.Vagtid = vagttid;
+            this.Vagtid = vagtid;
             this.Arbejdspladsid = arbejdspladsid;
             this.Frivilligid = frivilligid;
             this.Koordinatorid = koordinatorid;
@@ -37,6 +46,11 @@ namespace festival.Shared.Models
             this.Tidslut = tidslut;
             this.Optagetledig = optagetledig;
             this.Antalpoint = antalpoint;
+            this.Arbejdspladsnavn = arbejdspladsnavn;
+            this.DatoDag = datoDag;
+            this.Dato = dato;
+
+
 
         }
 
@@ -45,7 +59,9 @@ namespace festival.Shared.Models
         {
 
         }
+        //public Vagt(int vagtid = 0)
 
+        //public Vagt(int vagtid = 0, int arbejdspladsid = 0, int frivilligid = 0, int koordinatorid = 0, DateTime dateStart = new DateTime(), int tidstart = 0, int tidslut = 0, bool optagetledig = false, int antalpoint = 0, string arbejdspladsnavn = "")
 
     }
 }

@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using festival.Shared.Models;
 using festival.Client;
+using MongoDB.Driver;
+using Npgsql;
+using Dapper;
+
 
 namespace festival.Server.Models
 {
@@ -12,7 +16,7 @@ namespace festival.Server.Models
     {
         List<Frivillige> GetAllFrivillige();
         Frivillige FindItem(int id);
-        void AddItem(Frivillige item);
+        void AddFrivillige(Frivillige item);
         bool DeleteItem(int id);
         bool UpdateItem(Frivillige item);
 

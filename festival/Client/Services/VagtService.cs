@@ -3,6 +3,17 @@ using System.Runtime.ConstrainedExecution;
 using festival.Client.Services;
 using festival.Shared.Models;
 using System.Net.Http.Json;
+using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using festival.Client;
+using MongoDB.Driver;
+using Npgsql;
+using Dapper;
+
 
 namespace festival.Client.Services
 {
@@ -33,7 +44,12 @@ namespace festival.Client.Services
 
         public async Task<int> AddItem(Vagt item)
         {
-            throw new NotImplementedException();
+            var result = await httpClient.PostAsJsonAsync("api/vagtapi", item);
+            return (int)result.StatusCode;
+
+            //var responseStatusCode = response.StatusCode;
+            //await foran http, så venter result på at få info før den går videre
+            //throw new NotImplementedException();
 
         }
 

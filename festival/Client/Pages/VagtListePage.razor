@@ -1,8 +1,106 @@
-﻿@page "/vagtliste"
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+@page "/vagtliste"
 
 <PageTitle>Vagt liste</PageTitle>
 
 <h1>Her kan du se ledige vagter</h1>
 
+@{
+
+    List<string> dage = new List<string>();
+
+    foreach (var vagt in vagter)
+
+    {
+
+        datoDag = vagt.DatoDag;
+        dage.Add(datoDag);
+
+    }
+
+    HashSet<string> uniqueDage = new HashSet<string>();
+
+    foreach (var dag in dage)
+    {
+
+        if (!uniqueDage.Contains(dag))
+        {
+            uniqueDage.Add(dag);
+        }
+
+    }
 
 
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (string dag in uniqueDage)
+                {
+                    <th> @dag  </th>
+;
+
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vagt in vagter)
+            {
+                <tr>
+                    @foreach (string dag in uniqueDage)
+                    {
+                        if (vagt.DatoDag == dag)
+                        {
+                            <td>@vagt.Vagtid</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+
+
+    @code {
+        // -II- Vagter
+        public int? arbejdspladsid = 0;
+        public int? vagtid = 0;
+        public int? tidStart = 0;
+        public int? tidSlut = 0;
+        public int? antalPoint = 0;
+        public DateTime? dato = DateTime.Now;
+        public Vagt ValgtVagt = new Vagt();
+        public string? datoDag = "";
+
+
+
+
+        //Henter vores shelter-data fra mongo(database)
+
+        [Inject]
+        public IVagtService VagtService { get; set; }
+
+
+
+        public List<Vagt> vagter = new List<Vagt>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            vagter = (await VagtService.GetAllVagt()).ToList();
+            vagter = vagter.OrderBy(x => x.Vagtid).ToList();
+            ValgtVagt = vagter[0];
+        }
+    }
+}
