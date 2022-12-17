@@ -37,11 +37,12 @@ namespace festival.Server.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public StatusCodeResult DeleteItem(int id)
+        public StatusCodeResult DeleteFrivillige(int id)
         {
             Console.WriteLine("Server: Delete item called: id = " + id);
 
-            bool deleted = Repository.DeleteItem(id);
+            //Skal stå void her?
+            bool deleted = Repository.DeleteFrivillige(id);
             if (deleted)
             {
                 Console.WriteLine("Server: Item deleted succces");

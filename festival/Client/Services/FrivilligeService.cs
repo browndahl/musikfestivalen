@@ -50,9 +50,12 @@ namespace festival.Client.Services
 
         }
 
-        public async Task<int> DeleteItem(Frivillige id)
+        public async Task<int> DeleteFrivillige(Frivillige id)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //Bemærk skal det være PostAsJsonAsync eller DeleteAsJsonAsync
+            var result = await httpClient.DeleteAsync("api/frivilligeapi" + id);
+            return (int)result.StatusCode;
 
         }
 

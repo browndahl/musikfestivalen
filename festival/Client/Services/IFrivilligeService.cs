@@ -26,7 +26,7 @@ namespace festival.Client.Services
 
         Task<int> AddFrivillige(Frivillige data);
 
-        Task<int> DeleteItem(Frivillige data);
+        Task<int> DeleteFrivillige(Frivillige data);
 
         Task<int> updateItem(Frivillige data);
     }

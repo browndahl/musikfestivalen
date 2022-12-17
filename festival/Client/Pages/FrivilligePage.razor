@@ -11,38 +11,50 @@
 
 <PageTitle>Frivillige</PageTitle>
 
+<h1> Opret frivillige medarbejder her</h1>
+
 <label>Indtast venligt dine personlige oplysninger - Vælg derefter en ledig vagt</label>
 
+<br />
 
 <EditForm EditContext="@EditContext"
           OnValidSubmit="@HandleValidSubmit"
-          OnInvalidSubmit="@HandleInvalidSubmit"
-          class="row p-3">
+          OnInvalidSubmit="@HandleInvalidSubmit">
 
-
-
-   
-    <div class="col-md-6 mb-3">
-        <label for="Frivilligid">Frivilligid</label>
-        <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
-                     ParsingErrorMessage=" The {0} field has an invalid value."
-                     DisplayName="Frivilligid" />
-        <ValidationMessage For="@(() => Frivilligid)" />
-    </div>
-
-   <div class="col-md-12 mb-3">
+    <form class="row g-3">
+        <div class="col-sm-6 ">
             <label for="Fornavn">Fornavn</label>
             <InputText id="Fornavn" @bind-Value="Fornavn" class="form-control" />
             <ValidationMessage For="@(() => Fornavn)" />
         </div>
-  
-         <div class="col-md-12 mb-3">
-        <label for="Efternavn">Efternavn</label>
-        <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
-        <ValidationMessage For="@(() => Efternavn)" />
-    </div>
 
-    <div class="col-md-6 mb-3">
+        <div class="col-sm-6">
+            <label for="Efternavn">Efternavn</label>
+            <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
+            <ValidationMessage For="@(() => Efternavn)" />
+        </div>
+
+
+        <div class="col-sm-6">
+            <label for="Tlf">Tlf</label>
+            <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
+            <ValidationMessage For="@(() => Tlf)" />
+        </div>
+
+        <div class="col-sm-6">
+            <label for="Adresse">Adresse</label>
+            <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
+            <ValidationMessage For="@(() => Adresse)" />
+        </div>
+
+
+        <div class="col-sm-6">
+            <label for="Email">Email</label>
+            <InputText id="Email" @bind-Value="Email" class="form-control" />
+            <ValidationMessage For="@(() => Email)" />
+        </div>
+
+        <div class="col-sm-4">
             <label for="Alder">Alder</label>
             <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
                          ParsingErrorMessage=" The {0} field has an invalid value."
@@ -50,27 +62,20 @@
             <ValidationMessage For="@(() => Alder)" />
         </div>
 
-    <div class="col-md-12 mb-3">
-            <label for="Email">Email</label>
-            <InputText id="Email" @bind-Value="Email" class="form-control" />
-            <ValidationMessage For="@(() => Email)" />
+        <div class="col-sm-2">
+            <label for="Frivilligid">Frivilligid</label>
+            <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
+                         ParsingErrorMessage=" The {0} field has an invalid value."
+                         DisplayName="Frivilligid" />
+            <ValidationMessage For="@(() => Frivilligid)" />
         </div>
-    <div class="col-md-12 mb-3">
-        <label for="Tlf">Tlf</label>
-        <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
-        <ValidationMessage For="@(() => Tlf)" />
-    </div>
 
-    <div class="col-md-12 mb-3">
-        <label for="Adresse">Adresse</label>
-        <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
-        <ValidationMessage For="@(() => Adresse)" />
-    </div>
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+        </div>
 
+    </form>
 
-
-
-    <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
 
 
 
@@ -96,7 +101,7 @@
     public string Email = "Indtast email";
     public string Tlf = "Indtast telefonnummer";
     public string Adresse = "Indtast adresse";
-    
+
 
     //Tilføjer vores nye indtastet data til frivilligapi
     private async void AddFrivilligItemHandler()
@@ -106,5 +111,8 @@
         Console.WriteLine(ErrorCode);
         Frivilligid++;
     }
+
+
+
 
 }

@@ -8,6 +8,8 @@ using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
 using Dapper;
+using System.Diagnostics.Metrics;
+using System.Net;
 
 //[BEMÆRK] Repository for vagt 
 namespace festival.Server.Models
@@ -22,7 +24,7 @@ namespace festival.Server.Models
             
             using (var connection = db.connection)
             {
-                string sql = $"INSERT INTO vagt (Vagtid) VALUES ({item.Vagtid})";
+                string sql = $"INSERT INTO Vagt (Vagtid) VALUES ({item.Vagtid})";
                 var Items = connection.Execute(sql);
             }
             //  string sql = $"INSERT INTO vagt (vagttid, arbejdspladsid, frivilligid, koordinatorid, dateStart,tidstart,tidslut, optagetledig, antalpoint) values ({item.Vagtid}, {item.Arbejdspladsid}), {item.Frivilligid}, {item.Koordinatorid},{item.DateStart},{item.Tidstart},{item.Tidslut},{item.Optagetledig},{item.Antalpoint}";

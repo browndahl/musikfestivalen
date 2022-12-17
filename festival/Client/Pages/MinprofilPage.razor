@@ -38,8 +38,6 @@
             <InputSelect id="Navn" @bind-Value=@frivilligid class="form-control rounded-2">
 
 
-
-
                 @foreach (var get in gets)
                 {
                     <option value="@get.Frivilligid"> @get.Fornavn @get.Efternavn (@get.Frivilligid) </option>
@@ -48,22 +46,28 @@
 
                 }
             </InputSelect>
-        </div>
+
+            <br /><br />
+    <tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
+    <br /><br />
+
+
+    </div>
 
 
 
-        <div class="col-sm-6 card bg-Light rounded-3 border border-3 border border-dark" style="width: 26rem; margin-left:135px;">
-            <h5 class="card-title"> Info</h5>
-            <p class="card-text"> FrivilligID: @frivilligid </p>
-            <p class="card-text"> Navn: @fornavn @efternavn </p>
-            <p class="card-text"> Valgt frivillig: @frivilligid </p>
-            <p class="card-text"> Adresse: @adresse </p>
-            <p class="card-text"> Tlf: @tlf </p>
-            <p class="card-text"> Email: @email </p>
-            <p class="card-text"> Alder: @alder </p>
-            <p class="card-text">  Antal Point: @antalPoint </p>
-            <br />
-        </div>
+    <div class="col-sm-6 card bg-Light rounded-3 border border-3 border border-dark" style="width: 26rem; margin-left:135px;">
+        <h5 class="card-title"> Info</h5>
+        <p class="card-text"> FrivilligID: @frivilligid </p>
+        <p class="card-text"> Navn: @fornavn @efternavn </p>
+        <p class="card-text"> Valgt frivillig: @frivilligid </p>
+        <p class="card-text"> Adresse: @adresse </p>
+        <p class="card-text"> Tlf: @tlf </p>
+        <p class="card-text"> Email: @email </p>
+        <p class="card-text"> Alder: @alder </p>
+        <p class="card-text">  Samlet antal Point: @antalPoint </p>
+        <br />
+    </div>
     </div>
 </EditForm>
 

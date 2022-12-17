@@ -31,17 +31,18 @@ namespace festival.Server.Models
 
         }
 
-        public bool DeleteItem(int id)
+        public bool DeleteFrivillige(int id)
         {
             throw new NotImplementedException();
-            /**
-            FilterDefinition<Fri> item = Builders<Koordinator>.Filter.Eq("id", id);
-            var deletedItem = db.Items.FindOneAndDelete(item);
-            if (deletedItem != null)
-                return true;
-            else
-                return false;
-            *///
+
+            /*
+            using (var connection = db.connection)
+            {
+                string sql = "DELETE FROM frivillige WHERE frivilligid " + id ;
+                var Items = connection.Execute(sql);
+
+            }
+            */
         }
 
         public bool UpdateItem(Frivillige item)

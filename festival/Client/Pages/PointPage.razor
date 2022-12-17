@@ -4,6 +4,7 @@
 @inject HttpClient Http
 @using System.Runtime.ConstrainedExecution;
 @using System.Net.Http;
+
 @using Npgsql;
 @using Dapper;
 
@@ -15,52 +16,51 @@
 
 Velkommen til scoreboard
 
+ 
+
+
 @if (gets == null)
 {
-    <p><em>Loading...</em></p>
+<p><em>Loading...</em></p>
 }
 else //Oprettelse af table
 {
-    <table class="table">
-        <thead>
-            <tr>
-
-                <th>Fornavn</th>
-                <th>Efternavn</th>
-                <th>Telefon</th>
-                <th>Samlet antal point</th>
-
-
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fornavn</th>
+            <th>Samlet antal point</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var maxPoints = gets.Max(f => f.Samletantalpoint);
+        }
+        @foreach (var get in gets)
+        {
+            <tr class="@(get.Samletantalpoint == maxPoints ? "highlight-row" : "")">
+                <td>@get.Fornavn @get.Efternavn</td>
+                <td>@get.Samletantalpoint</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var get in gets) //var get in gets -- tidligeree
-            {
-
-                <tr>
-                    <td>@get.</td>
-                    <td>@get.</td>
-                    <td>@get.</td>
-                    <td>@get.</td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 }
 
 
 
-@code { 
+@code {
     [Inject]
-    public IKoordinatorService KoordinatorService { get; set; }
+    public IFrivilligeService FrivilligeService { get; set; }
 
-    public List<Koordinator> gets = new List<Koordinator>();
+    public List<Frivillige> gets = new List<Frivillige>();
+
 
     protected override async Task OnInitializedAsync()
-
     {
-        gets = (await KoordinatorService.GetAllKoordinator()).ToList();
-
+        gets = (await FrivilligeService.GetAllFrivillige())
+            .OrderByDescending(f => f.Samletantalpoint)
+            .ToList();
     }
+
 }
