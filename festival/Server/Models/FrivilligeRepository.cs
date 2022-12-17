@@ -8,6 +8,8 @@ using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
 using Dapper;
+using System.Diagnostics.Metrics;
+using System.Net;
 
 //[BEMÆRK] Repository for frivillige 
 namespace festival.Server.Models
@@ -22,13 +24,9 @@ namespace festival.Server.Models
 
             using (var connection = db.connection)
             {
-                string sql = $"INSERT INTO frivillige (Frivilligid, Fornavn, Efternavn, Alder, Email,Tlf,Adresse) VALUES ({item.Frivilligid}, {item.Fornavn}), {item.Efternavn}, {item.Alder},{item.Email},{item.Tlf},{item.Adresse}";
-                var Items = connection.Execute(sql);
+                string sql2 = $"INSERT INTO frivillige (frivilligid, fornavn, efternavn, alder, email, tlf, adresse) VALUES ({item.Frivilligid}, '{item.Fornavn}', '{item.Efternavn}', {item.Alder}, '{item.Email}', '{item.Tlf}', '{item.Adresse}')";
+                var items = connection.Execute(sql2);
             }
-
-            //db.Items.InsertOne(item);
-            //throw new NotImplementedException();
-
         }
 
         public bool DeleteFrivillige(int id)
@@ -72,8 +70,8 @@ namespace festival.Server.Models
         {
             using (var connection = db.connection)
             {
-                string sql = "SELECT * FROM frivillige";
-                var Items = connection.Query<Frivillige>(sql);
+                string sql3 = "SELECT * FROM frivillige";
+                var Items = connection.Query<Frivillige>(sql3);
 
                 foreach (var item in Items)
                 {

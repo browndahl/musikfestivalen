@@ -12,15 +12,88 @@
 @page "/koordinator"
 
 
-
 <PageTitle>Koordinator - Tilføjelse af vagter</PageTitle>
 
 
 
-<h1>Nedeunder kan du som koordinator oprette vagter</h1>
+
+<h2>Indsæt venligt personlige oplysninger på den frivillige</h2>
+
+<br />
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
 
 
+    <!---Fornavn-->
+    <form class="row g-3">
+        <div class="col-sm-6 ">
+            <label for="Fornavn">Fornavn</label>
+            <InputText id="Fornavn" @bind-Value="Fornavn" class="form-control" />
+            <ValidationMessage For="@(() => Fornavn)" />
+        </div>
 
+
+        <!---Efternavn-->
+        <div class="col-sm-6">
+            <label for="Efternavn">Efternavn</label>
+            <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
+            <ValidationMessage For="@(() => Efternavn)" />
+        </div>
+
+        <!---Tlf-->
+        <div class="col-sm-6">
+            <label for="Tlf">Tlf</label>
+            <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
+            <ValidationMessage For="@(() => Tlf)" />
+        </div>
+
+        <!---Adresse-->
+        <div class="col-sm-6">
+            <label for="Adresse">Adresse</label>
+            <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
+            <ValidationMessage For="@(() => Adresse)" />
+        </div>
+
+        <!--Email-->
+        <div class="col-sm-6">
+            <label for="Email">Email</label>
+            <InputText id="Email" @bind-Value="Email" class="form-control" />
+            <ValidationMessage For="@(() => Email)" />
+        </div>
+
+        <!---Alder-->
+        <div class="col-sm-4">
+            <label for="Alder">Alder</label>
+            <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
+                         ParsingErrorMessage=" The {0} field has an invalid value."
+                         DisplayName="Antal" />
+            <ValidationMessage For="@(() => Alder)" />
+        </div>
+
+        <!---Frivilligid-->
+        <div class="col-sm-2">
+            <label for="Frivilligid">Frivilligid</label>
+            <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
+                         ParsingErrorMessage=" The {0} field has an invalid value."
+                         DisplayName="Frivilligid" />
+            <ValidationMessage For="@(() => Frivilligid)" />
+        </div>
+        <br />
+        <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+
+
+    </form>
+
+
+</EditForm>
+
+<br />
+<br />
+<br />
+
+<h2>Indsæt oplysning i formen for at oprette en vagt</h2>
 
 <EditForm EditContext="@EditContext"
           OnValidSubmit="@HandleValidSubmit"
@@ -29,7 +102,7 @@
 
 
 
-
+    <!---Arbejdsplads-->
     <div class="col-md-4 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Arbejdsplads</label>
@@ -54,6 +127,7 @@
             </InputSelect>
         </div>
     </div>
+
     <!---Vagtid-->
     <div class="col-md-4 mb-3">
         <label for="Vagtid">Vagtid</label>
@@ -64,8 +138,6 @@
     </div>
 
 
-
-
     <!----Dato for vagt-->
     <div class="col-md-4 mb-3">
         <label for="Dag">Dag</label>
@@ -73,30 +145,23 @@
     </div>
 
 
-
-
     <!----Tidstart for vagt-->
     <div class="col-md-4 mb-3">
-        <label for="tidstart">Tidstart - Bemærk tiden er altid helt, som i 15:00 eller 18:00 - Vælg op til 24</label>
+        <label for="tidstart">Tidstart - 24h </label>
         <InputNumber id="Tidstart" @bind-Value="Tidstart" class="form-control" />
         <ValidationMessage For="@(() => Tidstart)" />
     </div>
 
-
-
     <!----Tidslut for vagt-->
     <div class="col-md-4 mb-3">
-        <label for="tidslut">Tidslut - Bemærk tiden er altid helt, som i 15:00 eller 18:00 - Vælg op til 24</label>
+        <label for="tidslut">Tidslut - 24h</label>
         <InputNumber id="Tidslut" @bind-Value="Tidslut" class="form-control" />
         <ValidationMessage For="@(() => Tidslut)" />
     </div>
 
-
-
-
     <!----Antal point-->
     <div class="col-md-4 mb-3">
-        <label for="Antal">Antal point - Den frivillige får x-antal point for denne vagt</label>
+        <label for="Antal">Antal point for vagt</label>
         <InputNumber id="Antalpoint" @bind-Value="Antalpoint" class="form-control"
                      ParsingErrorMessage=" The {0} field has an invalid value."
                      DisplayName="Antal" />
@@ -104,40 +169,37 @@
     </div>
 
 
-
-    <!----Arbejdsbeskrivelse-->
-    <div class="col-md-12 mb-3">
-        <label for="Arbejdsbeskrivelse">Arbejdsbeskrivelse</label>
-        <InputText id="Arbejdsbeskrivelse" @bind-Value="Arbejdsbeskrivelse" class="form-control" />
-        <ValidationMessage For="@(() => Arbejdsbeskrivelse)" />
-    </div>
-
-
-
     <button class="btn btn-primary" @onclick="AddVagtItemHandler">Opret vagt</button>
-
-
-
-
-    <h2>Booking: return code: @ErrorCode</h2>
-
-
 
 </EditForm>
 
 
-
-
-
 @code {
 
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+    private int ErrorCode { get; set; } = 0;
+    public int Frivilligid = 0;
+    public string Fornavn = "Indtast fornavn";
+    public string Efternavn = "Indtast efternavn";
+    public int Alder = 0;
+    public string Email = "Indtast email";
+    public string Tlf = "Indtast telefonnummer";
+    public string Adresse = "Indtast adresse";
+
+
+    //Tilføjer vores nye indtastet data til frivilligapi
+    private async void AddFrivilligItemHandler()
+    {
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+
+    }
 
 
     [Inject]
     public IArbejdspladsService ArbejdspladsService { get; set; }
     [Inject]
     public IVagtService VagtService { get; set; }
-    private int ErrorCode { get; set; } = 0;
 
 
 
@@ -148,15 +210,13 @@
     public int Arbejdspladsid = 0;
     public int Antalpersoner = 0;
     public string Arbejdspladsnavn = "Navn";
-    public string Arbejdsbeskrivelse = "Beskrivelse";
     public int Tidstart = 0;
     public int Tidslut = 0;
     public int Antalpoint = 0;
-    public int Frivilligid = 0;
     public bool Optagetledig = false;
     public int Koordinatorid = 0;
     public int Vagtid = 0;
-    public string Datodag = "Indtast dag";
+    public string Datodag = "indtast dag";
 
 
 
@@ -172,9 +232,6 @@
         Arbejdspladsid++;
     }
 
-
-
-
     //Henter vores data fra database
     public Arbejdsplads ValgtArbejdsplads = new Arbejdsplads();
     public List<Arbejdsplads> gets = new List<Arbejdsplads>();
@@ -186,7 +243,6 @@
             Console.WriteLine($"{f.Arbejdspladsid} {f.Arbejdspladsnavn} {f.Arbejdsbeskrivelse} ");
         }
         ValgtArbejdsplads = gets[0];
-
     }
 
 }

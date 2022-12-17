@@ -8,7 +8,6 @@ using festival.Client;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
-
 namespace festival.Shared.Models
 {
     public class Koordinator
