@@ -6,19 +6,20 @@
 @using System.Net.Http;
 @using Npgsql;
 @using Dapper;
-@using System.Net;
-@using System;
-@using System.Collections.Generic;
-@using System.Linq;
-@using System.Text;
-@using System.Threading.Tasks;
-@using Npgsql;
-@using Dapper;
+
+
 
 @page "/koordinator"
 
+
+
 <PageTitle>Koordinator - Tilføjelse af vagter</PageTitle>
+
+
+
 <h1>Nedeunder kan du som koordinator oprette vagter</h1>
+
+
 
 
 <EditForm EditContext="@EditContext"
@@ -26,8 +27,35 @@
           OnInvalidSubmit="@HandleInvalidSubmit"
           class="row p-3">
 
+
+
+
+    <div class="col-md-4 mb-3">
+        <div class="form-check">
+            <label for="vagter">Vælg Arbejdsplads</label>
+            <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
+
+
+
+
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Arbejdspladsid">
+                        <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
+                        @get.Arbejdspladsnavn
+
+
+
+                    </option>
+
+
+
+                }
+            </InputSelect>
+        </div>
+    </div>
     <!---Vagtid-->
-    <div class="col-md-6 mb-3">
+    <div class="col-md-4 mb-3">
         <label for="Vagtid">Vagtid</label>
         <InputNumber id="Vagtid" @bind-Value="Vagtid" class="form-control"
                      ParsingErrorMessage=" The {0} field has an invalid value."
@@ -35,28 +63,130 @@
         <ValidationMessage For="@(() => Vagtid)" />
     </div>
 
+
+
+
+    <!----Dato for vagt-->
+    <div class="col-md-4 mb-3">
+        <label for="Dag">Dag</label>
+        <InputText id="Datodag" @bind-Value="Datodag" class="form-control" />
+    </div>
+
+
+
+
+    <!----Tidstart for vagt-->
+    <div class="col-md-4 mb-3">
+        <label for="tidstart">Tidstart - Bemærk tiden er altid helt, som i 15:00 eller 18:00 - Vælg op til 24</label>
+        <InputNumber id="Tidstart" @bind-Value="Tidstart" class="form-control" />
+        <ValidationMessage For="@(() => Tidstart)" />
+    </div>
+
+
+
+    <!----Tidslut for vagt-->
+    <div class="col-md-4 mb-3">
+        <label for="tidslut">Tidslut - Bemærk tiden er altid helt, som i 15:00 eller 18:00 - Vælg op til 24</label>
+        <InputNumber id="Tidslut" @bind-Value="Tidslut" class="form-control" />
+        <ValidationMessage For="@(() => Tidslut)" />
+    </div>
+
+
+
+
+    <!----Antal point-->
+    <div class="col-md-4 mb-3">
+        <label for="Antal">Antal point - Den frivillige får x-antal point for denne vagt</label>
+        <InputNumber id="Antalpoint" @bind-Value="Antalpoint" class="form-control"
+                     ParsingErrorMessage=" The {0} field has an invalid value."
+                     DisplayName="Antal" />
+        <ValidationMessage For="@(() => Antalpoint)" />
+    </div>
+
+
+
+    <!----Arbejdsbeskrivelse-->
+    <div class="col-md-12 mb-3">
+        <label for="Arbejdsbeskrivelse">Arbejdsbeskrivelse</label>
+        <InputText id="Arbejdsbeskrivelse" @bind-Value="Arbejdsbeskrivelse" class="form-control" />
+        <ValidationMessage For="@(() => Arbejdsbeskrivelse)" />
+    </div>
+
+
+
     <button class="btn btn-primary" @onclick="AddVagtItemHandler">Opret vagt</button>
+
+
+
+
     <h2>Booking: return code: @ErrorCode</h2>
+
+
 
 </EditForm>
 
 
 
+
+
 @code {
+
+
+
+    [Inject]
+    public IArbejdspladsService ArbejdspladsService { get; set; }
     [Inject]
     public IVagtService VagtService { get; set; }
-    private int ErrorCode { get; set; }
+    private int ErrorCode { get; set; } = 0;
+
+
 
     //Vores default værdi til vores forms
+
+
+
+    public int Arbejdspladsid = 0;
+    public int Antalpersoner = 0;
+    public string Arbejdspladsnavn = "Navn";
+    public string Arbejdsbeskrivelse = "Beskrivelse";
+    public int Tidstart = 0;
+    public int Tidslut = 0;
+    public int Antalpoint = 0;
+    public int Frivilligid = 0;
+    public bool Optagetledig = false;
+    public int Koordinatorid = 0;
     public int Vagtid = 0;
+    public string Datodag = "Indtast dag";
+
+
+
 
     //Tilføjer vores nye indtastet data til vagtapi
     private async void AddVagtItemHandler()
     {
-        Vagt item = new Vagt(Vagtid);
+
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: Tidstart, tidslut: Tidslut, antalpoint: Antalpoint, datodag: Datodag, arbejdspladsnavn: Arbejdspladsnavn);
+        //Console.WriteLine(item.Arbejdspladsid);
         ErrorCode = await VagtService.AddItem(item);
         Console.WriteLine(ErrorCode);
+        Arbejdspladsid++;
     }
 
+
+
+
+    //Henter vores data fra database
+    public Arbejdsplads ValgtArbejdsplads = new Arbejdsplads();
+    public List<Arbejdsplads> gets = new List<Arbejdsplads>();
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+        foreach (Arbejdsplads f in gets)
+        {
+            Console.WriteLine($"{f.Arbejdspladsid} {f.Arbejdspladsnavn} {f.Arbejdsbeskrivelse} ");
+        }
+        ValgtArbejdsplads = gets[0];
+
+    }
 
 }

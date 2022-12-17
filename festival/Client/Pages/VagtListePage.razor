@@ -21,7 +21,7 @@
 
     {
 
-        Dag = vagt.DatoDag;
+        Dag = vagt.Datodag;
         dage.Add(Dag);
 
     }
@@ -60,7 +60,7 @@
                 @foreach (var vagt in vagter)
                 {
                     //Looper over alle vagter, og tilføjer information om vagten under den tilsvarende dag -> kalendersystem
-                    if (vagt.DatoDag == dag)
+                    if (vagt.Datodag == dag)
                     {
                         foreach (var arbejde in arbejdspladser)
                         {
@@ -108,6 +108,8 @@
     public DateTime? dato = DateTime.Now;
     public Vagt ValgtVagt = new Vagt();
     public string Dag = "";
+    public string Datodag = "";
+
 
     // Tomme placeholders for arbejdspladser
     public string? arbejdspladsNavn = "";

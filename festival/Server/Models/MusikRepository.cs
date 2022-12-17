@@ -8,31 +8,22 @@ using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
 using Dapper;
-using System.Diagnostics.Metrics;
-using System.Net;
 
-//[BEMÆRK] Repository for vagt 
+//[BEMÆRK] Repository for koordinator 
 namespace festival.Server.Models
 {
-    internal class VagtRepository : IVagtRepository
+    internal class MusikRepository : IMusikRepository
     {
         DBContext db = new DBContext();
 
 
-        public void AddItem(Vagt item)
+        public void AddItem(Musik item)
         {
-
-            using (var connection = db.connection)
-            {
-                string sql1 = $"INSERT INTO vagt (vagtid, arbejdspladsid, frivilligid, koordinatorid, antalpoint, tidstart, tidslut, datodag) values ({item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid},{item.Antalpoint}, {item.Tidstart},{item.Tidslut}, '{item.Datodag}')";
-                var Items = connection.Execute(sql1);
-            }
-
-            //throw new NotImplementedException();
+            //db.Items.InsertOne(item);
+            throw new NotImplementedException();
 
         }
-        //Query = Select
-        //Execute = Insert, delete og de andre 
+
         public bool DeleteItem(int id)
         {
             throw new NotImplementedException();
@@ -46,12 +37,12 @@ namespace festival.Server.Models
             *///
         }
 
-        public bool UpdateItem(Vagt item)
+        public bool UpdateItem(Musik item)
         {
             throw new NotImplementedException();
         }
 
-        public Vagt FindItem(int id)
+        public Musik FindItem(int id)
         {
             throw new NotImplementedException();
 
@@ -69,17 +60,16 @@ namespace festival.Server.Models
            */
         }
 
-        public List<Vagt> GetAllVagt()
+        public List<Musik> GetAllMusik()
         {
             using (var connection = db.connection)
             {
-                string sql = "SELECT * FROM vagt";
-                var Items = connection.Query<Vagt>(sql);
+                string sql = "SELECT * FROM musik";
+                var Items = connection.Query<Musik>(sql);
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.Vagtid}");
-                    //Console.WriteLine($"{item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid}");
+                    Console.WriteLine($"{item.Musikid}, {item.Musiknavn}, {item.Datodag}");
 
                 }
                 return Items.ToList();

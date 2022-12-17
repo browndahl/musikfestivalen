@@ -33,15 +33,19 @@ else //Oprettelse af table
         </tr>
     </thead>
     <tbody>
+        
         @{
-            var maxPoints = gets.Max(f => f.Samletantalpoint);
+            //var maxPoints = gets.Max(f => f.Samletantalpoint);
         }
+        
         @foreach (var get in gets)
         {
-            <tr class="@(get.Samletantalpoint == maxPoints ? "highlight-row" : "")">
-                <td>@get.Fornavn @get.Efternavn</td>
-                <td>@get.Samletantalpoint</td>
-            </tr>
+               <tr>
+                   <!--<trclass="@(get.Samletantalpoint == maxPoints ? "highlight-row" : "")">-->
+                   <td>@get.Fornavn @get.Efternavn</td>
+                   <td>@get.Samletantalpoint</td>
+               </tr>
+                
         }
     </tbody>
 </table>

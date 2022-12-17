@@ -11,6 +11,8 @@ builder.Services.AddScoped<IKoordinatorRepository, KoordinatorRepository>();
 builder.Services.AddScoped<IVagtRepository, VagtRepository>();
 builder.Services.AddScoped<IFrivilligeRepository, FrivilligeRepository>();
 builder.Services.AddScoped<IArbejdspladsRepository, ArbejdspladsRepository>();
+builder.Services.AddScoped<IMusikRepository, MusikRepository>();
+
 
 
 var app = builder.Build();
