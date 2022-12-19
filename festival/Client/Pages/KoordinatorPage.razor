@@ -36,7 +36,6 @@
             <ValidationMessage For="@(() => Efternavn)" />
         </div>
 
-
         <div class="col-sm-6">
             <label for="Tlf">Tlf</label>
             <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
@@ -116,11 +115,7 @@
                         <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
                         @get.Arbejdspladsnavn
 
-
-
                     </option>
-
-
 
                 }
             </InputSelect>
@@ -223,9 +218,6 @@
         Console.WriteLine(ErrorCode);
         Frivilligid++;
     }
-
-
-
 
     //Henter vores data fra database
     public Arbejdsplads ValgtArbejdsplads = new Arbejdsplads();
