@@ -74,6 +74,10 @@
             <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
         </div>
 
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="UpdateFrivilligHandler">Opdater frivillig</button>
+        </div>
+
     </form>
 
 
@@ -112,7 +116,14 @@
         Frivilligid++;
     }
 
-
+    //Opdaterer kontakt info for eksisterende frivillig
+    private async Task UpdateFrivilligHandler()
+    {
+        Console.WriteLine("In update");
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+            ErrorCode = await FrivilligeService.UpdateFrivillig(item);
+            Console.WriteLine(ErrorCode); 
+    }
 
 
 }

@@ -18,7 +18,7 @@ namespace festival.Server.Models
         Frivillige FindItem(int id);
         void AddFrivillige(Frivillige item);
         bool DeleteFrivillige(int id);
-        bool UpdateItem(Frivillige item);
+        bool UpdateFrivillig(Frivillige item);
 
     }
 }

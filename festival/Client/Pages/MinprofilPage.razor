@@ -220,7 +220,9 @@
 
 
         gets = (await FrivilligeService.GetAllFrivillige()).ToList();
+        gets = gets.OrderBy(y => y.Frivilligid).ToList();
         ValgtFrivillig = gets[0];
+        
 
 
 

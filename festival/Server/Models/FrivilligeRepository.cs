@@ -43,9 +43,15 @@ namespace festival.Server.Models
             */
         }
 
-        public bool UpdateItem(Frivillige item)
+        public bool UpdateFrivillig(Frivillige item)
         {
-            throw new NotImplementedException();
+            string sql4 = $"UPDATE frivillige " +
+                $"SET fornavn = '{item.Fornavn}', efternavn = '{item.Efternavn}', adresse = '{item.Adresse}', tlf = '{item.Tlf}', alder = {item.Alder}, email = '{item.Email}', samletantalpoint = {item.Samletantalpoint} " +
+                $"WHERE frivilligid = {item.Frivilligid}";
+            int rows = db.connection.Execute(sql4);
+            return rows > 0;
+
+           //throw new NotImplementedException();
         }
 
         public Frivillige FindItem(int id)

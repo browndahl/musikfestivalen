@@ -70,6 +70,7 @@ else //Oprettelse af table
     protected override async Task OnInitializedAsync()
     {
         gets = (await FrivilligeService.GetAllFrivillige()).ToList();
+        gets = gets.OrderBy(x => x.Frivilligid).ToList();
 
     }
 

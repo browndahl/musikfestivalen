@@ -72,5 +72,12 @@ namespace festival.Server.Controllers
             return result;
         }
 
+        [HttpPut]
+        public void Update(Frivillige item)
+        {
+            Repository.UpdateFrivillig(item);
+            Console.WriteLine("updated frillig");
+        }
+
     }
 }
