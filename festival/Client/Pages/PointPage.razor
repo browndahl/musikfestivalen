@@ -17,31 +17,18 @@
 
 
 <PageTitle>Scoreboard</PageTitle>
-
-
-
 <h1>Her kan du se scoreboard</h1>
 
-
-
 Velkommen til scoreboard
-
-
 
 
 <style>
     .highlight-row-1st {
         background-color: goldenrod;
     }
-
-
-
     .highlight-row-2nd {
         background-color: lightgreen;
     }
-
-
-
     .highlight-row-nullPoints {
         background-color: red
     }
@@ -55,8 +42,6 @@ else //Oprettelse af table
 {
     // Find the maximum value of "samletantalpoint" in the list
     var maxPoints = gets.Max(f => f.Samletantalpoint);
-
-
 
     <table class="table table-striped table-hover">
         <thead>
@@ -85,13 +70,7 @@ else //Oprettelse af table
     [Inject]
     public IFrivilligeService FrivilligeService { get; set; }
 
-
-
     public List<Frivillige> gets = new List<Frivillige>();
-
-
-
-
     protected override async Task OnInitializedAsync()
     {
         gets = (await FrivilligeService.GetAllFrivillige())

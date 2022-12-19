@@ -85,10 +85,7 @@
 
     </form>
 
-
-
     <h2>Booking: return code: @ErrorCode</h2>
-
 
 
 </EditForm>
@@ -99,8 +96,6 @@
     [Inject]
     public IFrivilligeService FrivilligeService { get; set; }
     private int ErrorCode { get; set; } = 0;
-
-
     public int Frivilligid = 0;
     public string Fornavn = "Indtast fornavn";
     public string Efternavn = "Indtast efternavn";
@@ -136,6 +131,14 @@
         Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
         ErrorCode = await FrivilligeService.DeleteFrivillige(item);
         Console.WriteLine(ErrorCode);
+    }
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige())
+            .OrderByDescending(f => f.Frivilligid)
+            .ToList();
     }
 
 

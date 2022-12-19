@@ -22,7 +22,7 @@
 <EditForm EditContext="@EditContext"
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit">
-    <!---Fornavn-->
+
     <form class="row g-3">
         <div class="col-sm-6 ">
             <label for="Fornavn">Fornavn</label>
@@ -30,36 +30,32 @@
             <ValidationMessage For="@(() => Fornavn)" />
         </div>
 
-
-        <!---Efternavn-->
         <div class="col-sm-6">
             <label for="Efternavn">Efternavn</label>
             <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
             <ValidationMessage For="@(() => Efternavn)" />
         </div>
 
-        <!---Tlf-->
+
         <div class="col-sm-6">
             <label for="Tlf">Tlf</label>
             <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
             <ValidationMessage For="@(() => Tlf)" />
         </div>
 
-        <!---Adresse-->
         <div class="col-sm-6">
             <label for="Adresse">Adresse</label>
             <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
             <ValidationMessage For="@(() => Adresse)" />
         </div>
 
-        <!--Email-->
+
         <div class="col-sm-6">
             <label for="Email">Email</label>
             <InputText id="Email" @bind-Value="Email" class="form-control" />
             <ValidationMessage For="@(() => Email)" />
         </div>
 
-        <!---Alder-->
         <div class="col-sm-4">
             <label for="Alder">Alder</label>
             <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
@@ -68,7 +64,6 @@
             <ValidationMessage For="@(() => Alder)" />
         </div>
 
-        <!---Frivilligid-->
         <div class="col-sm-2">
             <label for="Frivilligid">Frivilligid</label>
             <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
@@ -76,14 +71,22 @@
                          DisplayName="Frivilligid" />
             <ValidationMessage For="@(() => Frivilligid)" />
         </div>
-        <br />
-        <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
 
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+        </div>
 
+       
     </form>
 
 
+
+    <h2>Booking: return code: @ErrorCode</h2>
+
+
 </EditForm>
+
+
 
 <br />
 <br />
@@ -183,15 +186,6 @@
     public string Tlf = "Indtast telefonnummer";
     public string Adresse = "Indtast adresse";
 
-
-    //Tilføjer vores nye indtastet data til frivilligapi
-    private async void AddFrivilligItemHandler()
-    {
-        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
-
-    }
-
-
     [Inject]
     public IArbejdspladsService ArbejdspladsService { get; set; }
     [Inject]
@@ -200,9 +194,6 @@
 
 
     //Vores default værdi til vores forms
-
-
-
     public int Arbejdspladsid = 0;
     public int Antalpersoner = 0;
     public string Arbejdspladsnavn = "Navn";
@@ -224,6 +215,17 @@
         Console.WriteLine(ErrorCode);
         Arbejdspladsid++;
     }
+    //Tilføjer vores nye indtastet data til frivilligapi
+    private async void AddFrivilligItemHandler()
+    {
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        ErrorCode = await FrivilligeService.AddFrivillige(item);
+        Console.WriteLine(ErrorCode);
+        Frivilligid++;
+    }
+
+
+
 
     //Henter vores data fra database
     public Arbejdsplads ValgtArbejdsplads = new Arbejdsplads();
