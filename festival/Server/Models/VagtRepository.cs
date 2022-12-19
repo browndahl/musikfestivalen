@@ -33,23 +33,31 @@ namespace festival.Server.Models
         }
         //Query = Select
         //Execute = Insert, delete og de andre 
-        public bool DeleteItem(int id)
+        public bool DeleteVagt(int id)
         {
-            throw new NotImplementedException();
-            /**
-            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
-            var deletedItem = db.Items.FindOneAndDelete(item);
-            if (deletedItem != null)
-                return true;
-            else
-                return false;
-            *///
+            string sql6 = $"DELETE FROM vagt " +
+                         $"WHERE vagtid = {id}";
+            using (var connection = db.connection)
+            {
+                int rows = db.connection.Execute(sql6);
+                return rows > 0;
+            }
+
         }
 
-        public bool UpdateItem(Vagt item)
+        public bool UpdateVagt(Vagt item)
         {
-            throw new NotImplementedException();
+            string sql7 = $"UPDATE vagt " +
+                $"SET vagtid = {item.Vagtid}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid = {item.Frivilligid}, koordinatorid = {item.Koordinatorid}, tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}, arbejdspladsnavn ='{item.Arbejdspladsnavn}',datodag='{item.Datodag}', dato='{item.Dato}'" +
+                $"WHERE vagtid = {item.Vagtid}";
+            int rows = db.connection.Execute(sql7);
+            return rows > 0;
+
         }
+
+        //$"SET vagtid = {item.Vagtid}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid = {item.Frivilligid}, koordinatorid = {item.Koordinatorid}, tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, optagetledig = {item.Optagetledig}, antalpoint ={item.Antalpoint}, arbejdspladsnavn ='{item.Arbejdspladsnavn}',datodag='{item.Datodag}', dato='{item.Dato}'" +
+        // $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}" +
+
 
         public Vagt FindItem(int id)
         {

@@ -16,8 +16,8 @@ namespace festival.Server.Models
         List<Vagt> GetAllVagt();
         Vagt FindItem(int id);
         void AddItem(Vagt item);
-        bool DeleteItem(int id);
-        bool UpdateItem(Vagt item);
+        bool DeleteVagt(int id);
+        bool UpdateVagt(Vagt item);
 
     }
 }

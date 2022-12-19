@@ -27,9 +27,9 @@ namespace festival.Client.Services
 
         Task<int> AddItem(Vagt item);
 
-        Task<int> DeleteItem(Vagt item);
+        Task<int> DeleteVagt(Vagt data);
 
-        Task<int> updateItem(Vagt item);
+        Task<int> UpdateVagt(Vagt data);
     }
 
 }

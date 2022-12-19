@@ -92,7 +92,54 @@
         </table>
 
 
+
+
+
+      
 }
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
+
+
+    <div class="col-md-4 mb-3">
+        <label for="TidStart">TidStart - 24h </label>
+        <InputNumber id="TidStart" @bind-Value="TidStart" class="form-control" />
+        <ValidationMessage For="@(() => TidStart)" />
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <label for="TidSlut">TidSlut - 24h </label>
+        <InputNumber id="TidSlut" @bind-Value="TidSlut" class="form-control" />
+        <ValidationMessage For="@(() => TidSlut)" />
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <label for="AntalPoint">AntalPoint</label>
+        <InputNumber id="AntalPoint" @bind-Value="AntalPoint" class="form-control" />
+        <ValidationMessage For="@(() => AntalPoint)" />
+    </div>
+
+    <div class="col-sm-2">
+        <label for="Vagtid">Vagtid</label>
+        <InputNumber id="Vagtid" @bind-Value="Vagtid" class="form-control"
+                     ParsingErrorMessage=" The {0} field has an invalid value."
+                     DisplayName="Vagtid" />
+        <ValidationMessage For="@(() => Vagtid)" />
+    </div>
+
+    <div class="col-sm-12">
+        <button class="btn btn-primary" @onclick="UpdateVagtHandler">Opdater frivillig</button>
+    </div>
+
+    <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
+    <div class="col-sm-12">
+        <button class="btn btn-primary" @onclick="DeleteVagtHandler">Delete vagt</button>
+    </div>
+
+
+</EditForm>
 
 
 
@@ -100,16 +147,21 @@
 
 @code {
     // Tomme placeholders for Vagter
-    public int? arbejdspladsid = 0;
-    public int? vagtid = 0;
-    public int? tidStart = 0;
-    public int? tidSlut = 0;
-    public int? antalPoint = 0;
+    public int Arbejdspladsid = 0;
+    public int Vagtid = 0;
+    public int TidStart = 0;
+    public int TidSlut = 0;
+    public int AntalPoint = 0;
     public DateTime? dato = DateTime.Now;
     public Vagt ValgtVagt = new Vagt();
     public string Dag = "";
     public string Datodag = "";
+    public int Frivilligid = 0;
+    public int Koordinatorid = 0;
+    public bool Optagetledig = false;
+    public string Arbejdspladsnavn = "";
 
+    private int ErrorCode { get; set; } = 0;
 
     // Tomme placeholders for arbejdspladser
     public string? arbejdspladsNavn = "";
@@ -121,6 +173,8 @@
     public IVagtService VagtService { get; set; }
     [Inject]
     public IArbejdspladsService ArbejdspladsService { get; set; }
+    [Inject]
+    public IKoordinatorService KoordinatorService { get; set; }
 
 
     public List<Vagt> vagter = new List<Vagt>();
@@ -135,4 +189,30 @@
         arbejdspladser = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
 
     }
+
+
+    //Opdaterer vagt info for eksisterende vagter
+    private async Task UpdateVagtHandler()
+    {
+        Console.WriteLine("In update");
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+        ErrorCode = await VagtService.UpdateVagt(item);
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+    }
+
+
+    //Sletter valgte vagt
+    private async Task DeleteVagtHandler()
+    {
+        Console.WriteLine("Deleting");
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+        ErrorCode = await VagtService.DeleteVagt(item);
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+    }
+
 }

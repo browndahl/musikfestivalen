@@ -53,15 +53,19 @@ namespace festival.Client.Services
 
         }
 
-        public async Task<int> DeleteItem(Vagt id)
+        public async Task<int> DeleteVagt(Vagt vagt)
         {
-            throw new NotImplementedException();
+            var result = await httpClient.DeleteAsync("api/vagtapi/" + vagt.Vagtid);
+            return (int)result.StatusCode;
 
         }
 
-        public async Task<int> updateItem(Vagt item)
+        public async Task<int> UpdateVagt(Vagt item)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("In service update vagt");
+            var result = await httpClient.PutAsJsonAsync("api/vagtapi", item);
+            return (int)result.StatusCode;
+            //throw new NotImplementedException();
         }
     }
 }
