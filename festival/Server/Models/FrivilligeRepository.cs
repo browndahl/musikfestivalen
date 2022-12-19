@@ -24,7 +24,7 @@ namespace festival.Server.Models
 
             using (var connection = db.connection)
             {
-                string sql2 = $"INSERT INTO frivillige (frivilligid, fornavn, efternavn, alder, email, tlf, adresse) VALUES ({item.Frivilligid}, '{item.Fornavn}', '{item.Efternavn}', {item.Alder}, '{item.Email}', '{item.Tlf}', '{item.Adresse}')";
+                string sql2 = $"INSERT INTO frivillige (frivilligid, fornavn, efternavn, alder, email, tlf, adresse, samletantalpoint) VALUES ({item.Frivilligid}, '{item.Fornavn}', '{item.Efternavn}', {item.Alder}, '{item.Email}', '{item.Tlf}', '{item.Adresse}', {item.Samletantalpoint})";
                 var items = connection.Execute(sql2);
             }
         }

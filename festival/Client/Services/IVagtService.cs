@@ -30,6 +30,8 @@ namespace festival.Client.Services
         Task<int> DeleteVagt(Vagt data);
 
         Task<int> UpdateVagt(Vagt data);
+
+        Task<int> UpdateVagt2(Vagt data);
     }
 
 }

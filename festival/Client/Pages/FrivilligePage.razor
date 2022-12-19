@@ -108,12 +108,13 @@
     public string Email = "Indtast email";
     public string Tlf = "Indtast telefonnummer";
     public string Adresse = "Indtast adresse";
+    public int Samletantalpoint = 0;
 
 
     //Tilføjer vores nye indtastet data til frivilligapi
     private async void AddFrivilligItemHandler()
     {
-        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse, samletantalpoint: Samletantalpoint);
         ErrorCode = await FrivilligeService.AddFrivillige(item);
         Console.WriteLine(ErrorCode);
         Frivilligid++;

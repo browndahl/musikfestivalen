@@ -167,94 +167,132 @@
 </EditForm>
 
 
-@code {
-    // Tomme placeholders for Vagter
-    public int Arbejdspladsid = 0;
-    public int Vagtid = 0;
-    public int TidStart = 0;
-    public int TidSlut = 0;
-    public int AntalPoint = 0;
-    public DateTime? dato = DateTime.Now;
-    public Vagt ValgtVagt = new Vagt();
-    public string Dag = "";
-    public string Datodag = "";
-    public int Frivilligid = 0;
-    public int Koordinatorid = 0;
-    public bool Optagetledig = false;
-    public string Arbejdspladsnavn = "";
-    public string Arbejdsbeskrivelse = "";
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit"
+          class="row p-3">
 
-    private int ErrorCode { get; set; } = 0;
-
-    // Tomme placeholders for arbejdspladser
-    public string? arbejdspladsNavn = "";
+    
 
 
-    //Henter vores shelter-data fra mongo(database)
+            <label for="vagter">Vælg Person</label>
 
-    [Inject]
-    public IVagtService VagtService { get; set; }
-    [Inject]
-    public IArbejdspladsService ArbejdspladsService { get; set; }
-    [Inject]
-    public IKoordinatorService KoordinatorService { get; set; }
+            <InputSelect id="Navn" @bind-Value=@Frivilligid class="form-control rounded-2">
 
 
+                @foreach (var hent in henter)
+                {
+                    <option value="@hent.Frivilligid"> @hent.Fornavn @hent.Efternavn (@hent.Frivilligid) </option>
 
-    public List<Vagt> vagter = new List<Vagt>();
-    public List<Arbejdsplads> arbejdspladser = new List<Arbejdsplads>();
-    public List<Arbejdsplads> gets = new List<Arbejdsplads>();
+                }
+            </InputSelect>
 
-    protected override async Task OnInitializedAsync()
-    {
-        gets = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
-        vagter = (await VagtService.GetAllVagt()).ToList();
-        vagter = vagter.OrderBy(x => x.Vagtid).ToList();
-        ValgtVagt = vagter[0];
 
-        arbejdspladser = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+       
+
+</EditForm>
+
+
+    @code {
+        // Tomme placeholders for Vagter
+        public int Arbejdspladsid = 0;
+        public int Vagtid = 0;
+        public int TidStart = 0;
+        public int TidSlut = 0;
+        public int AntalPoint = 0;
+        public DateTime? dato = DateTime.Now;
+        public Vagt ValgtVagt = new Vagt();
+        public string Dag = "";
+        public string Datodag = "";
+        public int Frivilligid = 0;
+        public int Koordinatorid = 0;
+        public bool Optagetledig = false;
+        public string Arbejdspladsnavn = "";
+        public string Arbejdsbeskrivelse = "";
+        private int ErrorCode { get; set; } = 0;
+        public Frivillige ValgtFrivillig = new Frivillige();
+        
+
+        // Tomme placeholders for arbejdspladser
+        public string? arbejdspladsNavn = "";
+
+
+        //Henter vores shelter-data fra mongo(database)
+
+        [Inject]
+        public IVagtService VagtService { get; set; }
+        [Inject]
+        public IArbejdspladsService ArbejdspladsService { get; set; }
+        [Inject]
+        public IKoordinatorService KoordinatorService { get; set; }
+        [Inject]
+        public IFrivilligeService FrivilligeService { get; set; }
+
+
+
+        public List<Vagt> vagter = new List<Vagt>();
+        public List<Arbejdsplads> arbejdspladser = new List<Arbejdsplads>();
+        public List<Frivillige> henter = new List<Frivillige>();
+        public List<Arbejdsplads> gets = new List<Arbejdsplads>();
+
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            gets = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+            vagter = (await VagtService.GetAllVagt()).ToList();
+            vagter = vagter.OrderBy(x => x.Vagtid).ToList();
+            ValgtVagt = vagter[0];
+
+            henter = (await FrivilligeService.GetAllFrivillige()).ToList();
+            henter = henter.OrderBy(y => y.Frivilligid).ToList();
+            ValgtFrivillig = henter[0];
+
+
+
+            arbejdspladser = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+
+        }
+
+
+        //Opdaterer vagt info for eksisterende vagter
+        private async Task UpdateVagtHandler()
+        {
+            Console.WriteLine("In update");
+            Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+            ErrorCode = await VagtService.UpdateVagt(item);
+            //Arbejdsplads item2 = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+            //nt ErrorCode2 = await ArbejdspladsService.UpdateArbejdsplads(item2);
+            //int ErrorCode2 = await Arbejds blablabla Hvis vi vil binde - ÆUpdate arbejdsplads på den her
+            Console.WriteLine(ErrorCode);
+
+            vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+        }
+
+        //Opdaterer arbejdsplads
+
+        private async Task UpdateArbejdspladsHandler()
+        {
+            Console.WriteLine("In update");
+            Arbejdsplads item = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+            ErrorCode = await ArbejdspladsService.UpdateArbejdsplads(item);
+            Console.WriteLine(ErrorCode);
+
+            vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+        }
+
+
+        //Sletter valgte vagt
+        private async Task DeleteVagtHandler()
+        {
+            Console.WriteLine("Deleting");
+            Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+            ErrorCode = await VagtService.DeleteVagt(item);
+            Console.WriteLine(ErrorCode);
+
+            vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+        }
 
     }
-
-
-    //Opdaterer vagt info for eksisterende vagter
-    private async Task UpdateVagtHandler()
-    {
-        Console.WriteLine("In update");
-        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
-        ErrorCode = await VagtService.UpdateVagt(item);
-        //Arbejdsplads item2 = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
-        //nt ErrorCode2 = await ArbejdspladsService.UpdateArbejdsplads(item2);
-        //int ErrorCode2 = await Arbejds blablabla Hvis vi vil binde - ÆUpdate arbejdsplads på den her
-        Console.WriteLine(ErrorCode);
-
-        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
-
-    }
-
-    //Opdaterer arbejdsplads
-
-    private async Task UpdateArbejdspladsHandler()
-    {
-        Console.WriteLine("In update");
-        Arbejdsplads item = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
-        ErrorCode = await ArbejdspladsService.UpdateArbejdsplads(item);
-        Console.WriteLine(ErrorCode);
-
-        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
-
-    }
-
-
-    //Sletter valgte vagt
-    private async Task DeleteVagtHandler()
-    {
-        Console.WriteLine("Deleting");
-        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
-        ErrorCode = await VagtService.DeleteVagt(item);
-        Console.WriteLine(ErrorCode);
-
-        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
-    }
-
-}

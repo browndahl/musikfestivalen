@@ -80,5 +80,12 @@ namespace festival.Server.Controllers
             Console.WriteLine("updated vagt");
         }
 
+        [HttpPut]
+        public void Update2(Vagt item)
+        {
+            Repository.UpdateVagt2(item);
+            Console.WriteLine("updated vagt");
+        }
+
     }
 }

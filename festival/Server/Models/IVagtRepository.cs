@@ -18,6 +18,8 @@ namespace festival.Server.Models
         void AddItem(Vagt item);
         bool DeleteVagt(int id);
         bool UpdateVagt(Vagt item);
+        bool UpdateVagt2(Vagt item);
+
 
     }
 }
