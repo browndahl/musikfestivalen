@@ -19,9 +19,15 @@ namespace festival.Server.Models
 
         public void AddItem(Arbejdsplads item)
         {
-            //db.Items.InsertOne(item);
-            throw new NotImplementedException();
 
+            //throw new NotImplementedException();
+
+            using (var connection = db.connection)
+            {
+                string sql = "INSERT INTO arbejdsplads (arbejdspladsid, arbejdspladsnavn, antalpersoner, arbejdsbeskrivelse)";
+                var Items = connection.Query<Arbejdsplads>(sql);
+
+            }
         }
 
         public bool DeleteItem(int id)
@@ -72,6 +78,7 @@ namespace festival.Server.Models
                     Console.WriteLine($"{item.Arbejdspladsid}, {item.Arbejdsbeskrivelse}, {item.Antalpersoner}, {item.Arbejdsbeskrivelse}");
 
                 }
+
                 return Items.ToList();
             }
 

@@ -17,24 +17,24 @@ using Dapper;
 namespace festival.Server.Controllers
 {
     [ApiController]
-    [Route("api/vagtapi")]
-    public class VagtController : ControllerBase
+    [Route("api/musikapi")]
+    public class MusikController : ControllerBase
     {
-        private readonly IVagtRepository Repository = new VagtRepository();
+        private readonly IMusikRepository Repository = new MusikRepository();
 
-        public VagtController(IVagtRepository vagtRepository)
+        public MusikController(IMusikRepository musikRepository)
         {
-            if (Repository == null && vagtRepository != null)
+            if (Repository == null && musikRepository != null)
             {
-                Repository = vagtRepository;
+                Repository = musikRepository;
                 Console.WriteLine("Repository initialized");
             }
         }
 
         [HttpGet]
-        public IEnumerable<Vagt> GetAllVagt()
+        public IEnumerable<Musik> GetAllMusik()
         {
-            return Repository.GetAllVagt();
+            return Repository.GetAllMusik();
         }
 
         [HttpDelete("{id:int}")]
@@ -58,7 +58,7 @@ namespace festival.Server.Controllers
         }
 
         [HttpPost]
-        public void AddItem(Vagt item)
+        public void AddItem(Musik item)
         {
             Console.WriteLine("Add item called: " + item.ToString());
             Repository.AddItem(item);
@@ -66,7 +66,7 @@ namespace festival.Server.Controllers
 
 
         [HttpGet("{id:int}")]
-        public Vagt FindItem(int id)
+        public Musik FindItem(int id)
         {
             var result = Repository.FindItem(id);
             return result;

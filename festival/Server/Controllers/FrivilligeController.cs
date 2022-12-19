@@ -3,6 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using festival.Server.Models;
 using festival.Shared.Models;
 using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using festival.Client;
+using MongoDB.Driver;
+using Npgsql;
+using Dapper;
 
 namespace festival.Server.Controllers
 {
@@ -28,11 +37,12 @@ namespace festival.Server.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public StatusCodeResult DeleteItem(int id)
+        public StatusCodeResult DeleteFrivillige(int id)
         {
             Console.WriteLine("Server: Delete item called: id = " + id);
 
-            bool deleted = Repository.DeleteItem(id);
+            //Skal stå void her?
+            bool deleted = Repository.DeleteFrivillige(id);
             if (deleted)
             {
                 Console.WriteLine("Server: Item deleted succces");
@@ -48,10 +58,10 @@ namespace festival.Server.Controllers
         }
 
         [HttpPost]
-        public void AddItem(Frivillige item)
+        public void AddFrivillige(Frivillige item)
         {
-            Console.WriteLine("Add item called: " + item.ToString());
-            Repository.AddItem(item);
+            Console.WriteLine("Add frivillige called: " + item.ToString());
+            Repository.AddFrivillige(item);
         }
 
 

@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using festival.Shared.Models;
 using festival.Client;
+using MongoDB.Driver;
+using Npgsql;
+using Dapper;
+
 
 namespace festival.Server.Models
 {

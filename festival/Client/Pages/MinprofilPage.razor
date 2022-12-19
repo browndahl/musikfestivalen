@@ -1,0 +1,236 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+@page "/minprofil"
+
+
+
+<PageTitle>Min profil</PageTitle>
+
+
+
+<h1>Her kan du se status på din profil</h1>
+
+
+
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit"
+          class="row p-3">
+
+
+
+    <div class="row">
+        <div class="col-sm-6 form-check border border-3 border border-dark ">
+
+
+
+            <label for="vagter">Vælg Person</label>
+
+
+
+            <InputSelect id="Navn" @bind-Value=@frivilligid class="form-control rounded-2">
+
+
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Frivilligid"> @get.Fornavn @get.Efternavn (@get.Frivilligid) </option>
+
+
+
+                }
+            </InputSelect>
+
+            <br /><br />
+    <tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
+    <br /><br />
+
+
+    </div>
+
+
+
+    <div class="col-sm-6 card bg-Light rounded-3 border border-3 border border-dark" style="width: 26rem; margin-left:135px;">
+        <h5 class="card-title"> Info</h5>
+        <p class="card-text"> FrivilligID: @frivilligid </p>
+        <p class="card-text"> Navn: @fornavn @efternavn </p>
+        <p class="card-text"> Valgt frivillig: @frivilligid </p>
+        <p class="card-text"> Adresse: @adresse </p>
+        <p class="card-text"> Tlf: @tlf </p>
+        <p class="card-text"> Email: @email </p>
+        <p class="card-text"> Alder: @alder </p>
+        <p class="card-text">  Samlet antal Point: @antalPoint </p>
+        <br />
+    </div>
+    </div>
+</EditForm>
+
+
+
+
+
+
+
+@{
+    foreach (var frivillig in gets)
+    {
+        if (frivillig.Frivilligid == frivilligid)
+        {
+
+
+
+            ValgtFrivillig = frivillig;
+            adresse = frivillig.Adresse;
+            tlf = frivillig.Tlf;
+            fornavn = frivillig.Fornavn;
+            efternavn = frivillig.Efternavn;
+            email = frivillig.Email;
+            alder = frivillig.Alder;
+            antalPoint = frivillig.Samletantalpoint;
+            break;
+        }
+    }
+}
+
+
+
+
+<table class="table table-bordered border-dark border border-3">
+
+
+
+    <thead>
+        <tr>
+
+
+
+            <th>Frivilligid</th>
+            <th>Vagtid</th>
+            <th>Arbejdspladsid</th>
+            <th>DateStart</th>
+            <th>Antalpoint</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+
+        @{
+            //Looper gennem alle frivillige i frivilligelisten
+            foreach (var frivillig in gets)
+            {
+                if (frivillig.Frivilligid == frivilligid)
+                {
+                    //Looper gennem alle vagter i vagtlisten
+                    foreach (var vagt in vagter)
+                    {
+                        //Hvis frivillig id fra dropdown er lig frivilligid i vagtlisten, så laver vi html boks til hver vagt
+                        if (frivillig.Frivilligid == vagt.Frivilligid)
+                        {
+
+
+
+                            <tr>
+                                <td>@vagt.Frivilligid</td>
+                                <td>@vagt.Vagtid</td>
+                                <td>@vagt.Arbejdspladsid</td>
+                                <td>@vagt.Dato</td>
+                                <td>@vagt.Antalpoint</td>
+                            </tr>
+                        }
+
+
+
+                    }
+
+
+
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+@code {
+
+
+
+
+    //Default værdier for frivillige
+
+
+
+    public string fornavn = "Navn";
+    public string efternavn = "Navn";
+    public int frivilligid = 0;
+    public string adresse = "";
+    public string tlf = "";
+
+
+
+    public int? alder = 0;
+    public string email = "";
+    public int antalSamletPoint = 0;
+    public Frivillige ValgtFrivillig = new Frivillige();
+
+
+
+    // -II- Vagter
+    public int? arbejdspladsid = 0;
+    public int? vagtid = 0;
+    public int? tidStart = 0;
+    public int? tidSlut = 0;
+    public int? antalPoint = 0;
+    public DateTime? dato = DateTime.Now;
+    public Vagt ValgtVagt = new Vagt();
+
+
+
+
+
+
+    //Henter vores shelter-data fra mongo(database)
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+    [Inject]
+    public IVagtService VagtService { get; set; }
+
+
+
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    public List<Vagt> vagter = new List<Vagt>();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+        gets = (await FrivilligeService.GetAllFrivillige()).ToList();
+        ValgtFrivillig = gets[0];
+
+
+
+        vagter = (await VagtService.GetAllVagt()).ToList();
+        vagter = vagter.OrderBy(x => x.Vagtid).ToList();
+        ValgtVagt = vagter[0];
+    }
+
+
+
+
+
+}

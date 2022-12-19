@@ -8,7 +8,6 @@ using festival.Client;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
-
 namespace festival.Shared.Models
 {
     public class Koordinator
@@ -21,6 +20,7 @@ namespace festival.Shared.Models
         public string? Adresse { get; set; }
 
         //Constructor
+        
         public Koordinator(int koordinatorid = 0, string fornavn = "", string efternavn = "", string email = "", int tlf = 0, string adresse ="") //Constructor 
         {
             this.Koordinatorid = koordinatorid;

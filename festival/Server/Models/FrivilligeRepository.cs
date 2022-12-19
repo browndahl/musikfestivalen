@@ -8,6 +8,8 @@ using festival.Client;
 using MongoDB.Driver;
 using Npgsql;
 using Dapper;
+using System.Diagnostics.Metrics;
+using System.Net;
 
 //[BEMÆRK] Repository for frivillige 
 namespace festival.Server.Models
@@ -17,24 +19,28 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
-        public void AddItem(Frivillige item)
+        public void AddFrivillige(Frivillige item)
         {
-            //db.Items.InsertOne(item);
-            throw new NotImplementedException();
 
+            using (var connection = db.connection)
+            {
+                string sql2 = $"INSERT INTO frivillige (frivilligid, fornavn, efternavn, alder, email, tlf, adresse) VALUES ({item.Frivilligid}, '{item.Fornavn}', '{item.Efternavn}', {item.Alder}, '{item.Email}', '{item.Tlf}', '{item.Adresse}')";
+                var items = connection.Execute(sql2);
+            }
         }
 
-        public bool DeleteItem(int id)
+        public bool DeleteFrivillige(int id)
         {
             throw new NotImplementedException();
-            /**
-            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
-            var deletedItem = db.Items.FindOneAndDelete(item);
-            if (deletedItem != null)
-                return true;
-            else
-                return false;
-            *///
+
+            /*
+            using (var connection = db.connection)
+            {
+                string sql = "DELETE FROM frivillige WHERE frivilligid " + id ;
+                var Items = connection.Execute(sql);
+
+            }
+            */
         }
 
         public bool UpdateItem(Frivillige item)
@@ -64,12 +70,12 @@ namespace festival.Server.Models
         {
             using (var connection = db.connection)
             {
-                string sql = "SELECT * FROM frivillige";
-                var Items = connection.Query<Frivillige>(sql);
+                string sql3 = "SELECT * FROM frivillige";
+                var Items = connection.Query<Frivillige>(sql3);
 
                 foreach (var item in Items)
                 {
-                    Console.WriteLine($"{item.Frivilligeid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
+                    Console.WriteLine($"{item.Frivilligid}, {item.Fornavn}, {item.Efternavn}, {item.Tlf}");
 
                 }
                 return Items.ToList();

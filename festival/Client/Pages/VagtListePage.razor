@@ -1,0 +1,138 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+@using System.Data;
+@page "/vagtliste"
+
+<PageTitle>Vagt liste</PageTitle>
+
+<h1>Her kan du se ledige vagter</h1>
+
+@{
+
+    List<string> dage = new List<string>();
+
+    foreach (var vagt in vagter)
+
+    {
+
+        Dag = vagt.Datodag;
+        dage.Add(Dag);
+
+    }
+
+    HashSet<string> uniqueDage = new HashSet<string>();
+
+    foreach (var dag in dage)
+    {
+
+        if (!uniqueDage.Contains(dag))
+        {
+            uniqueDage.Add(dag);
+        }
+
+    }
+
+
+
+    //laver tabel
+    <table class="table table-bordered border-dark">
+        <thead>
+            <tr>
+                @foreach (string dag in uniqueDage)
+                {
+                    //Looper over alle dage i uniqueDage, og laver tableheader -> en for hver dag i ugen
+                    <th> @dag  </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (string dag in uniqueDage)
+            {
+
+            <td>
+                @foreach (var vagt in vagter)
+                {
+                    //Looper over alle vagter, og tilføjer information om vagten under den tilsvarende dag -> kalendersystem
+                    if (vagt.Datodag == dag)
+                    {
+                        foreach (var arbejde in arbejdspladser)
+                        {
+                            arbejdspladsNavn = arbejde.Arbejdspladsnavn;
+                            if (arbejde.Arbejdspladsid == vagt.Arbejdspladsid)
+                            {
+                                <div class="card text-dark bg-light" style="margin-bottom: 10px; margin-left: 5px; margin-top: 5px;">
+                            <tr>
+                                Vagt ID: @vagt.Vagtid
+                                <br />
+                                Arbejdsplads: @arbejde.Arbejdspladsnavn
+                                <br />
+                                Tidsrum: @vagt.Tidstart - @vagt.Tidslut
+                                <br />
+                                Opgave: @arbejde.Arbejdsbeskrivelse
+                                <br />
+                                Antal point: @vagt.Antalpoint
+                            </tr>
+                            </div>
+
+                        }
+                    }
+                }
+
+            }
+                </td>
+            }
+            </tbody>
+        </table>
+
+
+}
+
+
+
+
+
+@code {
+    // Tomme placeholders for Vagter
+    public int? arbejdspladsid = 0;
+    public int? vagtid = 0;
+    public int? tidStart = 0;
+    public int? tidSlut = 0;
+    public int? antalPoint = 0;
+    public DateTime? dato = DateTime.Now;
+    public Vagt ValgtVagt = new Vagt();
+    public string Dag = "";
+    public string Datodag = "";
+
+
+    // Tomme placeholders for arbejdspladser
+    public string? arbejdspladsNavn = "";
+
+
+    //Henter vores shelter-data fra mongo(database)
+
+    [Inject]
+    public IVagtService VagtService { get; set; }
+    [Inject]
+    public IArbejdspladsService ArbejdspladsService { get; set; }
+
+
+    public List<Vagt> vagter = new List<Vagt>();
+    public List<Arbejdsplads> arbejdspladser = new List<Arbejdsplads>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        vagter = (await VagtService.GetAllVagt()).ToList();
+        vagter = vagter.OrderBy(x => x.Vagtid).ToList();
+        ValgtVagt = vagter[0];
+
+        arbejdspladser = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+
+    }
+}

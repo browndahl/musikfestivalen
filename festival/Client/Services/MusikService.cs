@@ -17,34 +17,34 @@ using Dapper;
 
 namespace festival.Client.Services
 {
-    public class VagtService : IVagtService
+    public class MusikService : IMusikService
     {
         private readonly HttpClient httpClient;
 
-        public VagtService(HttpClient httpClient)
+        public MusikService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
             //throw new NotImplementedException();
         }
 
-        public Task<Vagt[]?> GetAllVagt()
+        public Task<Musik[]?> GetAllMusik()
         {
-            var result = httpClient.GetFromJsonAsync<Vagt[]>("api/vagtapi");
+            var result = httpClient.GetFromJsonAsync<Musik[]>("api/musikapi");
             return result;
             //throw new NotImplementedException();
 
         }
 
-        public async Task<Vagt> GetItem(int id)
+        public async Task<Musik> GetItem(int id)
         {
 
             throw new NotImplementedException();
 
         }
 
-        public async Task<int> AddItem(Vagt item)
+        public async Task<int> AddItem(Musik item)
         {
-            var result = await httpClient.PostAsJsonAsync("api/vagtapi", item);
+            var result = await httpClient.PostAsJsonAsync("api/musikapi", item);
             return (int)result.StatusCode;
 
             //var responseStatusCode = response.StatusCode;
@@ -53,13 +53,13 @@ namespace festival.Client.Services
 
         }
 
-        public async Task<int> DeleteItem(Vagt id)
+        public async Task<int> DeleteItem(Musik id)
         {
             throw new NotImplementedException();
 
         }
 
-        public async Task<int> updateItem(Vagt item)
+        public async Task<int> updateItem(Musik item)
         {
             throw new NotImplementedException();
         }

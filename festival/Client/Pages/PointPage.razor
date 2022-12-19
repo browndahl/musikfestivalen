@@ -1,0 +1,70 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+
+@using Npgsql;
+@using Dapper;
+
+@page "/point"
+
+<PageTitle>Scoreboard</PageTitle>
+
+<h1>Her kan du se scoreboard</h1>
+
+Velkommen til scoreboard
+
+ 
+
+
+@if (gets == null)
+{
+<p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+{
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Fornavn</th>
+            <th>Samlet antal point</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @{
+            //var maxPoints = gets.Max(f => f.Samletantalpoint);
+        }
+        
+        @foreach (var get in gets)
+        {
+               <tr>
+                   <!--<trclass="@(get.Samletantalpoint == maxPoints ? "highlight-row" : "")">-->
+                   <td>@get.Fornavn @get.Efternavn</td>
+                   <td>@get.Samletantalpoint</td>
+               </tr>
+                
+        }
+    </tbody>
+</table>
+}
+
+
+
+@code {
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+
+    public List<Frivillige> gets = new List<Frivillige>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige())
+            .OrderByDescending(f => f.Samletantalpoint)
+            .ToList();
+    }
+
+}

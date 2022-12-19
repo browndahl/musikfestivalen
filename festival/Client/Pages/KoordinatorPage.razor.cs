@@ -4,9 +4,10 @@ using festival.Client.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using festival.Client.Services;
 
+
 namespace festival.Client.Pages
 {
-    public partial class FrivilligePage
+    public partial class KoordinatorPage
     {
         private Product ProductModel = new Product();
         private EditContext EditContext;
@@ -26,7 +27,6 @@ namespace festival.Client.Pages
 
         }
 
-
         private void HandleInvalidSubmit()
         {
             Console.WriteLine("HandleInvalidSubmit Called...");
@@ -36,5 +36,6 @@ namespace festival.Client.Pages
     }
 
 
-}
 
+
+}

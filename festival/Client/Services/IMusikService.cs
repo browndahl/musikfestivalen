@@ -19,17 +19,17 @@ namespace festival.Client.Services
 {
     //CRUD-funktion
     //'Task' vil vi gerne få koden til at være pakket ind i asynkron-programmering. (F.eks hvis app går i stå, så skal vi kunne få en fejlmeddelse)
-    public interface IVagtService
+    public interface IMusikService
     {
-        Task<Vagt[]?> GetAllVagt();
+        Task<Musik[]?> GetAllMusik();
 
-        Task<Vagt?> GetItem(int id);
+        Task<Musik?> GetItem(int id);
 
-        Task<int> AddItem(Vagt item);
+        Task<int> AddItem(Musik item);
 
-        Task<int> DeleteItem(Vagt item);
+        Task<int> DeleteItem(Musik item);
 
-        Task<int> updateItem(Vagt item);
+        Task<int> updateItem(Musik item);
     }
 
 }

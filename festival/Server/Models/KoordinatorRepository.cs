@@ -27,13 +27,13 @@ namespace festival.Server.Models
         public bool DeleteItem(int id)
         {
             throw new NotImplementedException();
+
             /**
-            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
-            var deletedItem = db.Items.FindOneAndDelete(item);
-            if (deletedItem != null)
-                return true;
-            else
-                return false;
+            using (var connection = db.connection)
+            {
+                string sql = $"INSERT INTO frivillige (Frivilligid, Fornavn, Efternavn, Alder, Email,Tlf,Adresse) VALUES ({item.Frivilligid}, {item.Fornavn}), {item.Efternavn}, {item.Alder},{item.Email},{item.Tlf},{item.Adresse}";
+                var Items = connection.Execute(sql);
+            }
             *///
         }
 

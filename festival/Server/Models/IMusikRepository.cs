@@ -9,16 +9,15 @@ using MongoDB.Driver;
 using Npgsql;
 using Dapper;
 
-
 namespace festival.Server.Models
 {
-    public interface IFrivilligeRepository
+    public interface IMusikRepository
     {
-        List<Frivillige> GetAllFrivillige();
-        Frivillige FindItem(int id);
-        void AddFrivillige(Frivillige item);
-        bool DeleteFrivillige(int id);
-        bool UpdateItem(Frivillige item);
+        List<Musik> GetAllMusik();
+        Musik FindItem(int id);
+        void AddItem(Musik item);
+        bool DeleteItem(int id);
+        bool UpdateItem(Musik item);
 
     }
 }
