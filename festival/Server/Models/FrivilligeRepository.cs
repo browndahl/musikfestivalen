@@ -31,18 +31,16 @@ namespace festival.Server.Models
 
         public bool DeleteFrivillige(int id)
         {
-            throw new NotImplementedException();
-
-            /*
+            string sql5 =$"DELETE FROM frivillige " +
+                         $"WHERE frivilligid = {id}";
             using (var connection = db.connection)
             {
-                string sql = "DELETE FROM frivillige WHERE frivilligid " + id ;
-                var Items = connection.Execute(sql);
-
+                int rows = db.connection.Execute(sql5);
+                return rows > 0;
             }
-            */
-        }
 
+        }
+        
         public bool UpdateFrivillig(Frivillige item)
         {
             string sql4 = $"UPDATE frivillige " +
@@ -51,7 +49,6 @@ namespace festival.Server.Models
             int rows = db.connection.Execute(sql4);
             return rows > 0;
 
-           //throw new NotImplementedException();
         }
 
         public Frivillige FindItem(int id)

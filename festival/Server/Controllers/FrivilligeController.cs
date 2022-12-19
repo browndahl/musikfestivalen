@@ -41,7 +41,6 @@ namespace festival.Server.Controllers
         {
             Console.WriteLine("Server: Delete item called: id = " + id);
 
-            //Skal stå void her?
             bool deleted = Repository.DeleteFrivillige(id);
             if (deleted)
             {
@@ -78,6 +77,5 @@ namespace festival.Server.Controllers
             Repository.UpdateFrivillig(item);
             Console.WriteLine("updated frillig");
         }
-
     }
 }
