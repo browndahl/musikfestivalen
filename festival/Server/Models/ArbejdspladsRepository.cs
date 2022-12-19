@@ -43,27 +43,18 @@ namespace festival.Server.Models
             *///
         }
 
-        public bool UpdateItem(Arbejdsplads item)
+        public bool UpdateArbejdsplads(Arbejdsplads item)
         {
-            throw new NotImplementedException();
+            string sql8 = $"UPDATE arbejdsplads " +
+                $"SET arbejdspladsid = '{item.Arbejdspladsid}', arbejdspladsnavn = '{item.Arbejdspladsnavn}', arbejdsbeskrivelse = '{item.Arbejdsbeskrivelse}'" +
+                $"WHERE arbejdspladsid = {item.Arbejdspladsid}";
+            int rows = db.connection.Execute(sql8);
+            return rows > 0;
         }
 
         public Arbejdsplads FindItem(int id)
         {
             throw new NotImplementedException();
-
-            /*
-            using (var connection = db.connection )
-            {
-                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
-                var Items = connection.Query<Koordinator>(sql);
-                
-                foreach (var item in Items)
-                {
-                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
-                }
-            }
-           */
         }
 
         public List<Arbejdsplads> GetAllArbejdsplads()

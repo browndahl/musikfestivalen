@@ -29,7 +29,7 @@ namespace festival.Client.Services
 
         Task<int> DeleteItem(Arbejdsplads data);
 
-        Task<int> updateItem(Arbejdsplads data);
+        Task<int> UpdateArbejdsplads(Arbejdsplads data);
     }
 
 

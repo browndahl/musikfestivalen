@@ -48,8 +48,7 @@ namespace festival.Server.Models
         public bool UpdateVagt(Vagt item)
         {
             string sql7 = $"UPDATE vagt " +
-                $"SET vagtid = {item.Vagtid}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid = {item.Frivilligid}, koordinatorid = {item.Koordinatorid}, tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}, arbejdspladsnavn ='{item.Arbejdspladsnavn}',datodag='{item.Datodag}', dato='{item.Dato}'" +
-                $"WHERE vagtid = {item.Vagtid}";
+            $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}, arbejdspladsid = {item.Arbejdspladsid}" + $"WHERE vagtid = {item.Vagtid}";
             int rows = db.connection.Execute(sql7);
             return rows > 0;
 

@@ -17,6 +17,10 @@
 
     List<string> dage = new List<string>();
 
+
+    //sorter vagter efter ugedag
+    //5 foreach loops - første loop skal kun added hvis det er en mandag
+    //anden loop kun adde hvis tirsdag.
     foreach (var vagt in vagter)
 
     {
@@ -95,12 +99,33 @@
 
 
 
-      
+
 }
 
 <EditForm EditContext="@EditContext"
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit">
+
+    <!---Arbejdsplads-->
+    <div class="col-md-4 mb-3">
+        <div class="form-check">
+            <label for="vagter">Vælg Arbejdsplads</label>
+            <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
+
+
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Arbejdspladsid">
+                        <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
+                        @get.Arbejdspladsnavn
+
+                    </option>
+
+
+                }
+            </InputSelect>
+        </div>
+    </div>
 
 
     <div class="col-md-4 mb-3">
@@ -130,7 +155,7 @@
     </div>
 
     <div class="col-sm-12">
-        <button class="btn btn-primary" @onclick="UpdateVagtHandler">Opdater frivillig</button>
+        <button class="btn btn-primary" @onclick="UpdateVagtHandler">Opdater Vagt</button>
     </div>
 
     <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
@@ -140,9 +165,6 @@
 
 
 </EditForm>
-
-
-
 
 
 @code {
@@ -160,6 +182,7 @@
     public int Koordinatorid = 0;
     public bool Optagetledig = false;
     public string Arbejdspladsnavn = "";
+    public string Arbejdsbeskrivelse = "";
 
     private int ErrorCode { get; set; } = 0;
 
@@ -177,11 +200,14 @@
     public IKoordinatorService KoordinatorService { get; set; }
 
 
+
     public List<Vagt> vagter = new List<Vagt>();
     public List<Arbejdsplads> arbejdspladser = new List<Arbejdsplads>();
+    public List<Arbejdsplads> gets = new List<Arbejdsplads>();
 
     protected override async Task OnInitializedAsync()
     {
+        gets = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
         vagter = (await VagtService.GetAllVagt()).ToList();
         vagter = vagter.OrderBy(x => x.Vagtid).ToList();
         ValgtVagt = vagter[0];
@@ -197,6 +223,22 @@
         Console.WriteLine("In update");
         Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
         ErrorCode = await VagtService.UpdateVagt(item);
+        //Arbejdsplads item2 = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+        //nt ErrorCode2 = await ArbejdspladsService.UpdateArbejdsplads(item2);
+        //int ErrorCode2 = await Arbejds blablabla Hvis vi vil binde - ÆUpdate arbejdsplads på den her
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+    }
+
+    //Opdaterer arbejdsplads
+
+    private async Task UpdateArbejdspladsHandler()
+    {
+        Console.WriteLine("In update");
+        Arbejdsplads item = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+        ErrorCode = await ArbejdspladsService.UpdateArbejdsplads(item);
         Console.WriteLine(ErrorCode);
 
         vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.

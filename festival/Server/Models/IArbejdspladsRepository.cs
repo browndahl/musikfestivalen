@@ -18,7 +18,7 @@ namespace festival.Server.Models
         Arbejdsplads FindItem(int id);
         void AddItem(Arbejdsplads item);
         bool DeleteItem(int id);
-        bool UpdateItem(Arbejdsplads item);
+        bool UpdateArbejdsplads(Arbejdsplads item);
 
     }
 }
