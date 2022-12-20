@@ -1,0 +1,140 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+@page "/frivilligeliste"
+
+
+<PageTitle>Frivillige liste</PageTitle>
+
+<h1>Listen over frivillige</h1>
+
+<p>Her man koordinatorerne se listen over frivillige</p>
+
+@if (gets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+     //Husk altid at "REBUILD", efter du har oprettet tabel, ellers kommer det ikke frem på WEB.
+{
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Frivillig ID</th>
+                <th>Fornavn</th>
+                <th>Efternavn</th>
+                <th>Alder</th>
+                <th>Email</th>
+                <th>Telefon</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var get in gets)
+            {
+
+                <tr>
+
+                    <td>@get.Frivilligid</td>
+                    <td>@get.Fornavn</td>
+                    <td>@get.Efternavn</td>
+                    <td>@get.Alder</td>
+                    <td>@get.Email</td>
+                    <td>@get.Tlf</td>
+
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+}
+
+
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
+
+    <!----Felt for frivillig id, sådan at vi kan slette--->
+    <div class="col-sm-2">
+        <label for="Frivilligid">Frivilligid</label>
+        <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
+                     ParsingErrorMessage=" The {0} field has an invalid value."
+                     DisplayName="Frivilligid" />
+        <ValidationMessage For="@(() => Frivilligid)" />
+    </div>
+
+
+    <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
+    <div class="col-sm-12">
+        <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Delete vagt</button>
+    </div>
+
+
+
+
+
+
+
+</EditForm>
+
+@code {
+
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+
+    public int Frivilligid = 0;
+    public string Fornavn = "";
+    public string Efternavn = "";
+    public int Alder = 0;
+    public string Email = "";
+    public string Tlf = "";
+    private int ErrorCode { get; set; } = 0;
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    //public List<Frivillige> liste = new List<Frivillige>();
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige()).ToList();
+        gets = gets.OrderBy(x => x.Frivilligid).ToList();
+
+
+    }
+
+    //Sletter en af vores frivillige
+    private async Task DeleteFrivilligHandler()
+    {
+        Console.WriteLine("Deleting");
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf);
+        ErrorCode = await FrivilligeService.DeleteFrivillige(item);
+        Console.WriteLine(ErrorCode);
+
+        gets = (await FrivilligeService.GetAllFrivillige()).ToList();//Efter vi har slettet, opdaterer den tabelen med det samme.
+    }
+
+
+
+
+    //Opdaterer en af vores frivillige
+    private async void UpdateFrivilligItemHandler()
+    {
+        /*
+        Frivillige id = new Frivillige (frivilligid);
+        ErrorCode = await FrivilligeService.DeleteItem(id);
+        Console.WriteLine(ErrorCode);
+        */
+
+    }
+
+
+}

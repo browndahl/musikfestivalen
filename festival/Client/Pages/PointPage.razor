@@ -1,0 +1,85 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+
+
+
+@using Npgsql;
+@using Dapper;
+
+
+
+@page "/point"
+
+
+
+<PageTitle>Scoreboard</PageTitle>
+<h1>Her kan du se scoreboard</h1>
+
+Velkommen til scoreboard
+
+
+<style>
+    .highlight-row-1st {
+        background-color: goldenrod;
+    }
+
+    .highlight-row-2nd {
+        background-color: lightgreen;
+    }
+
+    .highlight-row-nullPoints {
+        background-color: red
+    }
+</style>
+
+@if (gets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+{
+    // Find the maximum value of "samletantalpoint" in the list
+    var maxPoints = gets.Max(f => f.Samletantalpoint);
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Fornavn</th>
+                <th>Samlet antal point</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var get in gets)
+            {
+
+
+                // Determine whether to apply the "highlight-row" class to the current row
+                <tr class="@(get.Samletantalpoint == maxPoints ? "highlight-row-1st" : get.Samletantalpoint == null ? "highlight-row-nullPoints" : "")">
+                    <td>@get.Fornavn @get.Efternavn</td>
+                    <td>@get.Samletantalpoint </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige())
+            .OrderByDescending(f => f.Samletantalpoint)
+            .ToList();
+    }
+
+
+
+}

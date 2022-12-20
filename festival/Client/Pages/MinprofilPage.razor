@@ -1,0 +1,228 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+@page "/minprofil"
+
+
+
+<PageTitle>Min profil</PageTitle>
+
+<h1>Her kan du se status på din profil</h1>
+
+
+
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit"
+          class="row p-3">
+
+
+
+    <div class="row">
+        <div class="col-sm-6 form-check border border-3 border border-dark ">
+
+
+            <label for="vagter">Vælg Person</label>
+
+            <InputSelect id="Navn" @bind-Value=@Frivilligid class="form-control rounded-2">
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Frivilligid"> @get.Fornavn @get.Efternavn (@get.Frivilligid) </option>
+
+                }
+            </InputSelect>
+
+
+            <label for="vagter">Vælg en vagt</label>
+
+            <InputSelect id="Vagt" @bind-Value=@Vagtid class="form-control rounded-2">
+
+
+                @foreach (var vagt in vagter)
+                {
+                    foreach (var hent in henter)
+                    {
+                        if (vagt.Arbejdspladsid == hent.Arbejdspladsid)
+                        {
+                            <option value="@vagt.Vagtid"> @hent.Arbejdspladsnavn Dag: @vagt.Datodag Kl: @vagt.Tidstart - @vagt.Tidslut ID: @vagt.Vagtid </option>
+                        }
+
+                    }
+
+                }
+            </InputSelect>
+
+            <br /><br />
+
+            
+
+            <br /><br />
+    <tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
+    <br /><br />
+
+
+    </div>
+
+
+    <div class="col-sm-6 card bg-Light rounded-3 border border-3 border border-dark" style="width: 26rem; margin-left:135px;">
+        <h5 class="card-title"> Info</h5>
+        <p class="card-text"> FrivilligID: @Frivilligid </p>
+        <p class="card-text"> Navn: @fornavn @efternavn </p>
+        <p class="card-text"> Adresse: @adresse </p>
+        <p class="card-text"> Tlf: @tlf </p>
+        <p class="card-text"> Email: @email </p>
+        <p class="card-text"> Alder: @alder </p>
+        <p class="card-text">  Samlet antal Point: @antalPoint </p>
+        <br />
+    </div>
+    </div>
+</EditForm>
+
+
+
+
+@{
+    foreach (var frivillig in gets)
+    {
+        if (frivillig.Frivilligid == Frivilligid)
+        {
+
+            ValgtFrivillig = frivillig;
+            adresse = frivillig.Adresse;
+            tlf = frivillig.Tlf;
+            fornavn = frivillig.Fornavn;
+            efternavn = frivillig.Efternavn;
+            email = frivillig.Email;
+            alder = frivillig.Alder;
+            antalPoint = frivillig.Samletantalpoint;
+            break;
+        }
+    }
+}
+
+
+
+<table class="table table-bordered border-dark border border-3">
+    <thead>
+        <tr>
+            <th>Arbejdspladsnavn</th>
+            <th>Dato</th>
+            <th>Tidstart</th>
+            <th>Tidslut</th>
+            <th>Antalpoint</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            //Looper gennem alle frivillige i frivilligelisten
+            foreach (var frivillig in gets)
+            {
+                if (frivillig.Frivilligid == Frivilligid)
+                {
+                    //Looper gennem alle vagter i vagtlisten
+                    foreach (var vagt in vagter)
+
+
+                    {
+                        //Hvis frivillig id fra dropdown er lig frivilligid i vagtlisten, så laver vi html boks til hver vagt
+                        if (frivillig.Frivilligid == vagt.Frivilligid)
+                        {
+                            foreach (var hent in henter)
+                            {
+                                if (frivillig.Frivilligid == arbejdspladsid)
+                                {
+
+                                    <tr>
+                                        <td>@hent.Arbejdspladsnavn</td>
+                                        <td>@vagt.Datodag</td>
+                                        <td>@vagt.Tidstart</td>
+                                        <td>@vagt.Tidslut</td>
+                                        <td>@vagt.Antalpoint</td>
+                                    </tr>
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    //Default værdier for frivillige
+
+    public string fornavn = "Navn";
+    public string efternavn = "Navn";
+    public int Frivilligid = 0;
+    public string adresse = "";
+    public string tlf = "";
+    public int? alder = 0;
+    public string email = "";
+    public int antalSamletPoint = 0;
+    public Frivillige ValgtFrivillig = new Frivillige();
+    public Arbejdsplads ValgtArbejdsplads = new Arbejdsplads();
+    // -II- Vagter
+    public int? arbejdspladsid = 0;
+    public int Vagtid = 0;
+    public int? tidStart = 0;
+    public int? tidSlut = 0;
+    public int? antalPoint = 0;
+    public DateTime? dato = DateTime.Now;
+    public string Datodag = "";
+    public Vagt ValgtVagt = new Vagt();
+    private int ErrorCode { get; set; } = 0;
+    public int Antalpoint = 0;
+    // --arbejdspalds---
+    public string arbejdspaldsnavn = "";
+
+
+
+
+    //Henter vores shelter-data fra mongo(database)
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+
+    [Inject]
+    public IVagtService VagtService { get; set; }
+
+    [Inject]
+    public IArbejdspladsService ArbejdspladsService { get; set; }
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    public List<Arbejdsplads> henter = new List<Arbejdsplads>();
+    public List<Vagt> vagter = new List<Vagt>();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige()).ToList();
+        gets = gets.OrderBy(y => y.Frivilligid).ToList();
+        ValgtFrivillig = gets[0];
+
+        henter = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
+        henter = henter.OrderBy(y => y.Arbejdspladsid).ToList();
+        ValgtArbejdsplads = henter[0];
+
+        vagter = (await VagtService.GetAllVagt()).ToList();
+        vagter = vagter.OrderBy(x => x.Vagtid).ToList();
+        ValgtVagt = vagter[0];
+    }
+
+
+  
+
+
+}
