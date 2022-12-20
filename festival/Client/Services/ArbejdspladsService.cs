@@ -23,46 +23,44 @@ namespace festival.Client.Services
 
         public ArbejdspladsService (HttpClient httpClient)
         {
+            //Vi giver en klasse anmodning til at sende Http-request og modtage Http-responses
             this.httpClient = httpClient;
-            //throw new NotImplementedException();
         }
 
         public Task<Arbejdsplads[]?> GetAllArbejdsplads()
         {
+            //Bemærk, at vi her er det GetFromJsonAsync (HttpGet)
             var result = httpClient.GetFromJsonAsync<Arbejdsplads[]>("api/arbejdspladsapi");
             return result;
-            //throw new NotImplementedException();
 
         }
 
         public async Task<Arbejdsplads> GetItem(int id)
         {
-
-            throw new NotImplementedException();
-
+            //Vi implementerer ikke denne funktion.
+            throw new NotImplementedException(); 
         }
 
         public async Task<Arbejdsplads> AddItem(Arbejdsplads item)
         {
-            var  result = await httpClient.GetFromJsonAsync<Arbejdsplads>("api/arbejdspladsapi");
-            return result;
             //await foran http, så venter result på at få info før den går videre
-            //throw new NotImplementedException();
-
+            //Bemærk, at vi her er det PostAsJsonAsync (HttpPost)
+            var result = await httpClient.GetFromJsonAsync<Arbejdsplads>("api/arbejdspladsapi");
+            return result;
         }
 
         public async Task<int> DeleteItem(Arbejdsplads id)
         {
-            throw new NotImplementedException();
-
+            //Vi implementerer ikke denne funktion.
+            throw new NotImplementedException(); 
         }
 
         public async Task<int> UpdateArbejdsplads(Arbejdsplads item)
         {
+            //Bemærk, at vi her er det PutAsJsonAsync (HttpPut)
             Console.WriteLine("In service update arbejdsplads");
             var result = await httpClient.PutAsJsonAsync("api/arbejdspladsapi", item);
             return (int)result.StatusCode;
-            //throw new NotImplementedException();
         }
     }
 }

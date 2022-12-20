@@ -23,38 +23,38 @@ namespace festival.Client.Services
 
         public VagtService(HttpClient httpClient)
         {
+            //Vi giver en klasse anmodning til at sende Http-request og modtage Http-responses
             this.httpClient = httpClient;
-            //throw new NotImplementedException();
         }
 
         public Task<Vagt[]?> GetAllVagt()
         {
+            //Bemærk, at vi her er det GetFromJsonAsync (HttpGet)
             var result = httpClient.GetFromJsonAsync<Vagt[]>("api/vagtapi");
             return result;
-            //throw new NotImplementedException();
 
         }
 
         public async Task<Vagt> GetItem(int id)
         {
-
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
-
         }
 
         public async Task<int> AddItem(Vagt item)
         {
+            //Bemærk, at vi her er det PostAsJsonAsync (HttpPost)
+            //await foran http, så venter result på at få info før den går videre
             var result = await httpClient.PostAsJsonAsync("api/vagtapi", item);
             return (int)result.StatusCode;
-
-            //var responseStatusCode = response.StatusCode;
-            //await foran http, så venter result på at få info før den går videre
-            //throw new NotImplementedException();
+            
 
         }
 
         public async Task<int> DeleteVagt(Vagt vagt)
         {
+            //Bemærk, at vi her er det DeleteAsync (HttpDelete)
+            //Vi sletter vores 'Vagtid' fra vores vagt
             var result = await httpClient.DeleteAsync("api/vagtapi/" + vagt.Vagtid);
             return (int)result.StatusCode;
 
@@ -62,10 +62,10 @@ namespace festival.Client.Services
 
         public async Task<int> UpdateVagt(Vagt item)
         {
+            //Bemærk, at vi her er det PutAsJsonAsync (HttpPut)
             Console.WriteLine("In service update vagt");
             var result = await httpClient.PutAsJsonAsync("api/vagtapi", item);
             return (int)result.StatusCode;
-            //throw new NotImplementedException();
         }
 
        

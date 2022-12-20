@@ -17,11 +17,9 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
+        //Her tilføjer vi et arbejdsplads
         public void AddItem(Arbejdsplads item)
         {
-
-            //throw new NotImplementedException();
-
             using (var connection = db.connection)
             {
                 string sql = "INSERT INTO arbejdsplads (arbejdspladsid, arbejdspladsnavn, antalpersoner, arbejdsbeskrivelse)";
@@ -32,44 +30,38 @@ namespace festival.Server.Models
 
         public bool DeleteItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
-            /**
-            FilterDefinition<Koordinator> item = Builders<Koordinator>.Filter.Eq("id", id);
-            var deletedItem = db.Items.FindOneAndDelete(item);
-            if (deletedItem != null)
-                return true;
-            else
-                return false;
-            *///
         }
 
+        //Her opdaterer vi på arbejdsplads
         public bool UpdateArbejdsplads(Arbejdsplads item)
         {
             string sql8 = $"UPDATE arbejdsplads " +
                 $"SET arbejdspladsid = '{item.Arbejdspladsid}', arbejdspladsnavn = '{item.Arbejdspladsnavn}', arbejdsbeskrivelse = '{item.Arbejdsbeskrivelse}'" +
                 $"WHERE arbejdspladsid = {item.Arbejdspladsid}";
-            int rows = db.connection.Execute(sql8);
+            int rows = db.connection.Execute(sql8); //Tilgår en række gennem ID 
             return rows > 0;
         }
 
         public Arbejdsplads FindItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
         }
 
         public List<Arbejdsplads> GetAllArbejdsplads()
         {
+            //Vi benytter SQL-kode til at hente alle arbejdsplads-data
             using (var connection = db.connection)
             {
                 string sql = "SELECT * FROM arbejdsplads";
                 var Items = connection.Query<Arbejdsplads>(sql);
-
                 foreach (var item in Items)
                 {
                     Console.WriteLine($"{item.Arbejdspladsid}, {item.Arbejdsbeskrivelse}, {item.Antalpersoner}, {item.Arbejdsbeskrivelse}");
 
                 }
-
                 return Items.ToList();
             }
 

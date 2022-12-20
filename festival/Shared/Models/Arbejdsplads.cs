@@ -1,4 +1,6 @@
 ﻿using System;
+using static System.Net.Mime.MediaTypeNames;
+
 namespace festival.Shared.Models
 {
     public class Arbejdsplads
@@ -25,7 +27,6 @@ namespace festival.Shared.Models
         {
 
         }
-
 
     }
 

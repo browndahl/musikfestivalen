@@ -19,47 +19,30 @@ namespace festival.Server.Models
 
         public void AddItem(Koordinator item)
         {
-            //db.Items.InsertOne(item);
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
 
         }
 
         public bool DeleteItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
-
-            /**
-            using (var connection = db.connection)
-            {
-                string sql = $"INSERT INTO frivillige (Frivilligid, Fornavn, Efternavn, Alder, Email,Tlf,Adresse) VALUES ({item.Frivilligid}, {item.Fornavn}), {item.Efternavn}, {item.Alder},{item.Email},{item.Tlf},{item.Adresse}";
-                var Items = connection.Execute(sql);
-            }
-            *///
         }
 
         public bool UpdateItem(Koordinator item)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
         }
 
         public Koordinator FindItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
-
-            /*
-            using (var connection = db.connection )
-            {
-                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
-                var Items = connection.Query<Koordinator>(sql);
-                
-                foreach (var item in Items)
-                {
-                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
-                }
-            }
-           */
         }
 
+        //Her kan vi hente alle koordinatorer-data
         public List<Koordinator> GetAllKoordinator()
         {
             using (var connection = db.connection)
