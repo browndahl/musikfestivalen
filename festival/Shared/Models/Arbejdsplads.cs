@@ -10,7 +10,7 @@ namespace festival.Shared.Models
 
 
 
-        //Constructor
+        //Constructorrrrrrr
         public Arbejdsplads(int arbejdspladsid = 0, string arbejdspladsnavn = "", int antalpersoner = 0, string arbejdsbeskrivelse = "") //Constructor 
         {
             this.Arbejdspladsid = arbejdspladsid;
