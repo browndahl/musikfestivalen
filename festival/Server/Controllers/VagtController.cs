@@ -38,24 +38,25 @@ namespace festival.Server.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public StatusCodeResult DeleteItem(int id)
+        public StatusCodeResult DeleteVagt(int id)
         {
             Console.WriteLine("Server: Delete item called: id = " + id);
 
-            bool deleted = Repository.DeleteItem(id);
+            bool deleted = Repository.DeleteVagt(id);
             if (deleted)
             {
-                Console.WriteLine("Server: Item deleted succces");
+                Console.WriteLine("Server: Vagt deleted succces");
                 int code = (int)HttpStatusCode.OK;
                 return new StatusCodeResult(code);
             }
             else
             {
-                Console.WriteLine("Server: Item deleted fail - not found");
+                Console.WriteLine("Server: Vagt deleted fail - not found");
                 int code = (int)HttpStatusCode.NotFound;
                 return new StatusCodeResult(code);
             }
         }
+      
 
         [HttpPost]
         public void AddItem(Vagt item)
@@ -71,6 +72,14 @@ namespace festival.Server.Controllers
             var result = Repository.FindItem(id);
             return result;
         }
+
+        [HttpPut]
+        public void Update(Vagt item)
+        {
+            Repository.UpdateVagt(item);
+            Console.WriteLine("updated vagt");
+        }
+
 
     }
 }

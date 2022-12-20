@@ -17,6 +17,10 @@
 
     List<string> dage = new List<string>();
 
+
+    //sorter vagter efter ugedag
+    //5 foreach loops - første loop skal kun added hvis det er en mandag
+    //anden loop kun adde hvis tirsdag.
     foreach (var vagt in vagter)
 
     {
@@ -92,7 +96,82 @@
         </table>
 
 
+
 }
+
+<EditForm EditContext="@EditContext"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
+
+    <!---Arbejdsplads-->
+    <div class="col-md-4 mb-3">
+        <div class="form-check">
+            <label for="vagter">Vælg Arbejdsplads</label>
+            <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
+
+
+                @foreach (var get in gets)
+                {
+                    <option value="@get.Arbejdspladsid">
+                        <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
+                        @get.Arbejdspladsnavn
+
+                    </option>
+
+
+                }
+            </InputSelect>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-3">
+            <label for="TidStart"> TidStart - 24h </label>
+            <InputNumber id="TidStart" @bind-Value="TidStart" class="form-control" />
+            <ValidationMessage For="@(() => TidStart)" />
+        </div>
+
+        <div class="col-sm-3">
+            <label for="TidSlut"> TidSlut - 24h </label>
+            <InputNumber id="TidSlut" @bind-Value="TidSlut" class="form-control" />
+            <ValidationMessage For="@(() => TidSlut)" />
+        </div>
+
+        <div class="col-sm-3">
+            <label for="AntalPoint"> Antal point</label>
+            <InputNumber id="AntalPoint" @bind-Value="AntalPoint" class="form-control" />
+            <ValidationMessage For="@(() => AntalPoint)" />
+        </div>
+
+        <div class="col-sm-3">
+            <label for="Vagtid"> Vagt ID </label>
+            <InputNumber id="Vagtid" @bind-Value="Vagtid" class="form-control"
+                         ParsingErrorMessage=" The {0} field has an invalid value."
+                         DisplayName="Vagtid" />
+            <ValidationMessage For="@(() => Vagtid)" />
+        </div>
+
+        <br />
+        <br />
+
+        <!-----Knapperne til at opdatere og slette-->
+        <label for="UpdateVagtHandler">Vælg ID OG Arbejdsplads på den vagt, som du vil ændre tid og point på.</label>
+        <div class="col-sm-3">
+            <button class="btn btn-primary" @onclick="UpdateVagtHandler">Opdater Vagt</button>
+        </div>
+
+        <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
+        <div class="col-sm-3">
+            <button class="btn btn-primary" @onclick="DeleteVagtHandler">Delete vagt</button>
+        </div>
+
+
+    </div>
+
+
+
+</EditForm>
 
 
 
@@ -100,15 +179,22 @@
 
 @code {
     // Tomme placeholders for Vagter
-    public int? arbejdspladsid = 0;
-    public int? vagtid = 0;
-    public int? tidStart = 0;
-    public int? tidSlut = 0;
-    public int? antalPoint = 0;
+    public int Arbejdspladsid = 0;
+    public int Vagtid = 0;
+    public int TidStart = 0;
+    public int TidSlut = 0;
+    public int AntalPoint = 0;
     public DateTime? dato = DateTime.Now;
     public Vagt ValgtVagt = new Vagt();
     public string Dag = "";
     public string Datodag = "";
+    public int Frivilligid = 0;
+    public int Koordinatorid = 0;
+    public bool Optagetledig = false;
+    public string Arbejdspladsnavn = "";
+    public string Arbejdsbeskrivelse = "";
+    private int ErrorCode { get; set; } = 0;
+    public Frivillige ValgtFrivillig = new Frivillige();
 
 
     // Tomme placeholders for arbejdspladser
@@ -121,18 +207,76 @@
     public IVagtService VagtService { get; set; }
     [Inject]
     public IArbejdspladsService ArbejdspladsService { get; set; }
+    [Inject]
+    public IKoordinatorService KoordinatorService { get; set; }
+    [Inject]
+    public IFrivilligeService FrivilligeService { get; set; }
+
 
 
     public List<Vagt> vagter = new List<Vagt>();
     public List<Arbejdsplads> arbejdspladser = new List<Arbejdsplads>();
+    public List<Frivillige> henter = new List<Frivillige>();
+    public List<Arbejdsplads> gets = new List<Arbejdsplads>();
+
+
 
     protected override async Task OnInitializedAsync()
     {
+        gets = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
         vagter = (await VagtService.GetAllVagt()).ToList();
         vagter = vagter.OrderBy(x => x.Vagtid).ToList();
         ValgtVagt = vagter[0];
 
+        henter = (await FrivilligeService.GetAllFrivillige()).ToList();
+        henter = henter.OrderBy(y => y.Frivilligid).ToList();
+        ValgtFrivillig = henter[0];
+
+
+
         arbejdspladser = (await ArbejdspladsService.GetAllArbejdsplads()).ToList();
 
     }
+
+
+    //Opdaterer vagt info for eksisterende vagter
+    private async Task UpdateVagtHandler()
+    {
+        Console.WriteLine("In update");
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+        ErrorCode = await VagtService.UpdateVagt(item);
+        //Arbejdsplads item2 = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+        //nt ErrorCode2 = await ArbejdspladsService.UpdateArbejdsplads(item2);
+        //int ErrorCode2 = await Arbejds blablabla Hvis vi vil binde - ÆUpdate arbejdsplads på den her
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+    }
+
+    //Opdaterer arbejdsplads
+
+    private async Task UpdateArbejdspladsHandler()
+    {
+        Console.WriteLine("In update");
+        Arbejdsplads item = new Arbejdsplads(arbejdspladsid: Arbejdspladsid, arbejdspladsnavn: Arbejdspladsnavn, arbejdsbeskrivelse: Arbejdsbeskrivelse);
+        ErrorCode = await ArbejdspladsService.UpdateArbejdsplads(item);
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+
+    }
+
+
+    //Sletter valgte vagt
+    private async Task DeleteVagtHandler()
+    {
+        Console.WriteLine("Deleting");
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: TidStart, tidslut: TidSlut, optagetledig: Optagetledig, antalpoint: AntalPoint, arbejdspladsnavn: Arbejdspladsnavn, datodag: Datodag);
+        ErrorCode = await VagtService.DeleteVagt(item);
+        Console.WriteLine(ErrorCode);
+
+        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+    }
+
 }

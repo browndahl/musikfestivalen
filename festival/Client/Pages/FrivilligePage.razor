@@ -63,7 +63,7 @@
         </div>
 
         <div class="col-sm-2">
-            <label for="Frivilligid">Frivilligid</label>
+            <label for="Frivilligid">Frivillig ID</label>
             <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
                          ParsingErrorMessage=" The {0} field has an invalid value."
                          DisplayName="Frivilligid" />
@@ -74,13 +74,20 @@
             <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
         </div>
 
+        <label for="UpdateFrivilligHandler">Indtast et ID på personen du vil opdatere på, derefter udfyld forms</label>
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="UpdateFrivilligHandler">Opdater frivillig</button>
+        </div>
+
+        <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Delete frivillig</button>
+        </div>
+
+        <!-----Koden virker ikke? Skal vi fikse eller slette-->
+        <h2>Booking: return code: @ErrorCode</h2>
+
     </form>
-
-
-
-
-
-    <h2>Booking: return code: @ErrorCode</h2>
 
 
 
@@ -92,8 +99,6 @@
     [Inject]
     public IFrivilligeService FrivilligeService { get; set; }
     private int ErrorCode { get; set; } = 0;
-
-
     public int Frivilligid = 0;
     public string Fornavn = "Indtast fornavn";
     public string Efternavn = "Indtast efternavn";
@@ -101,18 +106,44 @@
     public string Email = "Indtast email";
     public string Tlf = "Indtast telefonnummer";
     public string Adresse = "Indtast adresse";
+    public int Samletantalpoint = 0;
 
 
     //Tilføjer vores nye indtastet data til frivilligapi
     private async void AddFrivilligItemHandler()
     {
-        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        Console.WriteLine("Adding");
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse, samletantalpoint: Samletantalpoint);
         ErrorCode = await FrivilligeService.AddFrivillige(item);
         Console.WriteLine(ErrorCode);
         Frivilligid++;
     }
 
+    //Opdaterer kontakt info for eksisterende frivillig
+    private async Task UpdateFrivilligHandler()
+    {
+        Console.WriteLine("In update");
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        ErrorCode = await FrivilligeService.UpdateFrivillig(item);
+        Console.WriteLine(ErrorCode);
+    }
 
+    //Sletter valgte kontakt info for eksisterende frivillig
+    private async Task DeleteFrivilligHandler()
+    {
+        Console.WriteLine("Deleting");
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        ErrorCode = await FrivilligeService.DeleteFrivillige(item);
+        Console.WriteLine(ErrorCode);
+    }
+
+    public List<Frivillige> gets = new List<Frivillige>();
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await FrivilligeService.GetAllFrivillige())
+            .OrderByDescending(f => f.Frivilligid)
+            .ToList();
+    }
 
 
 }

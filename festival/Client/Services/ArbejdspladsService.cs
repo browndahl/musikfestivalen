@@ -57,9 +57,12 @@ namespace festival.Client.Services
 
         }
 
-        public async Task<int> updateItem(Arbejdsplads item)
+        public async Task<int> UpdateArbejdsplads(Arbejdsplads item)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("In service update arbejdsplads");
+            var result = await httpClient.PutAsJsonAsync("api/arbejdspladsapi", item);
+            return (int)result.StatusCode;
+            //throw new NotImplementedException();
         }
     }
 }

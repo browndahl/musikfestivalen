@@ -72,5 +72,12 @@ namespace festival.Server.Controllers
             return result;
         }
 
+        [HttpPut]
+        public void Update(Arbejdsplads item)
+        {
+            Repository.UpdateArbejdsplads(item);
+            Console.WriteLine("updated frillig");
+        }
+
     }
 }

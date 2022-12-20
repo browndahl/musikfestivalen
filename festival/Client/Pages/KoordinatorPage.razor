@@ -15,8 +15,6 @@
 <PageTitle>Koordinator - Tilføjelse af vagter</PageTitle>
 
 
-
-
 <h2>Indsæt venligt personlige oplysninger på den frivillige</h2>
 
 <br />
@@ -25,8 +23,6 @@
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit">
 
-
-    <!---Fornavn-->
     <form class="row g-3">
         <div class="col-sm-6 ">
             <label for="Fornavn">Fornavn</label>
@@ -34,36 +30,31 @@
             <ValidationMessage For="@(() => Fornavn)" />
         </div>
 
-
-        <!---Efternavn-->
         <div class="col-sm-6">
             <label for="Efternavn">Efternavn</label>
             <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
             <ValidationMessage For="@(() => Efternavn)" />
         </div>
 
-        <!---Tlf-->
         <div class="col-sm-6">
             <label for="Tlf">Tlf</label>
             <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
             <ValidationMessage For="@(() => Tlf)" />
         </div>
 
-        <!---Adresse-->
         <div class="col-sm-6">
             <label for="Adresse">Adresse</label>
             <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
             <ValidationMessage For="@(() => Adresse)" />
         </div>
 
-        <!--Email-->
+
         <div class="col-sm-6">
             <label for="Email">Email</label>
             <InputText id="Email" @bind-Value="Email" class="form-control" />
             <ValidationMessage For="@(() => Email)" />
         </div>
 
-        <!---Alder-->
         <div class="col-sm-4">
             <label for="Alder">Alder</label>
             <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
@@ -72,22 +63,29 @@
             <ValidationMessage For="@(() => Alder)" />
         </div>
 
-        <!---Frivilligid-->
         <div class="col-sm-2">
-            <label for="Frivilligid">Frivilligid</label>
+            <label for="Frivilligid">Frivillig ID</label>
             <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
                          ParsingErrorMessage=" The {0} field has an invalid value."
                          DisplayName="Frivilligid" />
             <ValidationMessage For="@(() => Frivilligid)" />
         </div>
-        <br />
-        <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
 
+        <div class="col-sm-12">
+            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+        </div>
 
+       
     </form>
 
 
+
+    <h2>Booking: return code: @ErrorCode</h2>
+
+
 </EditForm>
+
+
 
 <br />
 <br />
@@ -101,15 +99,11 @@
           class="row p-3">
 
 
-
     <!---Arbejdsplads-->
     <div class="col-md-4 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Arbejdsplads</label>
             <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
-
-
-
 
                 @foreach (var get in gets)
                 {
@@ -117,11 +111,7 @@
                         <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
                         @get.Arbejdspladsnavn
 
-
-
                     </option>
-
-
 
                 }
             </InputSelect>
@@ -130,7 +120,7 @@
 
     <!---Vagtid-->
     <div class="col-md-4 mb-3">
-        <label for="Vagtid">Vagtid</label>
+        <label for="Vagtid">Vagt ID</label>
         <InputNumber id="Vagtid" @bind-Value="Vagtid" class="form-control"
                      ParsingErrorMessage=" The {0} field has an invalid value."
                      DisplayName="Vagtid" />
@@ -142,6 +132,7 @@
     <div class="col-md-4 mb-3">
         <label for="Dag">Dag</label>
         <InputText id="Datodag" @bind-Value="Datodag" class="form-control" />
+
     </div>
 
 
@@ -187,15 +178,6 @@
     public string Tlf = "Indtast telefonnummer";
     public string Adresse = "Indtast adresse";
 
-
-    //Tilføjer vores nye indtastet data til frivilligapi
-    private async void AddFrivilligItemHandler()
-    {
-        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
-
-    }
-
-
     [Inject]
     public IArbejdspladsService ArbejdspladsService { get; set; }
     [Inject]
@@ -204,9 +186,6 @@
 
 
     //Vores default værdi til vores forms
-
-
-
     public int Arbejdspladsid = 0;
     public int Antalpersoner = 0;
     public string Arbejdspladsnavn = "Navn";
@@ -217,19 +196,25 @@
     public int Koordinatorid = 0;
     public int Vagtid = 0;
     public string Datodag = "indtast dag";
-
-
+   
 
 
     //Tilføjer vores nye indtastet data til vagtapi
     private async void AddVagtItemHandler()
     {
-
-        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: Tidstart, tidslut: Tidslut, antalpoint: Antalpoint, datodag: Datodag, arbejdspladsnavn: Arbejdspladsnavn);
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, koordinatorid: Koordinatorid, tidstart: Tidstart, tidslut: Tidslut, antalpoint: Antalpoint, datodag: Datodag, arbejdspladsnavn: Arbejdspladsnavn);
         //Console.WriteLine(item.Arbejdspladsid);
         ErrorCode = await VagtService.AddItem(item);
         Console.WriteLine(ErrorCode);
         Arbejdspladsid++;
+    }
+    //Tilføjer vores nye indtastet data til frivilligapi
+    private async void AddFrivilligItemHandler()
+    {
+        Frivillige item = new Frivillige(frivilligid: Frivilligid, fornavn: Fornavn, efternavn: Efternavn, alder: Alder, email: Email, tlf: Tlf, adresse: Adresse);
+        ErrorCode = await FrivilligeService.AddFrivillige(item);
+        Console.WriteLine(ErrorCode);
+        Frivilligid++;
     }
 
     //Henter vores data fra database
