@@ -1,0 +1,81 @@
+﻿@using festival.Client.Services
+@using festival.Shared.Models
+@using System.Net.Http.Json;
+@inject HttpClient Http
+@using System.Runtime.ConstrainedExecution;
+@using System.Net.Http;
+@using Npgsql;
+@using Dapper;
+
+
+@page "/prioriteretvagter"
+
+<PageTitle>Prioteret vagter</PageTitle>
+<h1>Prioteret vagter </h1>
+
+Her kan du se de mest prioteret vagter. Dem med flest point er dem, som er mest prioteret.
+
+<!---Styling af vores tabel-->
+<style>
+    .highlight-row-1st {
+        background-color: goldenrod;
+    }
+
+    .highlight-row-2nd {
+        background-color: lightgreen;
+    }
+
+    .highlight-row-nullPoints {
+        background-color: red
+    }
+</style>
+
+@if (gets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else //Oprettelse af table
+{
+    //Finder max-value af antalpoint (vagt) i vores liste
+    var maxPoints = gets.Max(f => f.Antalpoint);
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Vagt ID</th>
+                <th>Antal point</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var get in gets)
+            {
+                <tr class="@(get.Antalpoint == maxPoints ? "highlight-row-1st" : get.Antalpoint == null ? "highlight-row-nullPoints" : "")">
+                    <td>@get.Vagtid</td>
+                    <td>@get.Antalpoint </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [Inject]
+    public IVagtService VagtService { get; set; }
+    [Inject]
+    public IArbejdspladsService ArbejdspladsService { get; set; }
+    public int Vagtid = 0;
+    public int Antalpoint = 0;
+
+
+    public List<Vagt> gets = new List<Vagt>();
+
+    //Her laver den en sortering på antal-point
+    protected override async Task OnInitializedAsync()
+    {
+        gets = (await VagtService.GetAllVagt())
+            .OrderByDescending(f => f.Antalpoint)
+            .ToList();
+    }
+}

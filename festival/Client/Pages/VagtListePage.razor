@@ -13,23 +13,17 @@
 
 <h1>Her kan du se ledige vagter</h1>
 
+
+<!------List af ugedage-->
 @{
-
     List<string> dage = new List<string>();
-
-
-    //sorter vagter efter ugedag
-    //5 foreach loops - første loop skal kun added hvis det er en mandag
-    //anden loop kun adde hvis tirsdag.
     foreach (var vagt in vagter)
-
     {
 
         Dag = vagt.Datodag;
         dage.Add(Dag);
 
     }
-
     HashSet<string> uniqueDage = new HashSet<string>();
 
     foreach (var dag in dage)
@@ -103,11 +97,14 @@
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit">
 
+    
     <!---Arbejdsplads-->
     <div class="col-md-4 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Arbejdsplads</label>
             <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
+
+
 
 
                 @foreach (var get in gets)
@@ -116,7 +113,11 @@
                         <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
                         @get.Arbejdspladsnavn
 
+
+
                     </option>
+
+
 
 
                 }
@@ -163,17 +164,11 @@
 
         <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
         <div class="col-sm-3">
-            <button class="btn btn-primary" @onclick="DeleteVagtHandler">Delete vagt</button>
+            <button class="btn btn-primary" @onclick="DeleteVagtHandler">Slet Vagt</button>
         </div>
 
-
     </div>
-
-
-
 </EditForm>
-
-
 
 
 

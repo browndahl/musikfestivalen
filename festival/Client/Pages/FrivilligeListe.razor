@@ -32,23 +32,19 @@ else //Oprettelse af table
             <th>Alder</th>
             <th>Email</th>
             <th>Telefon</th>
-
         </tr>
     </thead>
   
         <tbody>
             @foreach (var get in gets)
             {
-
                 <tr>
-          
                     <td>@get.Frivilligid</td>
                     <td>@get.Fornavn</td>
                     <td>@get.Efternavn</td>
                     <td>@get.Alder</td>
                     <td>@get.Email</td>
                     <td>@get.Tlf</td>
-
 
                 </tr>
             }
@@ -74,17 +70,11 @@ else //Oprettelse af table
         <ValidationMessage For="@(() => Frivilligid)" />
     </div>
 
-
+    <!---------Vi benytter denne knap til at slette vores frivillige------->
     <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
     <div class="col-sm-12">
-        <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Delete vagt</button>
+        <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Slet frivillig</button>
     </div>
-
-
-
-
-
-
 
 </EditForm>
 
@@ -102,13 +92,10 @@ else //Oprettelse af table
     private int ErrorCode { get; set; } = 0;
 
     public List<Frivillige> gets = new List<Frivillige>();
-    //public List<Frivillige> liste = new List<Frivillige>();
     protected override async Task OnInitializedAsync()
     {
         gets = (await FrivilligeService.GetAllFrivillige()).ToList();
-        gets = gets.OrderBy(x => x.Frivilligid).ToList();
-
-
+        gets = gets.OrderBy(x => x.Frivilligid).ToList(); //Sorterer frivilligid fra lav til høj
     }
 
     //Sletter en af vores frivillige
@@ -123,18 +110,6 @@ else //Oprettelse af table
     }
 
 
-
-
-    //Opdaterer en af vores frivillige
-    private async void UpdateFrivilligItemHandler()
-    {
-        /*
-        Frivillige id = new Frivillige (frivilligid);
-        ErrorCode = await FrivilligeService.DeleteItem(id);
-        Console.WriteLine(ErrorCode);
-        */
-
-    }
 
 
 }

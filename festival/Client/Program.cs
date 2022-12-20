@@ -33,11 +33,7 @@ builder.Services.AddHttpClient<IArbejdspladsService, ArbejdspladsService>(client
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
 
-//Data5 - Musik service 
-builder.Services.AddHttpClient<IMusikService, MusikService>(client =>
-{
-    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-});
+
 
 
 

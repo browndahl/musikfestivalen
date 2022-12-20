@@ -70,27 +70,23 @@
             <ValidationMessage For="@(() => Frivilligid)" />
         </div>
 
+        <!-----Knappen til at oprette frivillige------>
         <div class="col-sm-12">
-            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
+            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret Frivillig</button>
         </div>
 
+        <!-----Knappen til at opdatere frivillige------>
         <label for="UpdateFrivilligHandler">Indtast et ID på personen du vil opdatere på, derefter udfyld forms</label>
         <div class="col-sm-12">
-            <button class="btn btn-primary" @onclick="UpdateFrivilligHandler">Opdater frivillig</button>
+            <button class="btn btn-primary" @onclick="UpdateFrivilligHandler">Opdater Frivillig</button>
         </div>
 
+        <!-----Knappen til at slette frivillige------>
         <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
         <div class="col-sm-12">
-            <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Delete frivillig</button>
+            <button class="btn btn-primary" @onclick="DeleteFrivilligHandler">Slet Frivillig</button>
         </div>
-
-        <!-----Koden virker ikke? Skal vi fikse eller slette-->
-        <h2>Booking: return code: @ErrorCode</h2>
-
     </form>
-
-
-
 </EditForm>
 
 
@@ -136,14 +132,5 @@
         ErrorCode = await FrivilligeService.DeleteFrivillige(item);
         Console.WriteLine(ErrorCode);
     }
-
-    public List<Frivillige> gets = new List<Frivillige>();
-    protected override async Task OnInitializedAsync()
-    {
-        gets = (await FrivilligeService.GetAllFrivillige())
-            .OrderByDescending(f => f.Frivilligid)
-            .ToList();
-    }
-
 
 }
