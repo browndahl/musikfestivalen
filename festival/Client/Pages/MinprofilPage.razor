@@ -60,7 +60,7 @@
             <br /><br />
 
             <div class="col-sm-12">
-                <button class="btn btn-primary" @onclick="UpdateVagt2Handler">Tag en vagt</button>
+                <button class="btn btn-primary" @onclick="UpdateVagtHandler">Tag en vagt</button>
             </div>
 
 
@@ -160,7 +160,7 @@
 
     public string fornavn = "Navn";
     public string efternavn = "Navn";
-    public int Frivilligid = 0;
+    public int? Frivilligid = 0;
     public string adresse = "";
     public string tlf = "";
     public int? alder = 0;
@@ -213,11 +213,21 @@
     }
 
 
-    private async Task UpdateVagt2Handler()
+    private async Task UpdateVagtHandler()
     {
-        Console.WriteLine("In update");
-        Vagt item = new Vagt(vagtid: Vagtid, frivilligid: Frivilligid);
-        ErrorCode = await VagtService.UpdateVagt2(item);
+        Console.WriteLine("In update - id ="+Frivilligid);
+        //I kender vagtID
+        // har liste af vagter.
+        //lav en for loop - find den vagt fra vagter som har det vagtID
+        // ValgtVagt = ...
+        //ValgtVag.frivilligid = FrivilligId;
+        foreach (var vagt in vagter){
+            if (Vagtid == ValgtVagt.Vagtid){
+               ValgtVagt.Frivilligid = Frivilligid;
+            }
+        }
+        ErrorCode = await VagtService.UpdateVagt(ValgtVagt);
+
         Console.WriteLine(ErrorCode);
 
         vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.

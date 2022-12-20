@@ -17,7 +17,7 @@ namespace festival.Shared.Models
         //Skal kun kalde på Frivillige (info)
         public int Vagtid { get; set; }
         public int Arbejdspladsid { get; set; }
-        public int Frivilligid { get; set; }
+        public int? Frivilligid { get; set; }
         public int Koordinatorid { get; set; }
         public int Tidstart { get; set; }
         public int Tidslut { get; set; }

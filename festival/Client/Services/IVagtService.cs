@@ -31,7 +31,7 @@ namespace festival.Client.Services
 
         Task<int> UpdateVagt(Vagt data);
 
-        Task<int> UpdateVagt2(Vagt data);
+
     }
 
 }

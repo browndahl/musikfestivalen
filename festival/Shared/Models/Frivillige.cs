@@ -14,7 +14,7 @@ namespace festival.Shared.Models
 {
     public class Frivillige
     {
-        public int Frivilligid { get; set; }
+        public int? Frivilligid { get; set; }
         public string? Fornavn { get; set; }
         public string? Efternavn { get; set; }
         public int? Alder { get; set; }

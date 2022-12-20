@@ -24,7 +24,7 @@ namespace festival.Server.Models
 
             using (var connection = db.connection)
             {
-                string sql1 = $"INSERT INTO vagt (vagtid, arbejdspladsid, frivilligid, koordinatorid, antalpoint, tidstart, tidslut, datodag) values ({item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid},{item.Antalpoint}, {item.Tidstart},{item.Tidslut}, '{item.Datodag}')";
+                string sql1 = $"INSERT INTO vagt (vagtid, arbejdspladsid, koordinatorid, antalpoint, tidstart, tidslut, datodag) values ({item.Vagtid}, {item.Arbejdspladsid}, {item.Koordinatorid},{item.Antalpoint}, {item.Tidstart},{item.Tidslut}, '{item.Datodag}')";
                 var Items = connection.Execute(sql1);
             }
 
@@ -48,14 +48,17 @@ namespace festival.Server.Models
         public bool UpdateVagt(Vagt item)
         {
             string sql7 = $"UPDATE vagt " +
-            $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid ={item.Frivilligid}" + $"WHERE vagtid = {item.Vagtid}";
+            $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid ={item.Frivilligid}" + $" WHERE vagtid = {item.Vagtid}";
+            Console.WriteLine("repository vagt sql: " + sql7);
+
             int rows = db.connection.Execute(sql7);
+            Console.WriteLine("rows changed : "+rows);
             return rows > 0;
 
         }
         //$"SET vagtid = {item.Vagtid}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid = {item.Frivilligid}, koordinatorid = {item.Koordinatorid}, tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, optagetledig = {item.Optagetledig}, antalpoint ={item.Antalpoint}, arbejdspladsnavn ='{item.Arbejdspladsnavn}',datodag='{item.Datodag}', dato='{item.Dato}'" +
         // $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}" +
-
+/*
         public bool UpdateVagt2(Vagt item)
         {
             string sql9 = $"UPDATE vagt " +
@@ -63,7 +66,7 @@ namespace festival.Server.Models
             int rows = db.connection.Execute(sql9);
             return rows > 0;
 
-        }
+        }*/
 
 
         public Vagt FindItem(int id)

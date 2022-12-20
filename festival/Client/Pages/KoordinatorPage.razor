@@ -199,12 +199,13 @@
     public int Koordinatorid = 0;
     public int Vagtid = 0;
     public string Datodag = "indtast dag";
+   
 
 
     //Tilføjer vores nye indtastet data til vagtapi
     private async void AddVagtItemHandler()
     {
-        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, frivilligid: Frivilligid, koordinatorid: Koordinatorid, tidstart: Tidstart, tidslut: Tidslut, antalpoint: Antalpoint, datodag: Datodag, arbejdspladsnavn: Arbejdspladsnavn);
+        Vagt item = new Vagt(vagtid: Vagtid, arbejdspladsid: Arbejdspladsid, koordinatorid: Koordinatorid, tidstart: Tidstart, tidslut: Tidslut, antalpoint: Antalpoint, datodag: Datodag, arbejdspladsnavn: Arbejdspladsnavn);
         //Console.WriteLine(item.Arbejdspladsid);
         ErrorCode = await VagtService.AddItem(item);
         Console.WriteLine(ErrorCode);

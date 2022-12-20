@@ -68,14 +68,7 @@ namespace festival.Client.Services
             //throw new NotImplementedException();
         }
 
-        //Update for "Tag en vagt" under min profil
-        public async Task<int> UpdateVagt2(Vagt item)
-        {
-            Console.WriteLine("In service update vagt");
-            var result = await httpClient.PutAsJsonAsync("api/vagtapi", item);
-            return (int)result.StatusCode;
-            //throw new NotImplementedException();
-        }
+       
     }
 }
 
