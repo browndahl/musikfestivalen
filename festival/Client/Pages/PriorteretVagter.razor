@@ -6,20 +6,14 @@
 @using System.Net.Http;
 @using Npgsql;
 @using Dapper;
-@page "/point"
 
 
+@page "/prioriteretvagter"
 
-<PageTitle>Point-oversigt</PageTitle>
+<PageTitle>Prioteret vagter</PageTitle>
+<h1>Prioteret vagter </h1>
 
-<h1>Velkommen til point-oversigt</h1>
-<br />
-
-Top 10 modtager gratis VIP armbånd inkl. backstage for næste år
-<br />
-Top 20 modtager gratis VIP armbånd for næste år
-<br />
-Top 30 modtager gratis Allday-armbånd for næste år
+Her kan du se de mest prioteret vagter. Dem med flest point er dem, som er mest prioteret.
 
 <style>
     .highlight-row-1st {
@@ -42,14 +36,13 @@ Top 30 modtager gratis Allday-armbånd for næste år
 else //Oprettelse af table
 {
     // Find the maximum value of "samletantalpoint" in the list
-    var maxPoints = gets.Max(f => f.Samletantalpoint);
+    var maxPoints = gets.Max(f => f.Antalpoint);
 
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th>Frivillig ID</th>
-                <th>Navn</th>
-                <th>Samlet antal point</th>
+                <th>Vagt ID</th>
+                <th>Antal point</th>
             </tr>
         </thead>
         <tbody>
@@ -58,10 +51,10 @@ else //Oprettelse af table
 
 
                 // Determine whether to apply the "highlight-row" class to the current row
-                <tr class="@(get.Samletantalpoint == maxPoints ? "highlight-row-1st" : get.Samletantalpoint == null ? "highlight-row-nullPoints" : "")">
-                    <td>@get.Frivilligid</td>
-                    <td>@get.Fornavn @get.Efternavn</td>
-                    <td>@get.Samletantalpoint </td>
+                <tr class="@(get.Antalpoint == maxPoints ? "highlight-row-1st" : get.Antalpoint == null ? "highlight-row-nullPoints" : "")">
+
+                    <td>@get.Vagtid</td>
+                    <td>@get.Antalpoint </td>
                 </tr>
 
             }
@@ -70,14 +63,22 @@ else //Oprettelse af table
 }
 
 @code {
-    [Inject]
-    public IFrivilligeService FrivilligeService { get; set; }
 
-    public List<Frivillige> gets = new List<Frivillige>();
+    [Inject]
+    public IVagtService VagtService { get; set; }
+    [Inject]
+    public IArbejdspladsService ArbejdspladsService { get; set; }
+    public int Vagtid = 0;
+    public int Antalpoint = 0;
+
+
+    public List<Vagt> gets = new List<Vagt>();
+
+
     protected override async Task OnInitializedAsync()
     {
-        gets = (await FrivilligeService.GetAllFrivillige())
-            .OrderByDescending(f => f.Samletantalpoint)
+        gets = (await VagtService.GetAllVagt())
+            .OrderByDescending(f => f.Antalpoint)
             .ToList();
     }
 }

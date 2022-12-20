@@ -103,11 +103,14 @@
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit">
 
+    
     <!---Arbejdsplads-->
     <div class="col-md-4 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Arbejdsplads</label>
             <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
+
+
 
 
                 @foreach (var get in gets)
@@ -116,7 +119,11 @@
                         <label for="Arbejdspladsnavn">Arbejdsplads navn:</label>
                         @get.Arbejdspladsnavn
 
+
+
                     </option>
+
+
 
 
                 }
@@ -163,17 +170,11 @@
 
         <label for="DeleteFrivilligHandler">Indtast et ID, hvis du vil slette</label>
         <div class="col-sm-3">
-            <button class="btn btn-primary" @onclick="DeleteVagtHandler">Delete vagt</button>
+            <button class="btn btn-primary" @onclick="DeleteVagtHandler">Slet Vagt</button>
         </div>
 
-
     </div>
-
-
-
 </EditForm>
-
-
 
 
 

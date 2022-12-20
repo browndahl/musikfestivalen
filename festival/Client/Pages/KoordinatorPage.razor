@@ -6,86 +6,11 @@
 @using System.Net.Http;
 @using Npgsql;
 @using Dapper;
-
-
-
 @page "/koordinator"
 
 
-<PageTitle>Koordinator - Tilføjelse af vagter</PageTitle>
+<PageTitle>Koordinator - Her kan jeg som koordinator oprette vagter</PageTitle>
 
-
-<h2>Indsæt venligt personlige oplysninger på den frivillige</h2>
-
-<br />
-
-<EditForm EditContext="@EditContext"
-          OnValidSubmit="@HandleValidSubmit"
-          OnInvalidSubmit="@HandleInvalidSubmit">
-
-    <form class="row g-3">
-        <div class="col-sm-6 ">
-            <label for="Fornavn">Fornavn</label>
-            <InputText id="Fornavn" @bind-Value="Fornavn" class="form-control" />
-            <ValidationMessage For="@(() => Fornavn)" />
-        </div>
-
-        <div class="col-sm-6">
-            <label for="Efternavn">Efternavn</label>
-            <InputText id="Efternavn" @bind-Value="Efternavn" class="form-control" />
-            <ValidationMessage For="@(() => Efternavn)" />
-        </div>
-
-        <div class="col-sm-6">
-            <label for="Tlf">Tlf</label>
-            <InputText id="Tlf" @bind-Value="Tlf" class="form-control" />
-            <ValidationMessage For="@(() => Tlf)" />
-        </div>
-
-        <div class="col-sm-6">
-            <label for="Adresse">Adresse</label>
-            <InputText id="Adresse" @bind-Value="Adresse" class="form-control" />
-            <ValidationMessage For="@(() => Adresse)" />
-        </div>
-
-
-        <div class="col-sm-6">
-            <label for="Email">Email</label>
-            <InputText id="Email" @bind-Value="Email" class="form-control" />
-            <ValidationMessage For="@(() => Email)" />
-        </div>
-
-        <div class="col-sm-4">
-            <label for="Alder">Alder</label>
-            <InputNumber id="Alder" @bind-Value="Alder" class="form-control"
-                         ParsingErrorMessage=" The {0} field has an invalid value."
-                         DisplayName="Antal" />
-            <ValidationMessage For="@(() => Alder)" />
-        </div>
-
-        <div class="col-sm-2">
-            <label for="Frivilligid">Frivillig ID</label>
-            <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
-                         ParsingErrorMessage=" The {0} field has an invalid value."
-                         DisplayName="Frivilligid" />
-            <ValidationMessage For="@(() => Frivilligid)" />
-        </div>
-
-        <div class="col-sm-12">
-            <button class="btn btn-primary" @onclick="AddFrivilligItemHandler">Opret frivillig</button>
-        </div>
- 
-    </form>
-
-
-    <h2>Booking: return code: @ErrorCode</h2>
-
-
-</EditForm>
-
-<br />
-<br />
-<br />
 
 <h2>Indsæt oplysning i formen for at oprette en vagt</h2>
 
@@ -188,7 +113,7 @@
     public bool Optagetledig = false;
     public int Koordinatorid = 0;
     public int Vagtid = 0;
-    public string Datodag = "indtast dag";
+    public string Datodag = "Indtast dag";
    
 
 
