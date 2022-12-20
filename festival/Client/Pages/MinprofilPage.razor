@@ -15,19 +15,16 @@
 <h1>Her kan du se status på din profil</h1>
 
 
-
-
 <EditForm EditContext="@EditContext"
           OnValidSubmit="@HandleValidSubmit"
           OnInvalidSubmit="@HandleInvalidSubmit"
           class="row p-3">
 
-
-
     <div class="row">
         <div class="col-sm-6 form-check border border-3 border border-dark ">
 
 
+            <!-----Dropdown for at se frivillige--->
             <label for="vagter">Vælg Person</label>
 
             <InputSelect id="Navn" @bind-Value=@Frivilligid class="form-control rounded-2">
@@ -38,11 +35,10 @@
                 }
             </InputSelect>
 
-
+            <!-----Dropdown for at se de forskellige vagter--->
             <label for="vagter">Vælg en vagt</label>
 
             <InputSelect id="Vagt" @bind-Value=@Vagtid class="form-control rounded-2">
-
 
                 @foreach (var vagt in vagter)
                 {
@@ -60,19 +56,20 @@
 
             <br /><br />
 
+            <!-----Knappen til at frivillige kan tage en vagt --->
             <div class="col-sm-12">
                 <button class="btn btn-primary" @onclick="UpdateVagtHandler">Tag en vagt</button>
             </div>
 
 
             <br /><br />
-    <tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
+<tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
     <br /><br />
 
 
     </div>
 
-
+    <!-------Her har vi vores info box-->
     <div class="col-sm-6 card bg-Light rounded-3 border border-3 border border-dark" style="width: 26rem; margin-left:135px;">
         <h5 class="card-title"> Info</h5>
         <p class="card-text"> FrivilligID: @Frivilligid </p>
@@ -88,14 +85,12 @@
 </EditForm>
 
 
-
-
+<!-----For loop til vores info-box------->
 @{
     foreach (var frivillig in gets)
     {
         if (frivillig.Frivilligid == Frivilligid)
         {
-
             ValgtFrivillig = frivillig;
             adresse = frivillig.Adresse;
             tlf = frivillig.Tlf;
@@ -111,7 +106,7 @@
 
 
 
-
+<!---------Tabel for "valgt vagt"---------->
 <table class="table table-bordered border-dark border border-3">
     <thead>
         <tr>
@@ -230,11 +225,6 @@
     private async Task UpdateVagtHandler()
     {
         Console.WriteLine("In update - id =" + Frivilligid);
-        //I kender vagtID
-        // har liste af vagter.
-        //lav en for loop - find den vagt fra vagter som har det vagtID
-        // ValgtVagt = ...
-        //ValgtVag.frivilligid = FrivilligId;
         foreach (var vagt in vagter)
         {
             if (Vagtid == vagt.Vagtid)
@@ -244,12 +234,9 @@
             }
         }
         Console.WriteLine("ValgtVagt er : " + ValgtVagt.ToString());
-
         ErrorCode = await VagtService.UpdateVagt(ValgtVagt);
-
         Console.WriteLine(ErrorCode);
 
-        // vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
 
     }
 

@@ -13,23 +13,17 @@
 
 <h1>Her kan du se ledige vagter</h1>
 
+
+<!------List af ugedage-->
 @{
-
     List<string> dage = new List<string>();
-
-
-    //sorter vagter efter ugedag
-    //5 foreach loops - første loop skal kun added hvis det er en mandag
-    //anden loop kun adde hvis tirsdag.
     foreach (var vagt in vagter)
-
     {
 
         Dag = vagt.Datodag;
         dage.Add(Dag);
 
     }
-
     HashSet<string> uniqueDage = new HashSet<string>();
 
     foreach (var dag in dage)
