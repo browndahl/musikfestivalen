@@ -11,6 +11,7 @@ using Npgsql;
 
 namespace festival.Server.Models
 {
+    //Her opretter vi forbindelse til vores database
     public class DBContext
     {
        public NpgsqlConnection connection;

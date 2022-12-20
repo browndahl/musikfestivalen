@@ -30,12 +30,14 @@ namespace festival.Server.Controllers
             }
         }
 
+        //Vi laver en GET-request. Her henter vi "Alle frivillige"
         [HttpGet]
         public IEnumerable<Frivillige> GetAllFrivillige()
         {
             return Repository.GetAllFrivillige();
         }
 
+        //Vi laver en Delete-request.
         [HttpDelete("{id:int}")]
         public StatusCodeResult DeleteFrivillige(int id)
         {
@@ -56,6 +58,7 @@ namespace festival.Server.Controllers
             }
         }
 
+        //Vi laver en Post-request. Her kan vi tilføje frivillige
         [HttpPost]
         public void AddFrivillige(Frivillige item)
         {
@@ -63,7 +66,7 @@ namespace festival.Server.Controllers
             Repository.AddFrivillige(item);
         }
 
-
+        //Her laver en Get-request. Her vi skal finde et item.
         [HttpGet("{id:int}")]
         public Frivillige FindItem(int id)
         {
@@ -71,6 +74,7 @@ namespace festival.Server.Controllers
             return result;
         }
 
+        //Her laver vi en Put-request. Her kan vi opdatere på vores data.
         [HttpPut]
         public void Update(Frivillige item)
         {

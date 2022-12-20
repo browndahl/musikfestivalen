@@ -29,13 +29,13 @@ namespace festival.Server.Controllers
                 Console.WriteLine("Repository initialized");
             }
         }
-
+        //Vi laver en GET-requests. Her henter vi "Alle koordinatorer"
         [HttpGet]
         public IEnumerable<Koordinator> GetAllKoordinator()
         {
             return Repository.GetAllKoordinator();
         }
-
+        //Vi laver en Delete-request.
         [HttpDelete("{id:int}")]
         public StatusCodeResult DeleteItem(int id)
         {
@@ -55,7 +55,7 @@ namespace festival.Server.Controllers
                 return new StatusCodeResult(code);
             }
         }
-
+        //Vi laver en Post-request. Her kan vi tilføje koordinator
         [HttpPost]
         public void AddItem(Koordinator item)
         {
@@ -63,7 +63,7 @@ namespace festival.Server.Controllers
             Repository.AddItem(item);
         }
 
-
+        //Her laver en Get-request. Her vi skal finde et item.
         [HttpGet("{id:int}")]
         public Koordinator FindItem(int id)
         {

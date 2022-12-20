@@ -18,21 +18,20 @@ namespace festival.Server.Models
     {
         DBContext db = new DBContext();
 
-
+        //Vi tilføjer en  ny vagt
         public void AddItem(Vagt item)
         {
-
             using (var connection = db.connection)
             {
                 string sql1 = $"INSERT INTO vagt (vagtid, arbejdspladsid, koordinatorid, antalpoint, tidstart, tidslut, datodag) values ({item.Vagtid}, {item.Arbejdspladsid}, {item.Koordinatorid},{item.Antalpoint}, {item.Tidstart},{item.Tidslut}, '{item.Datodag}')";
                 var Items = connection.Execute(sql1);
             }
 
-            //throw new NotImplementedException();
 
         }
         //Query = Select
-        //Execute = Insert, delete og de andre 
+        //Execute = Insert, delete og de andre
+        //Vi sletter vagter hernede
         public bool DeleteVagt(int id)
         {
             string sql6 = $"DELETE FROM vagt " +
@@ -45,6 +44,7 @@ namespace festival.Server.Models
 
         }
 
+        //Her opdaterer vi en vagt 
         public bool UpdateVagt(Vagt item)
         {
             string sql7 = $"UPDATE vagt " +
@@ -56,37 +56,17 @@ namespace festival.Server.Models
             return rows > 0;
 
         }
-        //$"SET vagtid = {item.Vagtid}, arbejdspladsid = {item.Arbejdspladsid}, frivilligid = {item.Frivilligid}, koordinatorid = {item.Koordinatorid}, tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, optagetledig = {item.Optagetledig}, antalpoint ={item.Antalpoint}, arbejdspladsnavn ='{item.Arbejdspladsnavn}',datodag='{item.Datodag}', dato='{item.Dato}'" +
-        // $"SET tidstart = {item.Tidstart}, tidslut = {item.Tidslut}, antalpoint ={item.Antalpoint}" +
-/*
-        public bool UpdateVagt2(Vagt item)
-        {
-            string sql9 = $"UPDATE vagt " +
-            $"SET frivilligid = {item.Frivilligid}" + $"WHERE vagtid = {item.Vagtid}";
-            int rows = db.connection.Execute(sql9);
-            return rows > 0;
+  
 
-        }*/
-
-
+        //Her kan vi finde en vagt
         public Vagt FindItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
 
-            /*
-            using (var connection = db.connection )
-            {
-                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
-                var Items = connection.Query<Koordinator>(sql);
-                
-                foreach (var item in Items)
-                {
-                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
-                }
-            }
-           */
         }
 
+        //Her henter vi alle vagter
         public List<Vagt> GetAllVagt()
         {
             using (var connection = db.connection)
@@ -97,13 +77,9 @@ namespace festival.Server.Models
                 foreach (var item in Items)
                 {
                     Console.WriteLine($"{item.Vagtid}");
-                    //Console.WriteLine($"{item.Vagtid}, {item.Arbejdspladsid}, {item.Frivilligid}, {item.Koordinatorid}");
-
                 }
                 return Items.ToList();
             }
-
-
 
         }
 

@@ -19,16 +19,16 @@ namespace festival.Server.Models
         DBContext db = new DBContext();
 
 
+        //Vi tilføjer nye frivillige
         public void AddFrivillige(Frivillige item)
         {
-
             using (var connection = db.connection)
             {
                 string sql2 = $"INSERT INTO frivillige (frivilligid, fornavn, efternavn, alder, email, tlf, adresse, samletantalpoint) VALUES ({item.Frivilligid}, '{item.Fornavn}', '{item.Efternavn}', {item.Alder}, '{item.Email}', '{item.Tlf}', '{item.Adresse}', {item.Samletantalpoint})";
                 var items = connection.Execute(sql2);
             }
         }
-
+        //Vi sletter frivillige
         public bool DeleteFrivillige(int id)
         {
             string sql5 =$"DELETE FROM frivillige " +
@@ -40,7 +40,8 @@ namespace festival.Server.Models
             }
 
         }
-        
+
+        //Vi opdaterer på frivillige
         public bool UpdateFrivillig(Frivillige item)
         {
             string sql4 = $"UPDATE frivillige " +
@@ -53,22 +54,11 @@ namespace festival.Server.Models
 
         public Frivillige FindItem(int id)
         {
+            //Vi implementerer ikke denne funktion.
             throw new NotImplementedException();
-
-            /*
-            using (var connection = db.connection )
-            {
-                string sql = "SELECT * FROM koordinator WHERE koordinatorid = " + id;
-                var Items = connection.Query<Koordinator>(sql);
-                
-                foreach (var item in Items)
-                {
-                    Console.WriteLine($"{item.koordinatorid}, {item.fornavn}, {item.efternavn}, {item.tlf}");
-                }
-            }
-           */
         }
 
+        //Vi henter alle frivillige
         public List<Frivillige> GetAllFrivillige()
         {
             using (var connection = db.connection)

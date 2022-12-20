@@ -31,12 +31,14 @@ namespace festival.Server.Controllers
             }
         }
 
+        //Vi laver en GET-requests. Her henter vi "Alle vagter"
         [HttpGet]
         public IEnumerable<Vagt> GetAllVagt()
         {
             return Repository.GetAllVagt();
         }
 
+        //Vi laver en Delete-request.
         [HttpDelete("{id:int}")]
         public StatusCodeResult DeleteVagt(int id)
         {
@@ -56,8 +58,8 @@ namespace festival.Server.Controllers
                 return new StatusCodeResult(code);
             }
         }
-      
 
+        //Vi laver en Post-request. Her kan vi tilføje vagt
         [HttpPost]
         public void AddItem(Vagt item)
         {
@@ -65,7 +67,7 @@ namespace festival.Server.Controllers
             Repository.AddItem(item);
         }
 
-
+        //Her laver en Get-request. Her vi skal finde et item.
         [HttpGet("{id:int}")]
         public Vagt FindItem(int id)
         {

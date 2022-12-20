@@ -30,13 +30,13 @@ namespace festival.Server.Controllers
                 Console.WriteLine("Repository initialized");
             }
         }
-
+        //Vi laver en GET-requests. Her henter vi "Alle arbejdsplads"
         [HttpGet]
         public IEnumerable<Arbejdsplads> GetAllArbejdsplads()
         {
             return Repository.GetAllArbejdsplads();
         }
-
+        //Vi laver en Delete-request.
         [HttpDelete("{id:int}")]
         public StatusCodeResult DeleteItem(int id)
         {
@@ -56,7 +56,7 @@ namespace festival.Server.Controllers
                 return new StatusCodeResult(code);
             }
         }
-
+        //Vi laver en Post-request. Her kan vi tilføje arbejdsplads
         [HttpPost]
         public void AddItem(Arbejdsplads item)
         {
@@ -64,14 +64,14 @@ namespace festival.Server.Controllers
             Repository.AddItem(item);
         }
 
-
+        //Her laver en Get-request. Her vi skal finde et item.
         [HttpGet("{id:int}")]
         public Arbejdsplads FindItem(int id)
         {
             var result = Repository.FindItem(id);
             return result;
         }
-
+        //Her laver vi en Put-request. Her kan vi opdatere på vores data.
         [HttpPut]
         public void Update(Arbejdsplads item)
         {
