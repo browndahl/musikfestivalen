@@ -45,16 +45,17 @@
 
 
                 @foreach (var vagt in vagter)
+                {
+                    foreach (var hent in henter)
                     {
-                        foreach (var hent in henter)
+                        if (vagt.Arbejdspladsid == hent.Arbejdspladsid)
                         {
-                            if (vagt.Arbejdspladsid == hent.Arbejdspladsid) { 
-                            <option value="@vagt.Vagtid"> @hent.Arbejdspladsnavn </option>
-                            }
-
+                            <option value="@vagt.Vagtid"> @hent.Arbejdspladsnavn Dag: @vagt.Datodag Kl: @vagt.Tidstart - @vagt.Tidslut ID: @vagt.Vagtid </option>
                         }
 
                     }
+
+                }
             </InputSelect>
 
             <br /><br />
@@ -65,7 +66,7 @@
 
 
             <br /><br />
-<tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
+    <tr> I dropdown menuen har du mulighed for at vælge din profil og se dine kontaktoplysning og andet relevant information. I skemaet under kan du se en liste og dine påtaget vagter samt relevant information omkring disse vagter.</tr>
     <br /><br />
 
 
@@ -114,10 +115,10 @@
 <table class="table table-bordered border-dark border border-3">
     <thead>
         <tr>
-            <th>Frivilligid</th>
-            <th>Vagtid</th>
-            <th>Arbejdspladsid</th>
-            <th>DateStart</th>
+            <th>Arbejdsplads</th>
+            <th>Dato</th>
+            <th>Tidstart</th>
+            <th>Tidslut</th>
             <th>Antalpoint</th>
         </tr>
     </thead>
@@ -129,24 +130,37 @@
             {
                 if (frivillig.Frivilligid == Frivilligid)
                 {
+
+
                     //Looper gennem alle vagter i vagtlisten
                     foreach (var vagt in vagter)
                     {
                         //Hvis frivillig id fra dropdown er lig frivilligid i vagtlisten, så laver vi html boks til hver vagt
                         if (frivillig.Frivilligid == vagt.Frivilligid)
                         {
+                            foreach (var hent in henter)
+                            {
+                                if (vagt.Arbejdspladsid == hent.Arbejdspladsid)
+                                {
+                                    <tr>
+                                        <td> @hent.Arbejdspladsnavn </td>
 
-                            <tr>
-                                <td>@vagt.Frivilligid</td>
-                                <td>@vagt.Vagtid</td>
-                                <td>@vagt.Arbejdspladsid</td>
-                                <td>@vagt.Dato</td>
-                                <td>@vagt.Antalpoint</td>
-                            </tr>
+
+
+                                        <td>@vagt.Datodag</td>
+
+
+                                        <td>@vagt.Tidstart</td>
+                                        <td>@vagt.Tidslut</td>
+                                        <td>@vagt.Antalpoint</td>
+                                    </tr>
+                                }
+
+
+                            }
+
                         }
-
                     }
-
                 }
             }
         }
@@ -215,22 +229,27 @@
 
     private async Task UpdateVagtHandler()
     {
-        Console.WriteLine("In update - id ="+Frivilligid);
+        Console.WriteLine("In update - id =" + Frivilligid);
         //I kender vagtID
         // har liste af vagter.
         //lav en for loop - find den vagt fra vagter som har det vagtID
         // ValgtVagt = ...
         //ValgtVag.frivilligid = FrivilligId;
-        foreach (var vagt in vagter){
-            if (Vagtid == ValgtVagt.Vagtid){
-               ValgtVagt.Frivilligid = Frivilligid;
+        foreach (var vagt in vagter)
+        {
+            if (Vagtid == vagt.Vagtid)
+            {
+                ValgtVagt = vagt;
+                ValgtVagt.Frivilligid = Frivilligid;
             }
         }
+        Console.WriteLine("ValgtVagt er : " + ValgtVagt.ToString());
+
         ErrorCode = await VagtService.UpdateVagt(ValgtVagt);
 
         Console.WriteLine(ErrorCode);
 
-        vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
+        // vagter = (await VagtService.GetAllVagt()).ToList(); //Efter vi har slettet, opdaterer den tabelen med det samme.
 
     }
 
