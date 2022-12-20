@@ -64,7 +64,7 @@
         </div>
 
         <div class="col-sm-2">
-            <label for="Frivilligid">Frivilligid</label>
+            <label for="Frivilligid">Frivillig ID</label>
             <InputNumber id="Frivilligid" @bind-Value="Frivilligid" class="form-control"
                          ParsingErrorMessage=" The {0} field has an invalid value."
                          DisplayName="Frivilligid" />
@@ -99,15 +99,11 @@
           class="row p-3">
 
 
-
     <!---Arbejdsplads-->
     <div class="col-md-4 mb-3">
         <div class="form-check">
             <label for="vagter">Vælg Arbejdsplads</label>
             <InputSelect id="Navn" @bind-Value=@Arbejdspladsid class="form-control">
-
-
-
 
                 @foreach (var get in gets)
                 {
@@ -124,7 +120,7 @@
 
     <!---Vagtid-->
     <div class="col-md-4 mb-3">
-        <label for="Vagtid">Vagtid</label>
+        <label for="Vagtid">Vagt ID</label>
         <InputNumber id="Vagtid" @bind-Value="Vagtid" class="form-control"
                      ParsingErrorMessage=" The {0} field has an invalid value."
                      DisplayName="Vagtid" />
@@ -136,6 +132,7 @@
     <div class="col-md-4 mb-3">
         <label for="Dag">Dag</label>
         <InputText id="Datodag" @bind-Value="Datodag" class="form-control" />
+
     </div>
 
 
